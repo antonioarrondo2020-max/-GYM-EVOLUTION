@@ -1,0 +1,4 @@
+GYM EVOLUTION 5.0 - paquete web para publicar en hosting HTTPS.
+Sube el CONTENIDO de este ZIP a la raiz del hosting. Debe quedar index.html en la raiz.
+Despues abre la URL HTTPS en Chrome Android y selecciona Instalar aplicacion o Anadir a pantalla de inicio.
+Este paquete no es APK; no contiene cuentas, sincronizacion ni IA remota.
