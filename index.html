@@ -110,4 +110,5 @@ $("importFile").onchange=async e=>{const file=e.target.files?.[0];if(!file)retur
 $("clear").onclick=()=>{if(confirm("¿Borrar todo el historial de ejercicios?")){data.history=[];persist();renderHistory()}};
 $("mealCount").value=String(data.meals.length||3);renderProfile();renderDays();renderExercises();renderMeals();renderNutritionSettings();renderMeasures();renderChallenges();updateSessionUI();if(data.activeSession){sessionTicker=setInterval(updateSessionUI,1000)}persist();
 if("serviceWorker"in navigator&&location.protocol.startsWith("http"))window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
-</script></body></html>
+<script src="./update.js"></script>
+</body>
