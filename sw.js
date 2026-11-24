@@ -1,8 +1,10 @@
-const CACHE = "gym-evolution-v8";
+
+const CACHE = "gym-evolution-v9";
 
 const FILES = [
   "./",
   "./index.html",
+  "./update.js",
   "./manifest.webmanifest",
   "./icon-192.png",
   "./icon-512.png"
@@ -12,6 +14,7 @@ self.addEventListener("install", event => {
   event.waitUntil(
     caches.open(CACHE).then(cache => cache.addAll(FILES))
   );
+  self.skipWaiting();
 });
 
 self.addEventListener("message", event => {
@@ -34,14 +37,16 @@ self.addEventListener("fetch", event => {
   if (event.request.method !== "GET") return;
 
   event.respondWith(
-    caches.match(event.request).then(cached => {
-      return cached || fetch(event.request).then(response => {
+    caches.match(event.request).then(cached =>
+      cached || fetch(event.request).then(response => {
         if (response.ok) {
           const copy = response.clone();
-          caches.open(CACHE).then(cache => cache.put(event.request, copy));
+          caches.open(CACHE).then(cache =>
+            cache.put(event.request, copy)
+          );
         }
         return response;
-      });
-    })
+      })
+    )
   );
 });
