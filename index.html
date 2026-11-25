@@ -33,7 +33,7 @@ footer{text-align:center;color:#888;font-size:11px;padding:22px 0}
 </style>
 </head>
 <body>
-<header><div class="brand">GYM <b>EVOLUTION</b></div><div class="tag">Entrena con cabeza. Evoluciona cada semana. · V6.5</div>
+<header><div class="brand">GYM <b>EVOLUTION</b></div><div class="tag">Entrena con cabeza. Evoluciona cada semana. · V6.6</div>
 <nav id="nav">
 <button class="tab active" data-tab="home">Inicio</button><button class="tab" data-tab="routine">Rutina</button><button class="tab" data-tab="nutrition">Nutrición</button><button class="tab" data-tab="commander">EVO AI</button><button class="tab" data-tab="progress">Progreso</button><button class="tab" data-tab="profile">Perfil</button>
 </nav></header>
@@ -46,7 +46,7 @@ footer{text-align:center;color:#888;font-size:11px;padding:22px 0}
 
 <section id="routine" class="hidden"><h1>Mi rutina</h1><div class="grid"><div class="field"><label>Día</label><select id="day"><option value="0">Torso A</option><option value="1">Pierna A</option><option value="2">Torso B</option><option value="3">Pierna B</option></select></div><div class="field"><label>Fase</label><select id="phase"><option value="2">Vuelta · 2 series</option><option value="3">Normal · 3 series</option></select></div></div><div class="notice" id="phaseText">Vuelta progresiva: 2 series y RIR 3–4.</div><div class="card"><h2>Sesión de entrenamiento</h2><div class="sessionbar"><strong id="sessionClock">00:00</strong><span class="mini" id="sessionStatus">Sesión sin iniciar</span></div><div class="row"><button class="primary" id="startSession">Iniciar sesión</button><button id="finishSession" disabled>Finalizar y guardar</button></div></div><div id="exercises"></div></section>
 
-<section id="nutrition" class="hidden"><h1>Nutrición Evolution</h1><div class="card"><h2>Configura tus comidas</h2><p>Elige cuántas comidas quieres repartir durante el día. Puedes cambiarlo cuando quieras.</p><div class="field"><label>Comidas al día</label><select id="mealCount"><option value="3">3 comidas</option><option value="4">4 comidas</option><option value="5">5 comidas</option></select></div><div id="meals"></div><button class="primary" id="saveMeals">Guardar alimentación</button><p class="muted" id="mealSaved"></p></div><div class="card"><h2>Calculadora de nutrición</h2><p>Estimación inicial de energía y macronutrientes. No es una prescripción médica ni sustituye a un dietista-nutricionista.</p><div class="grid"><div class="field"><label>Fórmula fisiológica</label><select id="calcSex"><option value="">Seleccionar</option><option value="male">Masculina</option><option value="female">Femenina</option></select></div><div class="field"><label>Actividad habitual</label><select id="activity"><option value="1.2">Muy baja</option><option value="1.375">Ligera (1–3 días)</option><option value="1.55" selected>Moderada (3–5 días)</option><option value="1.725">Alta (6–7 días)</option></select></div></div><button class="primary" id="calcNutrition">Calcular mis objetivos</button><div id="nutritionResult" class="notice" style="margin-top:12px">Completa edad, altura y peso en tu perfil para calcular una estimación.</div></div><div class="card"><h2>Guía sencilla</h2><p>Incluye una fuente de proteína en cada comida, hidratos suficientes para entrenar y frutas/verduras a diario. Ajusta las cantidades según evolución del peso, hambre y rendimiento.</p><div class="notice">La calculadora de arriba estima tus calorías y macronutrientes. Usa el resultado como punto de partida y revisa tu evolución durante 2–3 semanas antes de ajustar. Esta guía es orientativa y no sustituye una valoración profesional.</div></div>
+<section id="nutrition" class="hidden"><h1>Nutrición Evolution</h1><div class="card"><h2>Configura tus comidas</h2><p>Elige cuántas comidas quieres repartir durante el día. Puedes cambiarlo cuando quieras.</p><div class="field"><label>Comidas al día</label><select id="mealCount"><option value="3">3 comidas</option><option value="4">4 comidas</option><option value="5">5 comidas</option></select></div><div id="meals"></div><button class="primary" id="saveMeals">Guardar alimentación</button><p class="muted" id="mealSaved"></p></div><div class="card"><h2>Calculadora de nutrición</h2><p>Estimación orientativa de energía y macronutrientes, con superávit moderado para ganar masa. No es una prescripción médica ni sustituye a un dietista-nutricionista.</p><div class="grid"><div class="field"><label>Fórmula fisiológica</label><select id="calcSex"><option value="">Seleccionar</option><option value="male">Masculina</option><option value="female">Femenina</option></select></div><div class="field"><label>Actividad habitual</label><select id="activity"><option value="1.2">Muy baja</option><option value="1.375">Ligera (1–3 días)</option><option value="1.55" selected>Moderada (3–5 días)</option><option value="1.725">Alta (6–7 días)</option></select></div></div><button class="primary" id="calcNutrition">Calcular mis objetivos</button><div id="nutritionResult" class="notice" style="margin-top:12px">Completa edad, altura y peso en tu perfil para calcular una estimación.</div></div><div class="card"><h2>Guía sencilla</h2><p>Incluye una fuente de proteína en cada comida, hidratos suficientes para entrenar y frutas/verduras a diario. Ajusta las cantidades según evolución del peso, hambre y rendimiento.</p><div class="notice">La calculadora de arriba estima tus calorías y macronutrientes. Usa el resultado como punto de partida y revisa tu evolución durante 2–3 semanas antes de ajustar. Esta guía es orientativa y no sustituye una valoración profesional.</div></div>
 <div class="card"><h2>Menú orientativo y lista de compra</h2><p>Ejemplo práctico de un día con cantidades aproximadas. Puedes cambiar alimentos por las alternativas indicadas. Ajusta las raciones a tus objetivos y a tu hambre.</p><div id="nutritionPerMeal" class="notice" style="margin:10px 0">Calcula tus objetivos para ver el reparto por comida.</div><div id="nutritionMenu" class="mini"></div><h3 style="margin-top:14px">Lista de compra del día</h3><div id="nutritionShopping" class="notice"></div><button class="primary" id="copyNutritionList" style="margin-top:10px">Copiar lista de compra</button><p class="muted" id="nutritionCopyStatus"></p><p class="muted">Alternativas: pollo ↔ pavo ↔ tofu; arroz ↔ patata ↔ pasta; yogur skyr ↔ queso fresco batido; fruta según temporada. La crema de arroz (50–60 g) puede sustituir a la avena o a parte del arroz, no hace falta añadirla además.</p></div></section>
 
 <section id="commander" class="hidden"><h1>EVO AI COMMANDER</h1><div class="card"><span class="pill">VOZ DE COMANDANTE</span><span class="pill">MODO SUPERVIVENCIA</span><h2>Disciplina. Constancia. Evolución.</h2><p id="commanderGreeting">Comandante, tu misión empieza hoy. No necesitas hacerlo perfecto; necesitas cumplir el siguiente paso.</p><div class="row"><button class="primary" id="speak">▶ Escuchar mensaje</button><button id="stopSpeak">■ Silenciar</button></div><p class="muted">La voz utiliza las voces disponibles en tu dispositivo. La selección masculina depende de las voces instaladas.</p></div>
@@ -56,7 +56,7 @@ footer{text-align:center;color:#888;font-size:11px;padding:22px 0}
 <section id="progress" class="hidden"><h1>Progreso</h1><div class="card"><h2>Registrar peso corporal</h2><div class="row"><div class="field"><label>Peso de hoy (kg)</label><input id="weightEntry" type="number" step="0.1" placeholder="Ej. 53.0"></div><div class="field"><label> </label><button class="primary" id="saveWeight">Guardar peso</button></div></div><div id="weightHistory" class="mini"></div></div><div class="card"><h2>Medidas corporales</h2><p>Registra las medidas siempre en condiciones parecidas, sin apretar la cinta.</p><div class="grid"><div class="field"><label>Cintura (cm)</label><input id="mWaist" type="number" step="0.1" placeholder="Opcional"></div><div class="field"><label>Pecho (cm)</label><input id="mChest" type="number" step="0.1" placeholder="Opcional"></div><div class="field"><label>Brazo (cm)</label><input id="mArm" type="number" step="0.1" placeholder="Opcional"></div><div class="field"><label>Muslo (cm)</label><input id="mThigh" type="number" step="0.1" placeholder="Opcional"></div></div><button class="primary" id="saveMeasures">Guardar medidas</button><div id="measureHistory" class="mini" style="margin-top:10px"></div></div><div class="card"><h2>Sesiones completadas</h2><div id="sessionHistory"></div></div><div class="card"><h2>Historial de ejercicios</h2><div id="history"></div></div><div class="card"><p id="summary">Aún no hay registros.</p><div class="row"><button id="export" class="primary">Crear copia de seguridad</button><button id="importTrigger">Restaurar copia</button></div><input id="importFile" type="file" accept="application/json,.json" hidden><p class="mini">Guarda un archivo de respaldo para no perder perfil, rutinas registradas, medidas, peso y retos. La restauración reemplaza los datos actuales de esta app.</p><button id="clear">Borrar historial</button></div></section>
 
 <section id="profile" class="hidden"><h1>Mi perfil</h1><div class="card"><div class="grid"><div class="field"><label>Nombre</label><input id="name"></div><div class="field"><label>Edad</label><input id="age" type="number" min="14" max="100"></div><div class="field"><label>Altura (cm)</label><input id="height" type="number"></div><div class="field"><label>Peso actual (kg)</label><input id="weight" type="number" step=".1"></div><div class="field"><label>Peso objetivo (kg)</label><input id="target" type="number" step=".1"></div><div class="field"><label>Nivel</label><select id="level"><option>Principiante</option><option selected>Intermedio</option><option>Avanzado</option></select></div></div><div class="field"><label>Objetivo</label><select id="goal"><option>Ganar masa muscular</option><option>Definir y ganar músculo</option><option>Mejorar fuerza</option></select></div><button class="primary" id="save">Guardar perfil</button><p id="saved" class="muted"></p></div><div class="card"><h2>Privacidad y datos</h2><p>Esta versión guarda perfil, comidas e historial en este dispositivo. Todavía no hay cuentas ni sincronización en la nube.</p></div></section>
-<footer>GYM EVOLUTION · Versión 6.5 · Desarrollo profesional</footer>
+<footer>GYM EVOLUTION · Versión 6.6 · Desarrollo profesional</footer>
 </main>
 <script>
 const plan=[
@@ -141,25 +141,24 @@ function renderNutritionMenu(){
  const plans=adaptivePlans[n]||adaptivePlans[3],totals={};
  const sidePlans={
   3:[
-   [{name:"Plátano",g:120,p:1.1,c:23,f:.3},{name:"Leche entera",g:200,p:3.2,c:4.8,f:3.6}],
-   [{name:"Verduras variadas",g:150,p:2,c:5,f:.3},{name:"Manzana",g:150,p:.3,c:14,f:.2}],
-   [{name:"Verduras variadas",g:150,p:2,c:5,f:.3},{name:"Patata",g:150,p:2,c:17,f:.1}]
+   [{name:"Plátano",g:120,p:1.1,c:23,f:.3},{name:"Leche entera",g:200,p:3.2,c:4.8,f:3.6,unit:"ml"},{name:"Almendras",g:15,p:3.2,c:3.3,f:7.5}],
+   [{name:"Verduras variadas",g:150,p:2,c:5,f:.3},{name:"Manzana",g:150,p:.3,c:14,f:.2},{name:"Aguacate",g:40,p:.8,c:3.6,f:6}],
+   [{name:"Verduras variadas",g:150,p:2,c:5,f:.3},{name:"Patata",g:150,p:3,c:25.5,f:.2},{name:"Huevo",g:1,p:6.3,c:.4,f:4.8,unit:"ud"}]
   ],
   4:[
-   [{name:"Plátano",g:100,p:1.1,c:23,f:.3},{name:"Leche entera",g:200,p:3.2,c:4.8,f:3.6}],
-   [{name:"Manzana",g:150,p:.3,c:14,f:.2}],
-   [{name:"Verduras variadas",g:150,p:2,c:5,f:.3},{name:"Patata",g:100,p:2,c:17,f:.1}],
-   [{name:"Verduras variadas",g:150,p:2,c:5,f:.3}]
+   [{name:"Plátano",g:100,p:1.1,c:23,f:.3},{name:"Leche entera",g:200,p:3.2,c:4.8,f:3.6,unit:"ml"},{name:"Almendras",g:10,p:2.1,c:2.2,f:5}],
+   [{name:"Manzana",g:150,p:.3,c:14,f:.2},{name:"Yogur alto en proteína",g:150,p:10,c:6,f:.3}],
+   [{name:"Verduras variadas",g:150,p:2,c:5,f:.3},{name:"Aguacate",g:30,p:.6,c:2.7,f:4.5}],
+   [{name:"Verduras variadas",g:150,p:2,c:5,f:.3},{name:"Patata",g:100,p:2,c:17,f:.1},{name:"Huevo",g:1,p:6.3,c:.4,f:4.8,unit:"ud"}]
   ],
   5:[
-   [{name:"Plátano",g:100,p:1.1,c:23,f:.3},{name:"Leche entera",g:200,p:3.2,c:4.8,f:3.6}],
-   [{name:"Manzana",g:150,p:.3,c:14,f:.2}],
-   [{name:"Verduras variadas",g:150,p:2,c:5,f:.3}],
-   [{name:"Pan integral",g:40,p:3.6,c:18,f:1.4}],
-   [{name:"Verduras variadas",g:150,p:2,c:5,f:.3},{name:"Patata",g:150,p:2,c:17,f:.1}]
+   [{name:"Plátano",g:100,p:1.1,c:23,f:.3},{name:"Leche entera",g:200,p:3.2,c:4.8,f:3.6,unit:"ml"}],
+   [{name:"Yogur alto en proteína",g:150,p:10,c:6,f:.3},{name:"Almendras",g:10,p:2.1,c:2.2,f:5}],
+   [{name:"Verduras variadas",g:150,p:2,c:5,f:.3},{name:"Aguacate",g:30,p:.6,c:2.7,f:4.5}],
+   [{name:"Manzana",g:100,p:.2,c:14,f:.2}],
+   [{name:"Verduras variadas",g:150,p:2,c:5,f:.3},{name:"Patata",g:150,p:3,c:25.5,f:.2},{name:"Huevo",g:1,p:6.3,c:.4,f:4.8,unit:"ud"}]
   ]
- };
- const sides=sidePlans[n]||sidePlans[3];
+ }; const sides=sidePlans[n]||sidePlans[3];
  let cards=[];
  plans.forEach((plan,i)=>{
   const prot=adaptiveFoods.protein[plan[0]],carb=adaptiveFoods.carbs[plan[1]];
@@ -183,7 +182,7 @@ function renderNutritionMenu(){
    totals[name]=(totals[name]||0)+g;
   });
   const mealName=names[i]||mealDefaults[i]||"Comida "+(i+1);
-  const extrasText=extras.map(x=>escapeHtml(x.name)+" <b>"+x.g+(x.name==="Leche entera"?" ml":" g")+"</b>").join(" · ");
+  const extrasText=extras.map(x=>escapeHtml(x.name)+" <b>"+x.g+" "+(x.unit||"g")+"</b>").join(" · ");
   cards.push('<div class="history"><b>'+escapeHtml(mealName)+'</b><p>'+escapeHtml(prot.name)+' <b>'+pg+' g</b> · '+escapeHtml(carb.name)+' <b>'+cg+' g</b>'+(extrasText?' · '+extrasText:'')+' · aceite de oliva <b>'+oil+' g</b></p><span class="muted">Aproximadamente: '+Math.round(macros.p)+' g proteína · '+Math.round(macros.c)+' g hidratos · '+Math.round(macros.f)+' g grasas</span></div>');
  });
  const carbPerMeal=est.carbs/n;
@@ -191,7 +190,7 @@ function renderNutritionMenu(){
   ? '<p class="notice">Con 3 comidas, los hidratos por comida siguen siendo abundantes. Si te cuesta terminar las raciones, cambia a 4 o 5 comidas desde el selector; se recalculará el reparto sin perder tus objetivos.</p>'
   : '';
  $("nutritionMenu").innerHTML='<div class="notice"><b>Menú calculado para tus objetivos</b><p class="mini">Las cantidades se estiman con los macros de cada alimento y se reparten en '+n+' comidas. Arroz y crema de arroz se pesan en seco; atún escurrido; patata y verduras en crudo. Leche en ml. Las marcas y la preparación pueden variar los valores.</p></div>'+cards.join("")+portionNote+'<p class="mini">Es un ejemplo orientativo, no una dieta clínica. Puedes cambiar alimentos por equivalentes, pero las cantidades y macros cambiarán.</p>';
- $("nutritionShopping").textContent=Object.entries(totals).map(([name,g])=>name+": "+(name==="Leche entera"?Math.round(g)+" ml":Math.round(g)+" g")).join("; ")+".";
+ $("nutritionShopping").textContent=Object.entries(totals).map(([name,g])=>name+": "+(name==="Leche entera"?Math.round(g)+" ml":name==="Huevo"?Math.round(g)+" ud":Math.round(g)+" g")).join("; ")+".";
 }
 function renderNutritionDistribution(){
  const box=$("nutritionPerMeal"),est=getValidNutritionEstimate();
@@ -213,14 +212,14 @@ function getValidNutritionEstimate(){
 }
 function renderNutritionResult(est){
  if(!est){$("nutritionResult").textContent=data.nutritionEstimate?"Tu perfil o los ajustes han cambiado. Vuelve a calcular tus objetivos para actualizar el menú.":"Completa edad, altura y peso en Mi perfil y selecciona la fórmula fisiológica para calcular una estimación.";return}
- $("nutritionResult").innerHTML='<b>Estimación diaria guardada</b><br>Mantenimiento: <b>'+est.maintenance+' kcal</b><br>Objetivo orientativo: <b>'+est.target+' kcal</b><br>Proteínas: <b>'+est.protein+' g</b> · Grasas: <b>'+est.fat+' g</b> · Hidratos: <b>'+est.carbs+' g</b><p class="mini">Estimación vinculada a tu perfil actual. Revisa la tendencia del peso, energía y rendimiento durante 2–3 semanas antes de ajustar.</p>';
+ $("nutritionResult").innerHTML='<b>Estimación diaria guardada</b><br>Mantenimiento: <b>'+est.maintenance+' kcal</b><br>Objetivo orientativo: <b>'+est.target+' kcal</b><br>Proteínas: <b>'+est.protein+' g</b> · Grasas: <b>'+est.fat+' g</b> · Hidratos: <b>'+est.carbs+' g</b><p class="mini">Estimación vinculada a tu perfil actual. Revisa la media del peso, el hambre, la energía y el rendimiento durante 2–3 semanas. El objetivo de ganancia usa un superávit inicial moderado; no aumentes calorías automáticamente.</p>';
 }
 function renderNutritionSettings(){
  if(data.nutritionSettings.sex)$("calcSex").value=data.nutritionSettings.sex;
  if(data.nutritionSettings.activity)$("activity").value=String(data.nutritionSettings.activity);
  renderNutritionResult(getValidNutritionEstimate());
 }
-$('calcNutrition').onclick=()=>{let p=data.profile||{},age=Number(p.age),height=Number(p.height),weight=Number(p.weight),sex=$('calcSex').value,activity=Number($('activity').value);if(!age||!height||!weight||age<14||height<120||weight<30){$('nutritionResult').textContent='Completa edad, altura y peso válidos en Mi perfil antes de calcular.';return}if(!sex){$('nutritionResult').textContent='Selecciona la fórmula fisiológica para calcular la estimación.';return}let bmr=10*weight+6.25*height-5*age+(sex==='male'?5:-161),maintenance=Math.round(bmr*activity),goal=p.goal||'Ganar masa muscular',adjust=goal==='Ganar masa muscular'?200:goal==='Definir y ganar músculo'?-200:100,target=Math.round((maintenance+adjust)/50)*50,protein=Math.round(weight*1.8),fat=Math.round(weight*.8),carbs=Math.max(0,Math.round((target-protein*4-fat*9)/4));data.nutritionSettings={sex,activity};data.nutritionEstimate={date:new Date().toISOString(),maintenance,target,protein,fat,carbs,goal,profileSnapshot:{age:p.age,height:p.height,weight:p.weight,goal,sex,activity:String(activity)}};persist();renderNutritionMenu();renderNutritionResult(getValidNutritionEstimate());};
+$('calcNutrition').onclick=()=>{let p=data.profile||{},age=Number(p.age),height=Number(p.height),weight=Number(p.weight),sex=$('calcSex').value,activity=Number($('activity').value);if(!age||!height||!weight||age<14||height<120||weight<30){$('nutritionResult').textContent='Completa edad, altura y peso válidos en Mi perfil antes de calcular.';return}if(!sex){$('nutritionResult').textContent='Selecciona la fórmula fisiológica para calcular la estimación.';return}let bmr=10*weight+6.25*height-5*age+(sex==='male'?5:-161),maintenance=Math.round(bmr*activity),goal=p.goal||'Ganar masa muscular',adjust=goal==='Ganar masa muscular'?150:goal==='Definir y ganar músculo'?-150:100,target=Math.round((maintenance+adjust)/50)*50,protein=Math.round(weight*1.8),fat=Math.round(weight*1.2),carbs=Math.max(0,Math.round((target-protein*4-fat*9)/4));data.nutritionSettings={sex,activity};data.nutritionEstimate={date:new Date().toISOString(),maintenance,target,protein,fat,carbs,goal,profileSnapshot:{age:p.age,height:p.height,weight:p.weight,goal,sex,activity:String(activity)}};persist();renderNutritionMenu();renderNutritionResult(getValidNutritionEstimate());};
 function renderMeasures(){let el=$('measureHistory');if(!el)return;el.innerHTML=data.measurements.length?data.measurements.slice(-8).reverse().map(x=>`${new Date(x.date).toLocaleDateString('es-ES')}: ${Object.entries(x.values).map(([k,v])=>`${k} ${v} cm`).join(' · ')}`).join('<br>'):'Todavía no hay medidas registradas.'}
 $('saveMeasures').onclick=()=>{let map={Cintura:$('mWaist').value,Pecho:$('mChest').value,Brazo:$('mArm').value,Muslo:$('mThigh').value},values={};for(let [k,v] of Object.entries(map)){if(v!==''){let n=Number(v);if(!Number.isFinite(n)||n<10||n>250){alert('Revisa la medida de '+k+'.');return}values[k]=n}}if(!Object.keys(values).length){alert('Introduce al menos una medida.');return}data.measurements.push({date:new Date().toISOString(),values});persist();['mWaist','mChest','mArm','mThigh'].forEach(id=>$(id).value='');renderMeasures();alert('Medidas guardadas.');};
 const todayKey=()=>{let d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
