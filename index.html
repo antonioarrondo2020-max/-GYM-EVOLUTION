@@ -133,39 +133,7 @@ function renderNutritionMenu(){
  const n=+$("mealCount").value||3,est=getValidNutritionEstimate();
  renderNutritionDistribution();
  if(!est){
-  $("nutritionMenu").innerHTML='<div class="history">Calcula primero tus objetivos para generar un menú con cantidades adaptadas.</div>';
-  $("nutritionShopping").textContent="La lista de compra aparecerá después de calcular tus objetivos.";
-  return;
- }
- const names=data.meals.length?data.meals.slice(0,n).map(x=>x.name):[];
- const plans=adaptivePlans[n]||adaptivePlans[3],totals={};
- let cards=[],sum={p:0,c:0,f:0};
- plans.forEach((plan,i)=>{
-  const prot=adaptiveFoods.protein[plan[0]],carb=adaptiveFoods.carbs[plan[1]],veg=i===0?{p:0,c:0,f:0}:{p:2,c:5,f:.3};
-  const targetP=est.protein/n,targetC=est.carbs/n,targetF=est.fat/n;
-  const rhsP=targetP-veg.p,rhsC=targetC-veg.c;
-  const det=prot.p*carb.c-prot.c*carb.p;
-  let pg=0,cg=0;
-  if(det>0){
-   pg=Math.max(0,100*(rhsP*carb.c-carb.p*rhsC)/det);
-   cg=Math.max(0,100*(prot.p*rhsC-prot.c*rhsP)/det);
-  }
-  pg=Math.round(pg/5)*5;cg=Math.round(cg/5)*5;
-  const baseP=prot.p*pg/100+carb.p*cg/100+veg.p;
-  const baseC=prot.c*pg/100+carb.c*cg/100+veg.c;
-  const baseF=prot.f*pg/100+carb.f*cg/100+veg.f;
-  const oil=Math.max(0,Math.round((targetF-baseF)*10)/10);
-  const macros={p:baseP,c:baseC,f:baseF+oil};
-  sum.p+=macros.p;sum.c+=macros.c;sum.f+=macros.f;
-  [[prot.name,pg],[carb.name,cg],["Verduras variadas",i===0?0:100],["Aceite de oliva",oil]].forEach(([name,g])=>{
-   if(g<=0)return;
-   totals[name]=(totals[name]||0)+g;
-  });
-  const mealName=names[i]||mealDefaults[i]||"Comida "+(i+1);
-  cards.push('<div class="history"><b>'+escapeHtml(mealName)+'</b><p>'+escapeHtml(prot.name)+' <b>'+pg+' g</b> · '+escapeHtml(carb.name)+' <b>'+cg+' g</b>'+(i===0?'':' · verduras <b>100 g</b>')+' · aceite de oliva <b>'+oil+' g</b></p><span class="muted">Aproximadamente: '+Math.round(macros.p)+' g proteína · '+Math.round(macros.c)+' g hidratos · '+Math.round(macros.f)+' g grasas</span></div>');
- });
- $("nutritionMenu").innerHTML='<div class="notice"><b>Menú calculado para tus objetivos</b><p class="mini">Las raciones se calculan a partir de tus macros guardados y '+n+' comidas. Pesos de arroz y crema de arroz en seco; atún escurrido; patata y verduras en crudo. Son estimaciones: las marcas y la cocción cambian los valores.</p></div>'+cards.join("")+'<p class="mini">Puedes cambiar los alimentos por equivalentes, pero al hacerlo tendrás que recalcular las cantidades. Si una ración te resulta demasiado grande, podemos repartirla de otra manera entre las comidas.</p>';
- $("nutritionShopping").textContent=Object.entries(totals).map(([name,g])=>name+": "+Math.round(g)+" g").join("; ")+".";
+  $("nutritionMenu").innerHTML='<div class="notice"><b>Menú calculado para tus objetivos</b><p class="mini">Las raciones se calculan a partir de tus macros guardados y '+n+' comidas. Pesos de arroz y crema de arroz en seco; atún escurrido y verduras en crudo. Son estimaciones: las marcas y la cocción cambian los valores.</p>'+(targetC>110?'<p class="mini"><b>Raciones altas de hidratos por comida.</b> Si te cuesta comerlas, cambia a 4 o 5 comidas: el menú repartirá las cantidades sin cambiar tus objetivos diarios.</p>':'')+'</div>'+cards.join("")+'<p class="mini">Puedes cambiar los alimentos por equivalentes, pero al hacerlo tendrás que recalcular las cantidades.</p>';
 }
 function renderNutritionDistribution(){
  const box=$("nutritionPerMeal"),est=getValidNutritionEstimate();
