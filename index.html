@@ -150,6 +150,18 @@ const nutritionRecipeTemplates={
   {name:"Cena",items:[["tuna",60],["potato",220],["vegetables",150],["oil",10]]}
  ]
 };
+function solveNutritionScales(matrix,vector){
+ const a=matrix.map((row,i)=>row.concat(vector[i]));
+ for(let col=0;col<3;col++){
+  let pivot=col;
+  for(let r=col+1;r<3;r++)if(Math.abs(a[r][col])>Math.abs(a[pivot][col]))pivot=r;
+  if(Math.abs(a[pivot][col])<1e-8)return null;
+  [a[col],a[pivot]]=[a[pivot],a[col]];
+  const div=a[col][col];for(let j=col;j<4;j++)a[col][j]/=div;
+  for(let r=0;r<3;r++)if(r!==col){const k=a[r][col];for(let j=col;j<4;j++)a[r][j]-=k*a[col][j]}
+ }
+ return [a[0][3],a[1][3],a[2][3]];
+}
 function renderNutritionMenu(){
  const n=+$("mealCount").value||3,est=getValidNutritionEstimate();
  renderNutritionDistribution();
@@ -165,16 +177,17 @@ function renderNutritionMenu(){
   const food=nutritionFoodDB[id],target=food.group==="fixed"?fixed:food.group==="protein"?protein:food.group==="carb"?carb:fat,factor=g/100;
   target.p+=food.p*factor;target.c+=food.c*factor;target.f+=food.f*factor;
  }));
- const rhsC=Math.max(0,est.carbs-fixed.c-protein.c),rhsF=Math.max(0,est.fat-fixed.f-protein.f);
- const det=carb.c*fat.f-fat.c*carb.f;
- let carbScale=1,fatScale=1;
- if(Math.abs(det)>1e-8){
-  carbScale=(rhsC*fat.f-fat.c*rhsF)/det;
-  fatScale=(carb.c*rhsF-rhsC*carb.f)/det;
- }
- if(!Number.isFinite(carbScale)||!Number.isFinite(fatScale)||carbScale<=0||fatScale<=0){carbScale=1;fatScale=1}
- carbScale=Math.max(.65,Math.min(1.7,carbScale));
- fatScale=Math.max(.65,Math.min(1.7,fatScale));
+ const groups=[protein,carb,fat];
+ const matrix=[
+  groups.map(x=>x.p),
+  groups.map(x=>x.c),
+  groups.map(x=>x.f)
+ ];
+ const vector=[Math.max(0,est.protein-fixed.p),Math.max(0,est.carbs-fixed.c),Math.max(0,est.fat-fixed.f)];
+ let scales=solveNutritionScales(matrix,vector);
+ if(!scales||scales.some(x=>!Number.isFinite(x)||x<=0))scales=[1,1,1];
+ scales=scales.map(x=>Math.max(.65,Math.min(1.7,x)));
+ const proteinScale=scales[0],carbScale=scales[1],fatScale=scales[2];
  const totals={},daily={p:0,c:0,f:0},cards=[];
  templates.forEach((meal,i)=>{
   const mealTotals={p:0,c:0,f:0},items=[];
