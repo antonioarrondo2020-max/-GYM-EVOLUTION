@@ -1,5 +1,5 @@
 
-const CACHE = "gym-evolution-v16";
+const CACHE = "gym-evolution-v17";
 
 const FILES = [
   "./",
