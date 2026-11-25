@@ -1,5 +1,5 @@
 
-const CACHE = "gym-evolution-v10";
+const CACHE = "gym-evolution-v11";
 
 const FILES = [
   "./",
@@ -14,7 +14,6 @@ self.addEventListener("install", event => {
   event.waitUntil(
     caches.open(CACHE).then(cache => cache.addAll(FILES))
   );
-  self.skipWaiting();
 });
 
 self.addEventListener("message", event => {
