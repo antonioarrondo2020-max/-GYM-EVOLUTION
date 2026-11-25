@@ -192,7 +192,7 @@ function renderNutritionMenu(){
  templates.forEach((meal,i)=>{
   const mealTotals={p:0,c:0,f:0},items=[];
   meal.items.forEach(([id,baseG])=>{
-   const food=nutritionFoodDB[id],scale=food.group==="fixed"||food.group==="protein"?1:food.group==="carb"?carbScale:fatScale;
+   const food=nutritionFoodDB[id],scale=food.group==="fixed"?1:food.group==="protein"?proteinScale:food.group==="carb"?carbScale:fatScale;
    const step=food.step||5,grams=Math.max(0,Math.round(baseG*scale/step)*step);
    if(!grams)return;
    const factor=grams/100,p=food.p*factor,c=food.c*factor,f=food.f*factor;
