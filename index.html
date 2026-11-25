@@ -157,7 +157,7 @@ function renderNutritionMenu(){
   const oil=Math.max(0,Math.round((targetF-baseF)*10)/10);
   const macros={p:baseP,c:baseC,f:baseF+oil};
   sum.p+=macros.p;sum.c+=macros.c;sum.f+=macros.f;
-  [[prot.name,pg],[carb.name,cg],["Verduras variadas",100],["Aceite de oliva",oil]].forEach(([name,g])=>{
+  [[prot.name,pg],[carb.name,cg],["Verduras variadas",i===0?0:100],["Aceite de oliva",oil]].forEach(([name,g])=>{
    if(g<=0)return;
    totals[name]=(totals[name]||0)+g;
   });
