@@ -109,7 +109,9 @@ $("importTrigger").onclick=()=>$("importFile").click();
 $("importFile").onchange=async e=>{const file=e.target.files?.[0];if(!file)return;try{const parsed=JSON.parse(await file.text());const restored=parsed.data||parsed;if(!restored||typeof restored!=="object"||!restored.profile||!Array.isArray(restored.history))throw new Error("Formato no válido");if(!confirm("¿Restaurar esta copia? Los datos actuales de GYM EVOLUTION serán sustituidos."))return;data={...data,...restored};data.profile=data.profile||{};data.history=data.history||[];data.meals=data.meals||[];data.challenge=data.challenge||{};data.sessions=data.sessions||[];data.weights=data.weights||[];data.measurements=data.measurements||[];data.nutritionSettings=data.nutritionSettings||{};persist();renderProfile();renderDays();renderExercises();renderMeals();renderNutritionSettings();renderMeasures();renderChallenges();renderHistory();updateSessionUI();alert("Copia restaurada correctamente.");}catch(err){alert("No se pudo restaurar el archivo. Comprueba que sea una copia de GYM EVOLUTION.")}finally{e.target.value=""}};
 $("clear").onclick=()=>{if(confirm("¿Borrar todo el historial de ejercicios?")){data.history=[];persist();renderHistory()}};
 $("mealCount").value=String(data.meals.length||3);renderProfile();renderDays();renderExercises();renderMeals();renderNutritionSettings();renderMeasures();renderChallenges();updateSessionUI();if(data.activeSession){sessionTicker=setInterval(updateSessionUI,1000)}persist();
-
+if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {}));
+}
 </script>
 <script src="./update.js" defer></script>
 </body>
