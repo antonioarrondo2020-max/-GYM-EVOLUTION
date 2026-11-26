@@ -252,13 +252,21 @@ function renderNutritionSettings(){
  }
 }
 $('calcNutrition').onclick=()=>{
- const p=data.profile||{},sex=$('calcSex').value,activityValue=$('activity').value;
- if(sex!=="male"&&sex!=="female"){$('nutritionResult').textContent="Selecciona la fórmula fisiológica para calcular la estimación.";return}
- if(!["1.2","1.375","1.55","1.725"].includes(activityValue)){$('nutritionResult').textContent="Selecciona un nivel de actividad válido.";return}
+ const p=data.profile||(data.profile={});
+ ["age","height","weight","goal"].forEach(k=>{const field=$(k);if(field&&String(field.value).trim()!=="")p[k]=field.value});
+ const rawSex=$('calcSex').value;
+ const sex=(rawSex==="male"||rawSex==="female")?rawSex:((data.nutritionSettings||{}).sex==="female"?"female":"male");
+ const rawActivity=$('activity').value;
+ const activityValue=["1.2","1.375","1.55","1.725"].includes(rawActivity)?rawActivity:"1.55";
+ $('calcSex').value=sex;$('activity').value=activityValue;
  const estimate=calculateNutritionEstimate(p,sex,Number(activityValue));
- if(!estimate){$('nutritionResult').textContent="Completa edad, altura y peso válidos en Mi perfil antes de calcular.";return}
+ if(!estimate){$('nutritionResult').textContent="No se ha podido calcular. Revisa edad, altura y peso en Mi perfil; deben ser valores válidos.";return}
  data.nutritionSettings={sex,activity:Number(activityValue)};
- data.nutritionEstimate=estimate;persist();renderNutritionMenu();renderNutritionResult(getValidNutritionEstimate());
+ data.nutritionEstimate=estimate;
+ persist();
+ renderNutritionResult(estimate);
+ renderNutritionMenu();
+ $('nutritionResult').scrollIntoView({behavior:"smooth",block:"nearest"});
 };
 function renderMeasures(){let el=$('measureHistory');if(!el)return;el.innerHTML=data.measurements.length?data.measurements.slice(-8).reverse().map(x=>`${new Date(x.date).toLocaleDateString('es-ES')}: ${Object.entries(x.values).map(([k,v])=>`${k} ${v} cm`).join(' · ')}`).join('<br>'):'Todavía no hay medidas registradas.'}
 $('saveMeasures').onclick=()=>{let map={Cintura:$('mWaist').value,Pecho:$('mChest').value,Brazo:$('mArm').value,Muslo:$('mThigh').value},values={};for(let [k,v] of Object.entries(map)){if(v!==''){let n=Number(v);if(!Number.isFinite(n)||n<10||n>250){alert('Revisa la medida de '+k+'.');return}values[k]=n}}if(!Object.keys(values).length){alert('Introduce al menos una medida.');return}data.measurements.push({date:new Date().toISOString(),values});persist();['mWaist','mChest','mArm','mThigh'].forEach(id=>$(id).value='');renderMeasures();alert('Medidas guardadas.');};
