@@ -236,22 +236,20 @@ function renderNutritionSettings(){
  const settings=data.nutritionSettings||(data.nutritionSettings={}),p=data.profile||{},old=data.nutritionEstimate,snap=old&&old.profileSnapshot;
  const normalizeSex=v=>({male:"male",masculina:"male",hombre:"male",female:"female",femenina:"female",mujer:"female"}[String(v||"").trim().toLowerCase()]||"");
  const validActivity=v=>["1.2","1.375","1.55","1.725"].includes(String(v));
- let sex=normalizeSex(settings.sex)||normalizeSex(snap&&snap.sex);
- let activity=validActivity(settings.activity)?String(settings.activity):(validActivity(snap&&snap.activity)?String(snap.activity):"");
- if(!sex&&old)sex="male";
- if(!activity&&old)activity="1.55";
- if(sex)settings.sex=sex;
- if(activity)settings.activity=Number(activity);
- if(sex)$("calcSex").value=sex;
- if(activity)$("activity").value=activity;
- const estimate=sex&&activity?calculateNutritionEstimate(p,sex,Number(activity)):null;
- const snapshotMatches=old&&old.formulaVersion===4&&old.profileSnapshot&&estimate&&
-  String(old.profileSnapshot.age)===String(p.age||"")&&String(old.profileSnapshot.height)===String(p.height||"")&&
-  String(old.profileSnapshot.weight)===String(p.weight||"")&&String(old.profileSnapshot.goal||"Ganar masa muscular")===String(p.goal||"Ganar masa muscular")&&
-  old.profileSnapshot.sex===sex&&String(old.profileSnapshot.activity)===activity;
- if(estimate&&!snapshotMatches){data.nutritionEstimate=estimate;persist()}
- else if(sex||activity)persist();
- renderNutritionResult(getValidNutritionEstimate());
+ const sex=normalizeSex(settings.sex)||normalizeSex(snap&&snap.sex)||"male";
+ const activity=validActivity(settings.activity)?String(settings.activity):(validActivity(snap&&snap.activity)?String(snap.activity):"1.55");
+ settings.sex=sex;
+ settings.activity=Number(activity);
+ $("calcSex").value=sex;
+ $("activity").value=activity;
+ const estimate=calculateNutritionEstimate(p,sex,Number(activity));
+ if(estimate){
+  data.nutritionEstimate=estimate;
+  persist();
+  renderNutritionResult(estimate);
+ }else{
+  renderNutritionResult(null);
+ }
 }
 $('calcNutrition').onclick=()=>{
  const p=data.profile||{},sex=$('calcSex').value,activityValue=$('activity').value;
