@@ -145,7 +145,7 @@ function solveNutritionScales(matrix,vector){
 }
 function renderNutritionMenu(){
  const n=+$("mealCount").value||3,est=getValidNutritionEstimate();
- renderNutritionDistribution();
+
  if(!est){
   $("nutritionMenu").innerHTML='<div class="history">Calcula primero tus objetivos para generar un menú con cantidades adaptadas.</div>';
   $("nutritionShopping").textContent="La lista de compra aparecerá después de calcular tus objetivos.";
@@ -172,12 +172,12 @@ function renderNutritionMenu(){
  const scaleWasClamped=scales.some(x=>x<.05||x>5);
  scales=scales.map(x=>Math.max(.05,Math.min(5,x)));
  const proteinScale=scales[0],carbScale=scales[1],fatScale=scales[2];
- const totals={},daily={p:0,c:0,f:0},cards=[];
+ const totals={},daily={p:0,c:0,f:0},cards=[],mealBreakdown=[];
  templates.forEach((meal,i)=>{
   const mealTotals={p:0,c:0,f:0},items=[];
   meal.items.forEach(([id,baseG])=>{
    const food=nutritionFoodDB[id],scale=food.group==="fixed"?1:food.group==="protein"?proteinScale:food.group==="carb"?carbScale:fatScale;
-   const step=food.step||5,grams=Math.max(0,Math.round(baseG*scale/step)*step);
+   const grams=Math.max(0,Math.round(baseG*scale*10)/10);
    if(!grams)return;
    const factor=grams/100,p=food.p*factor,c=food.c*factor,f=food.f*factor;
    mealTotals.p+=p;mealTotals.c+=c;mealTotals.f+=f;
@@ -186,28 +186,30 @@ function renderNutritionMenu(){
    items.push(escapeHtml(food.name)+" <b>"+amount+"</b>");
   });
   const mealName=savedNames[i]||meal.name;
-  cards.push('<div class="history"><b>'+escapeHtml(mealName)+'</b><p>'+items.join(" · ")+'</p><span class="muted">Aprox.: '+Math.round(mealTotals.p)+' g proteína · '+Math.round(mealTotals.c)+' g hidratos · '+Math.round(mealTotals.f)+' g grasas</span></div>');
+  const mealKcal=mealTotals.p*4+mealTotals.c*4+mealTotals.f*9;
+  mealBreakdown.push({name:mealName,p:mealTotals.p,c:mealTotals.c,f:mealTotals.f,kcal:mealKcal});
+  cards.push('<div class="history"><b>'+escapeHtml(mealName)+'</b><p>'+items.join(" · ")+'</p><span class="muted">'+mealKcal.toFixed(1)+' kcal · '+mealTotals.p.toFixed(1)+' g proteína · '+mealTotals.c.toFixed(1)+' g hidratos · '+mealTotals.f.toFixed(1)+' g grasas</span></div>');
  });
- const diff=(actual,target)=>{const d=Math.round(actual-target);return (d>0?"+":"")+d};
+ const diff=(actual,target)=>{const d=Math.round((actual-target)*10)/10;return (d>0?"+":"")+d.toFixed(1)};
  const scaleNote=scaleWasClamped
  ?'<p class="mini">Aviso: los objetivos se salen del rango de ajuste de esta plantilla. Las cantidades mostradas son orientativas y los macros pueden desviarse; revisa el menú antes de usarlo.</p>'
  :scaleNeedsReview
  ?'<p class="mini">Aviso: para alcanzar estos objetivos algunas raciones pueden quedar pequeñas o grandes. Revisa las cantidades y utiliza equivalencias si lo necesitas.</p>'
  :'<p class="mini">Las cantidades y macros son aproximados y pueden variar por marca y preparación.</p>';
- const dailySummary='<div class="notice"><b>Totales aproximados del menú</b><p class="mini">Proteínas: <b>'+Math.round(daily.p)+' g</b> (objetivo '+est.protein+' g; '+diff(daily.p,est.protein)+' g) · Hidratos: <b>'+Math.round(daily.c)+' g</b> (objetivo '+est.carbs+' g; '+diff(daily.c,est.carbs)+' g) · Grasas: <b>'+Math.round(daily.f)+' g</b> (objetivo '+est.fat+' g; '+diff(daily.f,est.fat)+' g).</p>'+scaleNote+'</div>';
- $("nutritionMenu").innerHTML=dailySummary+cards.join("")+'<p class="mini">Arroz, avena y crema de arroz se pesan en seco; atún escurrido; patata y verduras en crudo. Leche en ml. Menú orientativo, no una dieta clínica.</p>';
+ const dailyKcal=daily.p*4+daily.c*4+daily.f*9;
+ const dailySummary='<div class="notice"><b>Totales del menú</b><p class="mini">Energía: <b>'+dailyKcal.toFixed(1)+' kcal</b> (objetivo '+est.target+' kcal; '+diff(dailyKcal,est.target)+' kcal) · Proteínas: <b>'+daily.p.toFixed(1)+' g</b> (objetivo '+est.protein+' g; '+diff(daily.p,est.protein)+' g) · Hidratos: <b>'+daily.c.toFixed(1)+' g</b> (objetivo '+est.carbs.toFixed(1)+' g; '+diff(daily.c,est.carbs)+' g) · Grasas: <b>'+daily.f.toFixed(1)+' g</b> (objetivo '+est.fat+' g; '+diff(daily.f,est.fat)+' g).</p>'+scaleNote+'</div>';
+ $("nutritionMenu").innerHTML=dailySummary+cards.join("")+'<p class="mini">Los macros y kcal se calculan con la base nutricional interna de la app; las marcas y preparaciones pueden variar. Arroz, avena y crema de arroz se pesan en seco; atún escurrido; patata y verduras en crudo. Leche en ml.</p>';
+ renderNutritionDistribution(mealBreakdown);
  $("nutritionShopping").textContent=Object.entries(totals).map(([id,g])=>{const food=nutritionFoodDB[id];return food.name+": "+(food.unit==="ml"?g+" ml":Math.round(g)+" g")}).join("; ")+".";
 }
-function renderNutritionDistribution(){
+function renderNutritionDistribution(meals=[]){
  const box=$("nutritionPerMeal"),est=getValidNutritionEstimate();
  if(!box)return;
  if(!est){box.textContent="Calcula tus objetivos para ver el reparto por comida.";return}
  const n=+$("mealCount").value||3;
  const savedNames=data.meals.length?data.meals.slice(0,n).map(x=>x.name):[];
  const names=Array.from({length:n},(_,i)=>savedNames[i]||mealDefaults[i]||"Comida "+(i+1));
- const fields=[["kcal",est.target],["Proteínas",est.protein],["Grasas",est.fat],["Hidratos",est.carbs]];
- const per=fields.map(([label,total])=>({label,total,base:Math.floor(total/n),rest:total-Math.floor(total/n)*n}));
- box.innerHTML="<b>Reparto orientativo por comida</b><p class='mini'>Objetivos diarios: "+est.target+" kcal · "+est.protein+" g de proteínas · "+est.fat+" g de grasas · "+est.carbs+" g de hidratos. Repartidos de forma uniforme entre "+n+" comidas.</p>"+names.map((name,i)=>"<div class='history'><b>"+escapeHtml(name)+"</b><br>"+per.map(x=>escapeHtml(x.label)+": <b>"+(x.base+(i<x.rest?1:0))+(x.label==="kcal"?" kcal":" g")+"</b>").join(" · ")+"</div>").join("")+"<p class='mini'>Este reparto muestra una referencia por comida. El menú calculado de abajo adapta las raciones a los objetivos diarios; los valores siguen siendo aproximados.</p>";
+ box.innerHTML="<b>Reparto real del menú por comida</b><p class='mini'>Objetivo diario: "+est.target+" kcal · "+est.protein+" g proteína · "+est.fat+" g grasas · "+est.carbs.toFixed(1)+" g hidratos. Cada comida muestra los valores calculados de sus propias raciones.</p>"+meals.map(m=>"<div class='history'><b>"+escapeHtml(m.name)+"</b><br>"+m.kcal.toFixed(1)+" kcal · "+m.p.toFixed(1)+" g proteínas · "+m.f.toFixed(1)+" g grasas · "+m.c.toFixed(1)+" g hidratos</div>").join("");
 }
 $("copyNutritionList").onclick=async()=>{let value=$("nutritionShopping").textContent;try{await navigator.clipboard.writeText(value);$("nutritionCopyStatus").textContent="Lista copiada."}catch(e){$("nutritionCopyStatus").textContent="Mantén pulsada la lista para copiarla."}};
 function getValidNutritionEstimate(){
@@ -218,7 +220,7 @@ function getValidNutritionEstimate(){
 }
 function renderNutritionResult(est){
  if(!est){$("nutritionResult").textContent=data.nutritionEstimate?"Tu perfil o los ajustes han cambiado. Vuelve a calcular tus objetivos para actualizar el menú.":"Completa edad, altura y peso en Mi perfil y selecciona la fórmula fisiológica para calcular una estimación.";return}
- $("nutritionResult").innerHTML='<b>Estimación diaria guardada</b><br>Mantenimiento: <b>'+est.maintenance+' kcal</b><br>Objetivo orientativo: <b>'+est.target+' kcal</b><br>Proteínas: <b>'+est.protein+' g</b> · Grasas: <b>'+est.fat+' g</b> · Hidratos: <b>'+est.carbs+' g</b><p class="mini">Estimación vinculada a tu perfil actual. Revisa la media del peso, el hambre, la energía y el rendimiento durante 2–3 semanas. El objetivo de ganancia usa un superávit inicial moderado; no aumentes calorías automáticamente.</p>';
+ $("nutritionResult").innerHTML='<b>Estimación diaria guardada</b><br>Mantenimiento: <b>'+est.maintenance+' kcal</b><br>Objetivo orientativo: <b>'+est.target+' kcal</b><br>Proteínas: <b>'+est.protein+' g</b> · Grasas: <b>'+est.fat+' g</b> · Hidratos: <b>'+est.carbs.toFixed(1)+' g</b><p class="mini">Estimación vinculada a tu perfil actual. Revisa la media del peso, el hambre, la energía y el rendimiento durante 2–3 semanas. El objetivo de ganancia usa un superávit inicial moderado; no aumentes calorías automáticamente.</p>';
 }
 function renderNutritionSettings(){
  const settings=data.nutritionSettings||{},p=data.profile||{};
@@ -231,13 +233,13 @@ function renderNutritionSettings(){
   const maintenance=Math.round(bmr*activity),goal=p.goal||"Ganar masa muscular";
   const adjust=goal==="Ganar masa muscular"?150:goal==="Definir y ganar músculo"?-150:100;
   const target=Math.round((maintenance+adjust)/50)*50,protein=Math.round(weight*1.8),fat=Math.round(weight*1.2);
-  const carbs=Math.max(0,Math.round((target-protein*4-fat*9)/4));
+  const carbs=Math.max(0,Math.round(((target-protein*4-fat*9)/4)*10)/10);
   data.nutritionEstimate={formulaVersion:2,date:new Date().toISOString(),maintenance,target,protein,fat,carbs,goal,profileSnapshot:{age:p.age,height:p.height,weight:p.weight,goal,sex,activity:String(activity)}};
   persist();
  }
  renderNutritionResult(getValidNutritionEstimate());
 }
-$('calcNutrition').onclick=()=>{let p=data.profile||{},age=Number(p.age),height=Number(p.height),weight=Number(p.weight),sex=$('calcSex').value,activity=Number($('activity').value);if(!age||!height||!weight||age<14||height<120||weight<30){$('nutritionResult').textContent='Completa edad, altura y peso válidos en Mi perfil antes de calcular.';return}if(!sex){$('nutritionResult').textContent='Selecciona la fórmula fisiológica para calcular la estimación.';return}let bmr=10*weight+6.25*height-5*age+(sex==='male'?5:-161),maintenance=Math.round(bmr*activity),goal=p.goal||'Ganar masa muscular',adjust=goal==='Ganar masa muscular'?150:goal==='Definir y ganar músculo'?-150:100,target=Math.round((maintenance+adjust)/50)*50,protein=Math.round(weight*1.8),fat=Math.round(weight*1.2),carbs=Math.max(0,Math.round((target-protein*4-fat*9)/4));data.nutritionSettings={sex,activity};data.nutritionEstimate={formulaVersion:2,date:new Date().toISOString(),maintenance,target,protein,fat,carbs,goal,profileSnapshot:{age:p.age,height:p.height,weight:p.weight,goal,sex,activity:String(activity)}};persist();renderNutritionMenu();renderNutritionResult(getValidNutritionEstimate());};
+$('calcNutrition').onclick=()=>{let p=data.profile||{},age=Number(p.age),height=Number(p.height),weight=Number(p.weight),sex=$('calcSex').value,activity=Number($('activity').value);if(!age||!height||!weight||age<14||height<120||weight<30){$('nutritionResult').textContent='Completa edad, altura y peso válidos en Mi perfil antes de calcular.';return}if(!sex){$('nutritionResult').textContent='Selecciona la fórmula fisiológica para calcular la estimación.';return}let bmr=10*weight+6.25*height-5*age+(sex==='male'?5:-161),maintenance=Math.round(bmr*activity),goal=p.goal||'Ganar masa muscular',adjust=goal==='Ganar masa muscular'?150:goal==='Definir y ganar músculo'?-150:100,target=Math.round((maintenance+adjust)/50)*50,protein=Math.round(weight*1.8),fat=Math.round(weight*1.2),carbs=Math.max(0,Math.round(((target-protein*4-fat*9)/4)*10)/10);data.nutritionSettings={sex,activity};data.nutritionEstimate={formulaVersion:2,date:new Date().toISOString(),maintenance,target,protein,fat,carbs,goal,profileSnapshot:{age:p.age,height:p.height,weight:p.weight,goal,sex,activity:String(activity)}};persist();renderNutritionMenu();renderNutritionResult(getValidNutritionEstimate());};
 function renderMeasures(){let el=$('measureHistory');if(!el)return;el.innerHTML=data.measurements.length?data.measurements.slice(-8).reverse().map(x=>`${new Date(x.date).toLocaleDateString('es-ES')}: ${Object.entries(x.values).map(([k,v])=>`${k} ${v} cm`).join(' · ')}`).join('<br>'):'Todavía no hay medidas registradas.'}
 $('saveMeasures').onclick=()=>{let map={Cintura:$('mWaist').value,Pecho:$('mChest').value,Brazo:$('mArm').value,Muslo:$('mThigh').value},values={};for(let [k,v] of Object.entries(map)){if(v!==''){let n=Number(v);if(!Number.isFinite(n)||n<10||n>250){alert('Revisa la medida de '+k+'.');return}values[k]=n}}if(!Object.keys(values).length){alert('Introduce al menos una medida.');return}data.measurements.push({date:new Date().toISOString(),values});persist();['mWaist','mChest','mArm','mThigh'].forEach(id=>$(id).value='');renderMeasures();alert('Medidas guardadas.');};
 const todayKey=()=>{let d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
