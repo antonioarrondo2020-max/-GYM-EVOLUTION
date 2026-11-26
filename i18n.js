@@ -24,7 +24,7 @@ function t(s){const d=labels[lang]||{};if(d[s]!==undefined)return d[s];return s;
 function translate(){
  document.documentElement.lang=lang;
  const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
- let n;while(n=walker.nextNode()){if(!originals.has(n))originals.set(n,n.nodeValue);const base=originals.get(n);const lead=(base.match(/^\s*/)||[""])[0],trail=(base.match(/\s*$/)||[""])[0],core=base.trim();n.nodeValue=lead+t(core)+trail;}
+ let n;while(n=walker.nextNode()){if(!originals.has(n))originals.set(n,n.nodeValue);const base=originals.get(n);const lead=(base.match(/^\s*/)||[""])[0],trail=(base.match(/\s*$/)||[""])[0],core=base.trim();const translated=lead+t(core)+trail;if(n.nodeValue!==translated)n.nodeValue=translated;}
  document.querySelectorAll("input[placeholder],textarea[placeholder],button[title],input[aria-label],select[aria-label]").forEach(el=>{let attrs=attrOriginals.get(el);if(!attrs){attrs={};["placeholder","title","aria-label"].forEach(k=>{if(el.hasAttribute(k))attrs[k]=el.getAttribute(k)});attrOriginals.set(el,attrs)}Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,t(v)));});
 }
 function addSelector(){
