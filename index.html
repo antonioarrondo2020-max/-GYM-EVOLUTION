@@ -149,6 +149,7 @@ function renderNutritionMenu(){
  if(!est){
   $("nutritionMenu").innerHTML='<div class="history">Calcula primero tus objetivos para generar un menú con cantidades adaptadas.</div>';
   $("nutritionShopping").textContent="La lista de compra aparecerá después de calcular tus objetivos.";
+  renderNutritionDistribution();
   return;
  }
  const templates=nutritionRecipeTemplates[n]||nutritionRecipeTemplates[3];
@@ -227,19 +228,19 @@ function renderNutritionSettings(){
  if(settings.sex)$("calcSex").value=settings.sex;
  if(settings.activity)$("activity").value=String(settings.activity);
  const old=data.nutritionEstimate;
- if(old&&old.formulaVersion!==2&&settings.sex&&settings.activity&&Number(p.age)>=14&&Number(p.height)>=120&&Number(p.weight)>=30){
+ if(old&&old.formulaVersion!==3&&settings.sex&&settings.activity&&Number(p.age)>=14&&Number(p.height)>=120&&Number(p.weight)>=30){
   const age=Number(p.age),height=Number(p.height),weight=Number(p.weight),sex=settings.sex,activity=Number(settings.activity);
   const bmr=10*weight+6.25*height-5*age+(sex==="male"?5:-161);
   const maintenance=Math.round(bmr*activity),goal=p.goal||"Ganar masa muscular";
   const adjust=goal==="Ganar masa muscular"?150:goal==="Definir y ganar músculo"?-150:100;
   const target=Math.round((maintenance+adjust)/50)*50,protein=Math.round(weight*1.8),fat=Math.round(weight*1.2);
   const carbs=Math.max(0,Math.round(((target-protein*4-fat*9)/4)*10)/10);
-  data.nutritionEstimate={formulaVersion:2,date:new Date().toISOString(),maintenance,target,protein,fat,carbs,goal,profileSnapshot:{age:p.age,height:p.height,weight:p.weight,goal,sex,activity:String(activity)}};
+  data.nutritionEstimate={formulaVersion:3,date:new Date().toISOString(),maintenance,target,protein,fat,carbs,goal,profileSnapshot:{age:p.age,height:p.height,weight:p.weight,goal,sex,activity:String(activity)}};
   persist();
  }
  renderNutritionResult(getValidNutritionEstimate());
 }
-$('calcNutrition').onclick=()=>{let p=data.profile||{},age=Number(p.age),height=Number(p.height),weight=Number(p.weight),sex=$('calcSex').value,activity=Number($('activity').value);if(!age||!height||!weight||age<14||height<120||weight<30){$('nutritionResult').textContent='Completa edad, altura y peso válidos en Mi perfil antes de calcular.';return}if(!sex){$('nutritionResult').textContent='Selecciona la fórmula fisiológica para calcular la estimación.';return}let bmr=10*weight+6.25*height-5*age+(sex==='male'?5:-161),maintenance=Math.round(bmr*activity),goal=p.goal||'Ganar masa muscular',adjust=goal==='Ganar masa muscular'?150:goal==='Definir y ganar músculo'?-150:100,target=Math.round((maintenance+adjust)/50)*50,protein=Math.round(weight*1.8),fat=Math.round(weight*1.2),carbs=Math.max(0,Math.round(((target-protein*4-fat*9)/4)*10)/10);data.nutritionSettings={sex,activity};data.nutritionEstimate={formulaVersion:2,date:new Date().toISOString(),maintenance,target,protein,fat,carbs,goal,profileSnapshot:{age:p.age,height:p.height,weight:p.weight,goal,sex,activity:String(activity)}};persist();renderNutritionMenu();renderNutritionResult(getValidNutritionEstimate());};
+$('calcNutrition').onclick=()=>{let p=data.profile||{},age=Number(p.age),height=Number(p.height),weight=Number(p.weight),sex=$('calcSex').value,activity=Number($('activity').value);if(!age||!height||!weight||age<14||height<120||weight<30){$('nutritionResult').textContent='Completa edad, altura y peso válidos en Mi perfil antes de calcular.';return}if(!sex){$('nutritionResult').textContent='Selecciona la fórmula fisiológica para calcular la estimación.';return}let bmr=10*weight+6.25*height-5*age+(sex==='male'?5:-161),maintenance=Math.round(bmr*activity),goal=p.goal||'Ganar masa muscular',adjust=goal==='Ganar masa muscular'?150:goal==='Definir y ganar músculo'?-150:100,target=Math.round((maintenance+adjust)/50)*50,protein=Math.round(weight*1.8),fat=Math.round(weight*1.2),carbs=Math.max(0,Math.round(((target-protein*4-fat*9)/4)*10)/10);data.nutritionSettings={sex,activity};data.nutritionEstimate={formulaVersion:3,date:new Date().toISOString(),maintenance,target,protein,fat,carbs,goal,profileSnapshot:{age:p.age,height:p.height,weight:p.weight,goal,sex,activity:String(activity)}};persist();renderNutritionMenu();renderNutritionResult(getValidNutritionEstimate());};
 function renderMeasures(){let el=$('measureHistory');if(!el)return;el.innerHTML=data.measurements.length?data.measurements.slice(-8).reverse().map(x=>`${new Date(x.date).toLocaleDateString('es-ES')}: ${Object.entries(x.values).map(([k,v])=>`${k} ${v} cm`).join(' · ')}`).join('<br>'):'Todavía no hay medidas registradas.'}
 $('saveMeasures').onclick=()=>{let map={Cintura:$('mWaist').value,Pecho:$('mChest').value,Brazo:$('mArm').value,Muslo:$('mThigh').value},values={};for(let [k,v] of Object.entries(map)){if(v!==''){let n=Number(v);if(!Number.isFinite(n)||n<10||n>250){alert('Revisa la medida de '+k+'.');return}values[k]=n}}if(!Object.keys(values).length){alert('Introduce al menos una medida.');return}data.measurements.push({date:new Date().toISOString(),values});persist();['mWaist','mChest','mArm','mThigh'].forEach(id=>$(id).value='');renderMeasures();alert('Medidas guardadas.');};
 const todayKey=()=>{let d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
