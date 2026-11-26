@@ -194,7 +194,7 @@ function renderNutritionMenu(){
  :scaleNeedsReview
  ?'<p class="mini">Aviso: para alcanzar estos objetivos algunas raciones pueden quedar pequeñas o grandes. Revisa las cantidades y utiliza equivalencias si lo necesitas.</p>'
  :'<p class="mini">Las cantidades y macros son aproximados y pueden variar por marca y preparación.</p>';
- const dailySummary='<div class="notice"><b>Totales aproximados del menú</b><p class="mini">Proteínas: <b>'+Math.round(daily.p)+' g</b> (objetivo '+est.protein+' g; '+diff(daily.p,est.protein)+' g) · Hidratos: <b>'+Math.round(daily.c)+' g</b> (objetivo '+est.carbs+' g; '+diff(daily.c,est.carbs)+' g) · Grasas: <b>'+Math.round(daily.f)+' g</b> (objetivo '+est.fat+' g; '+diff(daily.f,est.fat)+' g).</p><p class="mini">"+scaleNote+"</p></div>';
+ const dailySummary='<div class="notice"><b>Totales aproximados del menú</b><p class="mini">Proteínas: <b>'+Math.round(daily.p)+' g</b> (objetivo '+est.protein+' g; '+diff(daily.p,est.protein)+' g) · Hidratos: <b>'+Math.round(daily.c)+' g</b> (objetivo '+est.carbs+' g; '+diff(daily.c,est.carbs)+' g) · Grasas: <b>'+Math.round(daily.f)+' g</b> (objetivo '+est.fat+' g; '+diff(daily.f,est.fat)+' g).</p>'+scaleNote+'</div>';
  $("nutritionMenu").innerHTML=dailySummary+cards.join("")+'<p class="mini">Arroz, avena y crema de arroz se pesan en seco; atún escurrido; patata y verduras en crudo. Leche en ml. Menú orientativo, no una dieta clínica.</p>';
  $("nutritionShopping").textContent=Object.entries(totals).map(([id,g])=>{const food=nutritionFoodDB[id];return food.name+": "+(food.unit==="ml"?g+" ml":Math.round(g)+" g")}).join("; ")+".";
 }
