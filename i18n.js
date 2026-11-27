@@ -390,11 +390,31 @@ Object.keys(nutritionNotes).forEach(k=>{labels[k]["Los macros y kcal se calculan
 
 
 const nutritionPhrases={"en":{" g proteínas · ":" g protein · "," años · ":" years · "," · actividad ":" · activity ","proteína · ":"protein · "," grasas · ":" fat · "," hidratos. Cada comida":"carbs. Each meal"," g proteína · ":" g protein · "," g grasas · ":" g fat · "," g hidratos":" g carbs","Proteínas: ":"Protein: ","Grasas: ":"Fat: ","Hidratos: ":"Carbs: ","Objetivo diario: ":"Daily target: ","Comida 1":"Meal 1","Comida 2":"Meal 2","Comida 3":"Meal 3","Comida 4":"Meal 4","Comida 5":"Meal 5"},"fr":{" g proteínas · ":" g protéines · "," años · ":" ans · "," · actividad ":" · activité ","proteína · ":"protéines · "," grasas · ":" lipides · "," hidratos. Cada comida":"glucides. Chaque repas"," g proteína · ":" g protéines · "," g grasas · ":" g lipides · "," g hidratos":" g glucides","Proteínas: ":"Protéines : ","Grasas: ":"Lipides : ","Hidratos: ":"Glucides : ","Objetivo diario: ":"Objectif quotidien : ","Comida 1":"Repas 1","Comida 2":"Repas 2","Comida 3":"Repas 3","Comida 4":"Repas 4","Comida 5":"Repas 5"},"de":{" g proteínas · ":" g Protein · "," años · ":" Jahre · "," · actividad ":" · Aktivität ","proteína · ":"Protein · "," grasas · ":" Fett · "," hidratos. Cada comida":"Kohlenhydrate. Jede Mahlzeit"," g proteína · ":" g Protein · "," g grasas · ":" g Fett · "," g hidratos":" g Kohlenhydrate","Proteínas: ":"Protein: ","Grasas: ":"Fett: ","Hidratos: ":"Kohlenhydrate: ","Objetivo diario: ":"Tagesziel: ","Comida 1":"Mahlzeit 1","Comida 2":"Mahlzeit 2","Comida 3":"Mahlzeit 3","Comida 4":"Mahlzeit 4","Comida 5":"Mahlzeit 5"},"it":{" g proteínas · ":" g proteine · "," años · ":" anni · "," · actividad ":" · attività ","proteína · ":"proteine · "," grasas · ":" grassi · "," hidratos. Cada comida":"carboidrati. Ogni pasto"," g proteína · ":" g proteine · "," g grasas · ":" g grassi · "," g hidratos":" g carboidrati","Proteínas: ":"Proteine: ","Grasas: ":"Grassi: ","Hidratos: ":"Carboidrati: ","Objetivo diario: ":"Obiettivo giornaliero: ","Comida 1":"Pasto 1","Comida 2":"Pasto 2","Comida 3":"Pasto 3","Comida 4":"Pasto 4","Comida 5":"Pasto 5"},"pt":{" g proteínas · ":" g proteína · "," años · ":" anos · "," · actividad ":" · atividade ","proteína · ":"proteína · "," grasas · ":" gorduras · "," hidratos. Cada comida":"hidratos de carbono. Cada refeição"," g proteína · ":" g proteína · "," g grasas · ":" g gorduras · "," g hidratos":" g hidratos de carbono","Proteínas: ":"Proteínas: ","Grasas: ":"Gorduras: ","Hidratos: ":"Hidratos de carbono: ","Objetivo diario: ":"Objetivo diário: ","Comida 1":"Refeição 1","Comida 2":"Refeição 2","Comida 3":"Refeição 3","Comida 4":"Refeição 4","Comida 5":"Refeição 5"}};
+const nutritionFoodWords={
+en:{"Plátano":"Banana","Leche entera":"Whole milk","Pollo":"Chicken","Arroz (en seco)":"Rice (dry)","Manzana":"Apple","Aguacate":"Avocado","Atún al natural escurrido":"Tuna in water, drained","Patata":"Potato","Avena":"Oats","proteínas":"protein","grasas":"fat","hidratos":"carbs","proteína":"protein"},
+fr:{"Plátano":"Banane","Leche entera":"Lait entier","Pollo":"Poulet","Arroz (en seco)":"Riz (sec)","Manzana":"Pomme","Aguacate":"Avocat","Atún al natural escurrido":"Thon au naturel égoutté","Patata":"Pomme de terre","Avena":"Avoine","proteínas":"protéines","grasas":"lipides","hidratos":"glucides","proteína":"protéines"},
+de:{"Plátano":"Banane","Leche entera":"Vollmilch","Pollo":"Hähnchen","Arroz (en seco)":"Reis (trocken)","Manzana":"Apfel","Aguacate":"Avocado","Atún al natural escurrido":"Thunfisch in Wasser, abgetropft","Patata":"Kartoffel","Avena":"Haferflocken","proteínas":"Protein","grasas":"Fett","hidratos":"Kohlenhydrate","proteína":"Protein"},
+it:{"Plátano":"Banana","Leche entera":"Latte intero","Pollo":"Pollo","Arroz (en seco)":"Riso (secco)","Manzana":"Mela","Aguacate":"Avocado","Atún al natural escurrido":"Tonno al naturale sgocciolato","Patata":"Patata","Avena":"Avena","proteínas":"proteine","grasas":"grassi","hidratos":"carboidrati","proteína":"proteine"},
+pt:{"Plátano":"Banana","Leche entera":"Leite gordo","Pollo":"Frango","Arroz (en seco)":"Arroz (seco)","Manzana":"Maçã","Aguacate":"Abacate","Atún al natural escurrido":"Atum ao natural escorrido","Patata":"Batata","Avena":"Aveia","proteínas":"proteína","grasas":"gorduras","hidratos":"hidratos de carbono","proteína":"proteína"}
+};
+Object.keys(nutritionFoodWords).forEach(k=>Object.assign(labels[k],nutritionFoodWords[k]));
 Object.keys(nutritionPhrases).forEach(k=>Object.assign(labels[k],nutritionPhrases[k]));
 const names={es:"Español",en:"English",fr:"Français",de:"Deutsch",it:"Italiano",pt:"Português"};
 let lang=localStorage.getItem("ge_language")||"es";
 const originals=new WeakMap(), attrOriginals=new WeakMap();
-function t(s){const d=labels[lang]||{};if(d[s]!==undefined)return d[s];let out=s;const keys=Object.keys(d).sort((a,b)=>b.length-a.length);for(const key of keys){if(key.length>8&&out.includes(key))out=out.split(key).join(d[key]);}for(const key of keys){if(key.length>2&&key.length<=8&&out.includes(key)){const escaped=key.replace(/[.*+?^${}()|[\]\\]/g,"\\function t(s){const d=labels[lang]||{};if(d[s]!==undefined)return d[s];let out=s;const keys=Object.keys(d).sort((a,b)=>b.length-a.length);for(const key of keys){if(key.length>8&&out.includes(key))out=out.split(key).join(d[key]);}return out;}");out=out.replace(new RegExp("(^|[^\\p{L}\\p{N}])"+escaped+"(?=$|[^\\p{L}\\p{N}])","gu"),(m,p)=>p+d[key]);}}return out;}
+function t(s){
+ const d=labels[lang]||{};
+ if(d[s]!==undefined)return d[s];
+ let out=s;
+ const keys=Object.keys(d).sort((a,b)=>b.length-a.length);
+ for(const key of keys){
+  if(key.length<=2)continue;
+  const escaped=key.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+  const pattern=key.length>8?new RegExp(escaped,"giu"):new RegExp("(^|[^\\p{L}\\p{N}])"+escaped+"(?=$|[^\\p{L}\\p{N}])","giu");
+  out=out.replace(pattern,(match,prefix)=>((prefix||"")+d[key]));
+ }
+ return out;
+}
 function translate(){
  document.documentElement.lang=lang;
  const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
