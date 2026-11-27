@@ -534,6 +534,13 @@ Object.keys(challengeDynamicText).forEach(code=>Object.assign(dynamicText[code],
 function translateDynamic(source){
  const p=dynamicText[lang];if(!p)return source;let m;
  if((m=source.match(/^Tu distribución de (\d+) comidas está guardada\.$/)))return p.mealCount(m[1]);
+ if((m=source.match(/^Revisa la medida de (Cintura|Pecho|Brazo|Muslo)\\.$/)))return ({
+  en:{Cintura:"Check the waist measurement.",Pecho:"Check the chest measurement.",Brazo:"Check the arm measurement.",Muslo:"Check the thigh measurement."},
+  fr:{Cintura:"Vérifiez la mesure du tour de taille.",Pecho:"Vérifiez la mesure du tour de poitrine.",Brazo:"Vérifiez la mesure du bras.",Muslo:"Vérifiez la mesure de la cuisse."},
+  de:{Cintura:"Überprüfe den Taillenumfang.",Pecho:"Überprüfe den Brustumfang.",Brazo:"Überprüfe den Armumfang.",Muslo:"Überprüfe den Oberschenkelumfang."},
+  it:{Cintura:"Controlla la misura della vita.",Pecho:"Controlla la misura del torace.",Brazo:"Controlla la misura del braccio.",Muslo:"Controlla la misura della coscia."},
+  pt:{Cintura:"Verifica a medida da cintura.",Pecho:"Verifica a medida do peito.",Brazo:"Verifica a medida do braço.",Muslo:"Verifica a medida da coxa."}
+ })[lang][m[1]];
  if((m=source.match(/^Sesión en curso · (.+)$/)))return p.sessionState(m[1]);
  if((m=source.match(/^Completa (\d+) sentadillas controladas y 5 minutos de movilidad\.$/)))return p.dailySquats(m[1]);
  if((m=source.match(/^Haz (\d+) flexiones adaptadas \(apoyando rodillas si hace falta\) o una alternativa equivalente sin dolor, y 5 minutos de movilidad\.$/)))return p.dailyPushups(m[1]);
