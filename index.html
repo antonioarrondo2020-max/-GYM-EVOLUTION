@@ -65,6 +65,7 @@ const plan=[
 {day:"Jueves · Torso B",e:[["Press inclinado en máquina","Pecho","8–12","Máquina"],["Remo con apoyo de pecho","Espalda","8–12","Máquina"],["Jalón agarre neutro","Espalda","10–12","Polea"],["Press de hombros","Hombros","8–12","Máquina"],["Curl de bíceps en polea","Bíceps","10–12","Polea"],["Extensión de tríceps sobre cabeza","Tríceps","10–12","Polea"]]},
 {day:"Viernes · Pierna B",e:[["Sentadilla hack o prensa","Cuádriceps/glúteo","8–12","Máquina"],["Curl femoral tumbado","Isquios","10–12","Máquina"],["Hip thrust","Glúteos","10–12","Máquina"],["Abductores","Glúteos","12–15","Máquina"],["Gemelos sentado","Gemelos","12–15","Máquina"],["Plancha","Abdomen","30–45 s","Peso corporal"]]}];
 const $=id=>document.getElementById(id);
+function tr(value){return window.GymI18n?window.GymI18n.t(value):value;}
 let data;try{data=JSON.parse(localStorage.getItem("ge_v5")||"null")||JSON.parse(localStorage.getItem("ge_v4")||"null")||JSON.parse(localStorage.getItem("ge_v3")||"null")||JSON.parse(localStorage.getItem("ge_v2")||'{"profile":{},"history":[]}')}catch(e){data={profile:{},history:[]}}
 data.profile=data.profile||{};data.history=data.history||[];data.meals=data.meals||[];data.challenge=data.challenge||{};data.sessions=data.sessions||[];data.weights=data.weights||[];data.measurements=data.measurements||[];data.nutritionSettings=data.nutritionSettings||{};
 function persist(){localStorage.setItem("ge_v5",JSON.stringify(data))}
@@ -145,10 +146,9 @@ function solveNutritionScales(matrix,vector){
 }
 function renderNutritionMenu(){
  const n=+$("mealCount").value||3,est=getValidNutritionEstimate();
-
  if(!est){
-  $("nutritionMenu").innerHTML='<div class="history">Calcula primero tus objetivos para generar un menú con cantidades adaptadas.</div>';
-  $("nutritionShopping").textContent="La lista de compra aparecerá después de calcular tus objetivos.";
+  $("nutritionMenu").innerHTML='<div class="history">'+tr("Calcula primero tus objetivos para generar un menú con cantidades adaptadas.")+'</div>';
+  $("nutritionShopping").textContent=tr("La lista de compra aparecerá después de calcular tus objetivos.");
   renderNutritionDistribution();
   return;
  }
@@ -159,12 +159,7 @@ function renderNutritionMenu(){
   const food=nutritionFoodDB[id],target=food.group==="fixed"?fixed:food.group==="protein"?protein:food.group==="carb"?carb:fat,factor=g/100;
   target.p+=food.p*factor;target.c+=food.c*factor;target.f+=food.f*factor;
  }));
- const groups=[protein,carb,fat];
- const matrix=[
-  groups.map(x=>x.p),
-  groups.map(x=>x.c),
-  groups.map(x=>x.f)
- ];
+ const groups=[protein,carb,fat],matrix=[groups.map(x=>x.p),groups.map(x=>x.c),groups.map(x=>x.f)];
  const vector=[Math.max(0,est.protein-fixed.p),Math.max(0,est.carbs-fixed.c),Math.max(0,est.fat-fixed.f)];
  let scales=solveNutritionScales(matrix,vector);
  const scaleSolutionValid=!!scales&&scales.every(x=>Number.isFinite(x)&&x>0);
@@ -178,41 +173,37 @@ function renderNutritionMenu(){
   const mealTotals={p:0,c:0,f:0},items=[];
   meal.items.forEach(([id,baseG])=>{
    const food=nutritionFoodDB[id],scale=food.group==="fixed"?1:food.group==="protein"?proteinScale:food.group==="carb"?carbScale:fatScale;
-   const step=Number(food.step)||1;const grams=Math.max(0,Math.round(baseG*scale/step)*step);
+   const step=Number(food.step)||1,grams=Math.max(0,Math.round(baseG*scale/step)*step);
    if(!grams)return;
    const factor=grams/100,p=food.p*factor,c=food.c*factor,f=food.f*factor;
-   mealTotals.p+=p;mealTotals.c+=c;mealTotals.f+=f;
-   daily.p+=p;daily.c+=c;daily.f+=f;totals[id]=(totals[id]||0)+grams;
+   mealTotals.p+=p;mealTotals.c+=c;mealTotals.f+=f;daily.p+=p;daily.c+=c;daily.f+=f;totals[id]=(totals[id]||0)+grams;
    const amount=food.unit==="ml"?grams+" ml":grams+" g";
-   items.push(escapeHtml(food.name)+" <b>"+amount+"</b>");
+   items.push(escapeHtml(tr(food.name))+" <b>"+amount+"</b>");
   });
-  const mealName=savedNames[i]||meal.name;
-  const mealKcal=mealTotals.p*4+mealTotals.c*4+mealTotals.f*9;
+  const mealName=savedNames[i]||meal.name,mealKcal=mealTotals.p*4+mealTotals.c*4+mealTotals.f*9;
   mealBreakdown.push({name:mealName,p:mealTotals.p,c:mealTotals.c,f:mealTotals.f,kcal:mealKcal});
-  cards.push('<div class="history"><b>'+escapeHtml(mealName)+'</b><p>'+items.join(" · ")+'</p><span class="muted">'+mealKcal.toFixed(1)+' kcal · '+mealTotals.p.toFixed(1)+' g proteína · '+mealTotals.c.toFixed(1)+' g hidratos · '+mealTotals.f.toFixed(1)+' g grasas</span></div>');
+  cards.push('<div class="history"><b>'+escapeHtml(tr(mealName))+'</b><p>'+items.join(" · ")+'</p><span class="muted">'+mealKcal.toFixed(1)+' kcal · '+mealTotals.p.toFixed(1)+' g '+tr("proteína")+' · '+mealTotals.c.toFixed(1)+' g '+tr("hidratos")+' · '+mealTotals.f.toFixed(1)+' g '+tr("grasas")+'</span></div>');
  });
  const diff=(actual,target)=>{const d=Math.round((actual-target)*10)/10;return (d>0?"+":"")+d.toFixed(1)};
  const scaleNote=scaleWasClamped
- ?'<p class="mini">Aviso: los objetivos se salen del rango de ajuste de esta plantilla. Las cantidades mostradas son orientativas y los macros pueden desviarse; revisa el menú antes de usarlo.</p>'
+ ?'<p class="mini">'+tr("Aviso:")+' '+tr("Los objetivos se salen del rango de ajuste de esta plantilla. Las cantidades mostradas son orientativas y los macros pueden desviarse; revisa el menú antes de usarlo.")+'</p>'
  :scaleNeedsReview
- ?'<p class="mini">Aviso: para alcanzar estos objetivos algunas raciones pueden quedar pequeñas o grandes. Revisa las cantidades y utiliza equivalencias si lo necesitas.</p>'
- :'<p class="mini">Las cantidades y macros son aproximados y pueden variar por marca y preparación.</p>';
+ ?'<p class="mini">'+tr("Aviso:")+' '+tr("Para alcanzar estos objetivos algunas raciones pueden quedar pequeñas o grandes. Revisa las cantidades y utiliza equivalencias si lo necesitas.")+'</p>'
+ :'<p class="mini">'+tr("Las cantidades y macros son aproximados y pueden variar por marca y preparación.")+'</p>';
  const dailyKcal=daily.p*4+daily.c*4+daily.f*9;
- const dailySummary='<div class="notice"><b>Totales del menú</b><p class="mini">Energía: <b>'+dailyKcal.toFixed(1)+' kcal</b> (objetivo '+est.target+' kcal; '+diff(dailyKcal,est.target)+' kcal) · Proteínas: <b>'+daily.p.toFixed(1)+' g</b> (objetivo '+est.protein+' g; '+diff(daily.p,est.protein)+' g) · Hidratos: <b>'+daily.c.toFixed(1)+' g</b> (objetivo '+est.carbs.toFixed(1)+' g; '+diff(daily.c,est.carbs)+' g) · Grasas: <b>'+daily.f.toFixed(1)+' g</b> (objetivo '+est.fat+' g; '+diff(daily.f,est.fat)+' g).</p>'+scaleNote+'</div>';
- $("nutritionMenu").innerHTML=dailySummary+cards.join("")+'<p class="mini">Los macros y kcal se calculan con la base nutricional interna de la app; las marcas y preparaciones pueden variar. Arroz, avena y crema de arroz se pesan en seco; atún escurrido; patata y verduras en crudo. Leche en ml.</p>';
+ const dailySummary='<div class="notice"><b>'+tr("Totales del menú")+'</b><p class="mini">'+tr("Energía:")+' <b>'+dailyKcal.toFixed(1)+' kcal</b> ('+tr("objetivo ")+' '+est.target+' kcal; '+diff(dailyKcal,est.target)+' kcal) · '+tr("Proteínas:")+' <b>'+daily.p.toFixed(1)+' g</b> ('+tr("objetivo ")+' '+est.protein+' g; '+diff(daily.p,est.protein)+' g) · '+tr("Hidratos:")+' <b>'+daily.c.toFixed(1)+' g</b> ('+tr("objetivo ")+' '+est.carbs.toFixed(1)+' g; '+diff(daily.c,est.carbs)+' g) · '+tr("Grasas:")+' <b>'+daily.f.toFixed(1)+' g</b> ('+tr("objetivo ")+' '+est.fat+' g; '+diff(daily.f,est.fat)+' g).</p>'+scaleNote+'</div>';
+ $("nutritionMenu").innerHTML=dailySummary+cards.join("")+'<p class="mini">'+tr("Los macros y kcal se calculan con la base nutricional interna de la app; las marcas y preparaciones pueden variar. Arroz, avena y crema de arroz se pesan en seco; atún escurrido; patata y verduras en crudo. Leche en ml.")+'</p>';
  renderNutritionDistribution(mealBreakdown);
- $("nutritionShopping").textContent=Object.entries(totals).map(([id,g])=>{const food=nutritionFoodDB[id];return food.name+": "+(food.unit==="ml"?g+" ml":Math.round(g)+" g")}).join("; ")+".";
+ $("nutritionShopping").textContent=Object.entries(totals).map(([id,g])=>{const food=nutritionFoodDB[id];return tr(food.name)+": "+(food.unit==="ml"?g+" ml":Math.round(g)+" g")}).join("; ")+".";
 }
 function renderNutritionDistribution(meals=[]){
  const box=$("nutritionPerMeal"),est=getValidNutritionEstimate();
  if(!box)return;
- if(!est){box.textContent="Calcula tus objetivos para ver el reparto por comida.";return}
- const n=+$("mealCount").value||3;
- const savedNames=data.meals.length?data.meals.slice(0,n).map(x=>x.name):[];
- const names=Array.from({length:n},(_,i)=>savedNames[i]||mealDefaults[i]||"Comida "+(i+1));
- box.innerHTML="<b>Reparto real del menú por comida</b><p class='mini'>Objetivo diario: "+est.target+" kcal · "+est.protein+" g proteína · "+est.fat+" g grasas · "+est.carbs.toFixed(1)+" g hidratos. Cada comida muestra los valores calculados de sus propias raciones.</p>"+meals.map(m=>"<div class='history'><b>"+escapeHtml(m.name)+"</b><br>"+m.kcal.toFixed(1)+" kcal · "+m.p.toFixed(1)+" g proteínas · "+m.f.toFixed(1)+" g grasas · "+m.c.toFixed(1)+" g hidratos</div>").join("");
+ if(!est){box.textContent=tr("Calcula tus objetivos para ver el reparto por comida.");return}
+ const n=+$("mealCount").value||3,savedNames=data.meals.length?data.meals.slice(0,n).map(x=>x.name):[];
+ box.innerHTML="<b>"+tr("Reparto real del menú por comida")+"</b><p class='mini'>"+tr("Objetivo diario:")+" "+est.target+" kcal · "+est.protein+" g "+tr("proteína")+" · "+est.fat+" g "+tr("grasas")+" · "+est.carbs.toFixed(1)+" g "+tr("hidratos")+". "+tr("Cada comida muestra los valores calculados de sus propias raciones.")+"</p>"+meals.map(m=>"<div class='history'><b>"+escapeHtml(tr(m.name))+"</b><br>"+m.kcal.toFixed(1)+" kcal · "+m.p.toFixed(1)+" g "+tr("proteínas")+" · "+m.f.toFixed(1)+" g "+tr("grasas")+" · "+m.c.toFixed(1)+" g "+tr("hidratos")+"</div>").join("");
 }
-$("copyNutritionList").onclick=async()=>{let value=$("nutritionShopping").textContent;try{await navigator.clipboard.writeText(value);$("nutritionCopyStatus").textContent="Lista copiada."}catch(e){$("nutritionCopyStatus").textContent="Mantén pulsada la lista para copiarla."}};
+$("copyNutritionList").onclick=async()=>{let value=$("nutritionShopping").textContent;try{await navigator.clipboard.writeText(value);$("nutritionCopyStatus").textContent=tr("Lista copiada.")}catch(e){$("nutritionCopyStatus").textContent=tr("Mantén pulsada la lista para copiarla.")}};
 function getValidNutritionEstimate(){
  const est=data.nutritionEstimate,p=data.profile||{},s=data.nutritionSettings||{};
  if(!est||est.formulaVersion!==4||!est.profileSnapshot)return null;
@@ -229,9 +220,9 @@ function calculateNutritionEstimate(p,sex,activity){
  return {formulaVersion:4,date:new Date().toISOString(),maintenance,target,protein,fat,carbs,goal,profileSnapshot:{age:p.age,height:p.height,weight:p.weight,goal,sex,activity:String(activity)}};
 }
 function renderNutritionResult(est){
- if(!est){$("nutritionResult").textContent=data.nutritionEstimate?"La estimación guardada necesita actualizarse. Comprueba tu perfil y los ajustes de nutrición.":"Completa edad, altura y peso en Mi perfil y selecciona la fórmula fisiológica para calcular una estimación.";return}
+ if(!est){$("nutritionResult").textContent=data.nutritionEstimate?tr("La estimación guardada necesita actualizarse. Comprueba tu perfil y los ajustes de nutrición."):tr("Completa edad, altura y peso en Mi perfil y selecciona la fórmula fisiológica para calcular una estimación.");return}
  const x=est.profileSnapshot||{};
- $("nutritionResult").innerHTML='<b>Estimación diaria · V7.3</b><br>Mantenimiento: <b>'+est.maintenance+' kcal</b><br>Objetivo orientativo: <b>'+est.target+' kcal</b><br>Proteínas: <b>'+est.protein+' g</b> · Grasas: <b>'+est.fat+' g</b> · Hidratos: <b>'+est.carbs.toFixed(1)+' g</b><p class="mini">Cálculo realizado con: '+escapeHtml(x.age||"—")+' años · '+escapeHtml(x.height||"—")+' cm · '+escapeHtml(x.weight||"—")+' kg · '+(x.sex==="female"?"Femenina":"Masculina")+' · actividad '+escapeHtml(x.activity||"—")+'.</p><p class="mini">Estimación orientativa. Revisa la media del peso, el hambre, la energía y el rendimiento durante 2–3 semanas.</p>';
+ $("nutritionResult").innerHTML='<b>'+tr("Estimación diaria · V7.3")+'</b><br>'+tr("Mantenimiento:")+' <b>'+est.maintenance+' kcal</b><br>'+tr("Objetivo orientativo:")+' <b>'+est.target+' kcal</b><br>'+tr("Proteínas:")+' <b>'+est.protein+' g</b> · '+tr("Grasas:")+' <b>'+est.fat+' g</b> · '+tr("Hidratos:")+' <b>'+est.carbs.toFixed(1)+' g</b><p class="mini">'+tr("Cálculo realizado con:")+' '+escapeHtml(x.age||"—")+' '+tr("años")+' · '+escapeHtml(x.height||"—")+' cm · '+escapeHtml(x.weight||"—")+' kg · '+tr(x.sex==="female"?"Femenina":"Masculina")+' · '+tr("actividad")+' '+escapeHtml(x.activity||"—")+'.</p><p class="mini">'+tr("Estimación orientativa. Revisa la media del peso, el hambre, la energía y el rendimiento durante 2–3 semanas.")+'</p>';
 }
 function renderNutritionSettings(){
  const settings=data.nutritionSettings||(data.nutritionSettings={}),p=data.profile||{},old=data.nutritionEstimate,snap=old&&old.profileSnapshot;
