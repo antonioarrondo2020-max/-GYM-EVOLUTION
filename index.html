@@ -47,7 +47,7 @@ footer{text-align:center;color:#888;font-size:11px;padding:22px 0}
 <section id="routine" class="hidden"><h1>Mi rutina</h1><div class="grid"><div class="field"><label>Día</label><select id="day"><option value="0">Torso A</option><option value="1">Pierna A</option><option value="2">Torso B</option><option value="3">Pierna B</option></select></div><div class="field"><label>Fase</label><select id="phase"><option value="2">Vuelta · 2 series</option><option value="3">Normal · 3 series</option></select></div></div><div class="notice" id="phaseText">Vuelta progresiva: 2 series y RIR 3–4.</div><div class="card"><h2>Sesión de entrenamiento</h2><div class="sessionbar"><strong id="sessionClock">00:00</strong><span class="mini" id="sessionStatus">Sesión sin iniciar</span></div><div class="row"><button class="primary" id="startSession">Iniciar sesión</button><button id="finishSession" disabled>Finalizar y guardar</button></div></div><div id="exercises"></div></section>
 
 <section id="nutrition" class="hidden"><h1>Nutrición Evolution</h1><div class="card"><h2>Configura tus comidas</h2><p>Elige cuántas comidas quieres repartir durante el día. Puedes cambiarlo cuando quieras.</p><div class="field"><label>Comidas al día</label><select id="mealCount"><option value="3">3 comidas</option><option value="4">4 comidas</option><option value="5">5 comidas</option></select></div><div id="meals"></div><button class="primary" id="saveMeals">Guardar alimentación</button><p class="muted" id="mealSaved"></p></div><div class="card"><h2>Calculadora de nutrición</h2><p>Estimación orientativa de energía y macronutrientes, con superávit moderado para ganar masa. No es una prescripción médica ni sustituye a un dietista-nutricionista.</p><div class="grid"><div class="field"><label>Fórmula fisiológica</label><select id="calcSex"><option value="">Seleccionar</option><option value="male">Masculina</option><option value="female">Femenina</option></select></div><div class="field"><label>Actividad habitual</label><select id="activity"><option value="1.2">Muy baja</option><option value="1.375">Ligera (1–3 días)</option><option value="1.55" selected>Moderada (3–5 días)</option><option value="1.725">Alta (6–7 días)</option></select></div></div><button class="primary" id="calcNutrition">Calcular mis objetivos</button><div id="nutritionResult" class="notice" style="margin-top:12px">Completa edad, altura y peso en tu perfil para calcular una estimación.</div></div><div class="card"><h2>Guía sencilla</h2><p>Incluye una fuente de proteína en cada comida, hidratos suficientes para entrenar y frutas/verduras a diario. Ajusta las cantidades según evolución del peso, hambre y rendimiento.</p><div class="notice">La calculadora de arriba estima tus calorías y macronutrientes. Usa el resultado como punto de partida y revisa tu evolución durante 2–3 semanas antes de ajustar. Esta guía es orientativa y no sustituye una valoración profesional.</div></div>
-<div class="card"><h2>Menú orientativo y lista de compra</h2><p>Ejemplo práctico de un día con cantidades aproximadas. Puedes cambiar alimentos por las alternativas indicadas. Ajusta las raciones a tus objetivos y a tu hambre.</p><div id="nutritionPerMeal" class="notice" style="margin:10px 0">Calcula tus objetivos para ver el reparto por comida.</div><div id="nutritionMenu" class="mini"></div><h3 style="margin-top:14px">Lista de compra del día</h3><div id="nutritionShopping" class="notice"></div><button class="primary" id="copyNutritionList" style="margin-top:10px">Copiar lista de compra</button><p class="muted" id="nutritionCopyStatus"></p><p class="muted">Alternativas: pollo ↔ pavo ↔ tofu; arroz ↔ patata ↔ pasta; yogur skyr ↔ queso fresco batido; fruta según temporada. La crema de arroz (50–60 g) puede sustituir a la avena o a parte del arroz, no hace falta añadirla además.</p></div></section>
+<div class="card"><h2>Menú orientativo y lista de compra</h2><p>Ejemplo práctico de un día con cantidades aproximadas. Puedes cambiar alimentos por las alternativas indicadas. Ajusta las raciones a tus objetivos y a tu hambre.</p><div id="nutritionPerMeal" class="notice" style="margin:10px 0">Calcula tus objetivos para ver el reparto por comida.</div><div id="nutritionMenu" class="mini"></div><h3 style="margin-top:14px">Lista de compra del día</h3><div id="nutritionShopping" class="notice"></div><button class="primary" id="copyNutritionList" style="margin-top:10px">Copiar lista de compra</button><p class="muted" id="nutritionCopyStatus"></p><p class="muted">Elige una sustitución en los selectores de cada comida para actualizar automáticamente las cantidades, los macros y la lista de compra. Las cantidades son orientativas.</p></div></section>
 
 <section id="commander" class="hidden"><h1>EVO AI COMMANDER</h1><div class="card"><span class="pill">VOZ DE COMANDANTE</span><span class="pill">MODO SUPERVIVENCIA</span><h2>Disciplina. Constancia. Evolución.</h2><p id="commanderGreeting">Comandante, tu misión empieza hoy. No necesitas hacerlo perfecto; necesitas cumplir el siguiente paso.</p><div class="row"><button class="primary" id="speak">▶ Escuchar mensaje</button><button id="stopSpeak">■ Silenciar</button></div><p class="muted">La voz utiliza las voces disponibles en tu dispositivo. La selección masculina depende de las voces instaladas.</p></div>
 <div class="card"><h2>MODO SUPERVIVENCIA</h2><p>Dificultad automática: los retos se ajustan de forma orientativa al nivel de tu perfil.</p><div class="grid"><div><div class="stat" id="dailyDone">0/1</div><small class="muted">Reto diario</small></div><div><div class="stat" id="weeklyDone">0/1</div><small class="muted">Reto semanal</small></div></div><div id="challengeList"></div><button id="newChallenge">Generar nuevos retos</button></div>
@@ -67,11 +67,11 @@ const plan=[
 const $=id=>document.getElementById(id);
 function tr(value){return window.GymI18n?window.GymI18n.t(value):value;}
 function currentLocale(){return ({es:"es-ES",en:"en-US",fr:"fr-FR",de:"de-DE",it:"it-IT",pt:"pt-PT"}[window.GymI18n?.language||"es"]||"es-ES")}
-function blankData(){return {profile:{},history:[],meals:[],challenge:{},sessions:[],weights:[],measurements:[],nutritionSettings:{}}}
+function blankData(){return {profile:{},history:[],meals:[],challenge:{},sessions:[],weights:[],measurements:[],nutritionSettings:{},nutritionSwaps:{}}}
 let testMode=localStorage.getItem("ge_test_mode")==="1";
 function loadAppData(){try{let raw=localStorage.getItem(testMode?"ge_test_v1":"ge_v5");if(!testMode&&!raw)raw=localStorage.getItem("ge_v4")||localStorage.getItem("ge_v3")||localStorage.getItem("ge_v2");return JSON.parse(raw||"null")||blankData()}catch(e){return blankData()}}
 let data=loadAppData();
-data.profile=data.profile||{};data.history=data.history||[];data.meals=data.meals||[];data.challenge=data.challenge||{};data.sessions=data.sessions||[];data.weights=data.weights||[];data.measurements=data.measurements||[];data.nutritionSettings=data.nutritionSettings||{};
+data.profile=data.profile||{};data.history=data.history||[];data.meals=data.meals||[];data.challenge=data.challenge||{};data.sessions=data.sessions||[];data.weights=data.weights||[];data.measurements=data.measurements||[];data.nutritionSettings=data.nutritionSettings||{};data.nutritionSwaps=data.nutritionSwaps||{};
 function persist(){localStorage.setItem(testMode?"ge_test_v1":"ge_v5",JSON.stringify(data))}
 function showTab(id){document.querySelectorAll("main section").forEach(s=>s.classList.add("hidden"));$(id).classList.remove("hidden");document.querySelectorAll("[data-tab]").forEach(b=>b.classList.toggle("active",b.dataset.tab===id));if(id==="progress")renderHistory();if(id==="nutrition"){renderMeals();renderNutritionSettings();renderNutritionMenu()}if(id==="commander")renderChallenges()}
 document.querySelectorAll("[data-tab]").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
@@ -139,9 +139,20 @@ const nutritionFoodDB={
  bread:{name:"Pan integral",p:9,c:45,f:3.5,group:"carb"},
  potato:{name:"Patata",p:2,c:17,f:.1,group:"carb"},
  skyr:{name:"Yogur tipo skyr natural",p:10,c:4,f:.2,group:"protein",minPortion:70},
+ tofu:{name:"Tofu",p:15.7,c:1.2,f:8.7,group:"protein",minPortion:100},
+ quark:{name:"Queso fresco batido",p:8,c:4,f:.2,group:"protein",minPortion:80},
+ pasta:{name:"Pasta (en seco)",p:13,c:72,f:1.5,group:"carb"},
+ pear:{name:"Pera",p:.4,c:15,f:.1,group:"fixed"},
  turkey:{name:"Pavo",p:24,c:0,f:1,group:"protein",minPortion:45},
  salmon:{name:"Salmón",p:20,c:0,f:13,group:"protein",minPortion:65},
  oats:{name:"Avena",p:13,c:67,f:7,group:"carb"}
+};
+const nutritionSwapGroups={
+ chicken:["chicken","turkey","tofu"],turkey:["chicken","turkey","tofu"],tofu:["chicken","turkey","tofu"],
+ rice:["rice","potato","pasta"],potato:["rice","potato","pasta"],pasta:["rice","potato","pasta"],
+ skyr:["skyr","quark"],quark:["skyr","quark"],
+ apple:["apple","banana","pear"],banana:["apple","banana","pear"],pear:["apple","banana","pear"],
+ oats:["oats","creamRice"],creamRice:["oats","creamRice"]
 };
 const nutritionRecipeTemplates={
  3:[
@@ -184,9 +195,11 @@ function renderNutritionMenu(){
   return;
  }
  const templates=nutritionRecipeTemplates[n]||nutritionRecipeTemplates[3];
+ const swapKey=(mealIndex,itemIndex)=>n+":"+mealIndex+":"+itemIndex;
+ const effectiveTemplates=templates.map((meal,mealIndex)=>({...meal,items:meal.items.map(([originalId,grams],itemIndex)=>{const choices=nutritionSwapGroups[originalId]||[originalId],saved=data.nutritionSwaps[swapKey(mealIndex,itemIndex)],selected=choices.includes(saved)?saved:originalId;return [selected,grams]})}));
  const savedNames=data.meals.length?data.meals.slice(0,n).map(x=>x.name):[];
  const fixed={p:0,c:0,f:0},protein={p:0,c:0,f:0},carb={p:0,c:0,f:0},fat={p:0,c:0,f:0};
- templates.forEach(meal=>meal.items.forEach(([id,g])=>{
+ effectiveTemplates.forEach(meal=>meal.items.forEach(([id,g])=>{
   const food=nutritionFoodDB[id],target=food.group==="fixed"?fixed:food.group==="protein"?protein:food.group==="carb"?carb:fat,factor=g/100;
   target.p+=food.p*factor;target.c+=food.c*factor;target.f+=food.f*factor;
  }));
@@ -200,23 +213,25 @@ function renderNutritionMenu(){
  scales=scales.map(x=>Math.max(.05,Math.min(5,x)));
  let proteinScale=scales[0],carbScale=scales[1],fatScale=scales[2];
  let proteinFloorApplied=false,proteinFloorEnergy=0,carbBaseEnergy=0;
- templates.forEach(meal=>meal.items.forEach(([id,baseG])=>{const food=nutritionFoodDB[id],energyPer100=food.p*4+food.c*4+food.f*9;if(food.group==="carb")carbBaseEnergy+=baseG/100*energyPer100;if(food.group==="protein"&&food.minPortion){const step=Number(food.step)||1,scaled=Math.max(0,Math.round(baseG*proteinScale/step)*step);if(food.minPortion>scaled){proteinFloorApplied=true;proteinFloorEnergy+=(food.minPortion-scaled)/100*energyPer100;}}}));
+ effectiveTemplates.forEach(meal=>meal.items.forEach(([id,baseG])=>{const food=nutritionFoodDB[id],energyPer100=food.p*4+food.c*4+food.f*9;if(food.group==="carb")carbBaseEnergy+=baseG/100*energyPer100;if(food.group==="protein"&&food.minPortion){const step=Number(food.step)||1,scaled=Math.max(0,Math.round(baseG*proteinScale/step)*step);if(food.minPortion>scaled){proteinFloorApplied=true;proteinFloorEnergy+=(food.minPortion-scaled)/100*energyPer100;}}}));
  if(proteinFloorApplied&&carbBaseEnergy>0)carbScale=Math.max(.05,carbScale-proteinFloorEnergy/carbBaseEnergy);
  const totals={},daily={p:0,c:0,f:0},cards=[],mealBreakdown=[];
- templates.forEach((meal,i)=>{
+ effectiveTemplates.forEach((meal,i)=>{
   const mealTotals={p:0,c:0,f:0},items=[];
-  meal.items.forEach(([id,baseG])=>{
+  meal.items.forEach(([id,baseG],itemIndex)=>{
    const food=nutritionFoodDB[id],scale=food.group==="fixed"?1:food.group==="protein"?proteinScale:food.group==="carb"?carbScale:fatScale;
    const step=Number(food.step)||1,scaledGrams=Math.max(0,Math.round(baseG*scale/step)*step),grams=food.group==="protein"?Math.max(scaledGrams,Number(food.minPortion)||0):scaledGrams;
    if(!grams)return;
    const factor=grams/100,p=food.p*factor,c=food.c*factor,f=food.f*factor;
    mealTotals.p+=p;mealTotals.c+=c;mealTotals.f+=f;daily.p+=p;daily.c+=c;daily.f+=f;totals[id]=(totals[id]||0)+grams;
    const amount=food.unit==="ml"?grams+" ml":grams+" g";
-   items.push(escapeHtml(tr(food.name))+" <b>"+amount+"</b>");
+   const originalId=templates[i].items[itemIndex][0],choices=nutritionSwapGroups[originalId];
+   const selector=choices?'<label class="mini">'+escapeHtml(tr("Cambiar alimento"))+'<select data-nutrition-slot="'+swapKey(i,itemIndex)+'" aria-label="'+escapeHtml(tr("Cambiar alimento"))+'">'+choices.map(choice=>'<option value="'+choice+'"'+(choice===id?' selected':'')+'>'+escapeHtml(tr(nutritionFoodDB[choice].name))+'</option>').join("")+'</select></label>':"";
+   items.push('<div class="field"><span>'+escapeHtml(tr(food.name))+' <b>'+amount+'</b></span>'+selector+'</div>');
   });
   const mealName=savedNames[i]||meal.name,mealKcal=mealTotals.p*4+mealTotals.c*4+mealTotals.f*9;
   mealBreakdown.push({name:mealName,p:mealTotals.p,c:mealTotals.c,f:mealTotals.f,kcal:mealKcal});
-  cards.push('<div class="history"><b>'+escapeHtml(localizedMealName(mealName,i,n))+'</b><p>'+items.join(" · ")+'</p><span class="muted">'+mealKcal.toFixed(1)+' kcal · '+mealTotals.p.toFixed(1)+' g '+tr("proteína")+' · '+mealTotals.c.toFixed(1)+' g '+tr("hidratos")+' · '+mealTotals.f.toFixed(1)+' g '+tr("grasas")+'</span></div>');
+  cards.push('<div class="history"><b>'+escapeHtml(localizedMealName(mealName,i,n))+'</b><div>'+items.join("")+'</div><span class="muted">'+mealKcal.toFixed(1)+' kcal · '+mealTotals.p.toFixed(1)+' g '+tr("proteína")+' · '+mealTotals.c.toFixed(1)+' g '+tr("hidratos")+' · '+mealTotals.f.toFixed(1)+' g '+tr("grasas")+'</span></div>');
  });
  const diff=(actual,target)=>{const d=Math.round((actual-target)*10)/10;return (d>0?"+":"")+d.toFixed(1)};
  const scaleNote=proteinFloorApplied
@@ -229,6 +244,7 @@ function renderNutritionMenu(){
  const dailyKcal=daily.p*4+daily.c*4+daily.f*9;
  const dailySummary='<div class="notice"><b>'+tr("Totales del menú")+'</b><p class="mini">'+tr("Energía:")+' <b>'+dailyKcal.toFixed(1)+' kcal</b> ('+tr("objetivo ")+' '+est.target+' kcal; '+diff(dailyKcal,est.target)+' kcal) · '+tr("Proteínas:")+' <b>'+daily.p.toFixed(1)+' g</b> ('+tr("objetivo ")+' '+est.protein+' g; '+diff(daily.p,est.protein)+' g) · '+tr("Hidratos:")+' <b>'+daily.c.toFixed(1)+' g</b> ('+tr("objetivo ")+' '+est.carbs.toFixed(1)+' g; '+diff(daily.c,est.carbs)+' g) · '+tr("Grasas:")+' <b>'+daily.f.toFixed(1)+' g</b> ('+tr("objetivo ")+' '+est.fat+' g; '+diff(daily.f,est.fat)+' g).</p>'+scaleNote+'</div>';
  $("nutritionMenu").innerHTML=dailySummary+cards.join("")+'<p class="mini">'+tr("Los macros y kcal se calculan con la base nutricional interna de la app; las marcas y preparaciones pueden variar. Arroz, avena y crema de arroz se pesan en seco; atún escurrido; patata y verduras en crudo. Leche en ml.")+'</p>';
+ $("nutritionMenu").querySelectorAll("[data-nutrition-slot]").forEach(select=>select.addEventListener("change",()=>{data.nutritionSwaps[select.dataset.nutritionSlot]=select.value;persist();renderNutritionMenu()}));
  const shoppingEntries=Object.entries(totals).map(([id,g])=>{const food=nutritionFoodDB[id];return {name:tr(food.name),amount:food.unit==="ml"?g+" ml":Math.round(g)+" g"};});
  $("nutritionShopping").innerHTML=shoppingEntries.length
   ? "<ul style='margin:0;padding-left:20px'>"+shoppingEntries.map(item=>"<li>"+escapeHtml(item.name)+": "+escapeHtml(item.amount)+"</li>").join("")+"</ul>"
@@ -315,7 +331,7 @@ $("askCommander").onclick=()=>{let a={motivation:"Orden: ponte la ropa de entren
 function downloadBackup(){const payload={app:"GYM EVOLUTION",version:5,exportedAt:new Date().toISOString(),data};const a=document.createElement("a"),u=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:"application/json"}));a.href=u;a.download="gym-evolution-respaldo-"+todayKey()+".json";a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)}
 $("export").onclick=downloadBackup;
 $("importTrigger").onclick=()=>$("importFile").click();
-$("importFile").onchange=async e=>{const file=e.target.files?.[0];if(!file)return;try{const parsed=JSON.parse(await file.text());const restored=parsed.data||parsed;if(!restored||typeof restored!=="object"||!restored.profile||!Array.isArray(restored.history))throw new Error("Formato no válido");if(!confirm(tr("¿Restaurar esta copia? Los datos actuales de GYM EVOLUTION serán sustituidos.")))return;data={...data,...restored};data.profile=data.profile||{};data.history=data.history||[];data.meals=data.meals||[];data.challenge=data.challenge||{};data.sessions=data.sessions||[];data.weights=data.weights||[];data.measurements=data.measurements||[];data.nutritionSettings=data.nutritionSettings||{};persist();renderProfile();renderDays();renderExercises();renderMeals();renderNutritionSettings();renderNutritionMenu();renderMeasures();renderChallenges();renderHistory();updateSessionUI();alert(tr("Copia restaurada correctamente."));}catch(err){alert(tr("No se pudo restaurar el archivo. Comprueba que sea una copia de GYM EVOLUTION."))}finally{e.target.value=""}};
+$("importFile").onchange=async e=>{const file=e.target.files?.[0];if(!file)return;try{const parsed=JSON.parse(await file.text());const restored=parsed.data||parsed;if(!restored||typeof restored!=="object"||!restored.profile||!Array.isArray(restored.history))throw new Error("Formato no válido");if(!confirm(tr("¿Restaurar esta copia? Los datos actuales de GYM EVOLUTION serán sustituidos.")))return;data={...data,...restored};data.profile=data.profile||{};data.history=data.history||[];data.meals=data.meals||[];data.challenge=data.challenge||{};data.sessions=data.sessions||[];data.weights=data.weights||[];data.measurements=data.measurements||[];data.nutritionSettings=data.nutritionSettings||{};data.nutritionSwaps=data.nutritionSwaps||{};persist();renderProfile();renderDays();renderExercises();renderMeals();renderNutritionSettings();renderNutritionMenu();renderMeasures();renderChallenges();renderHistory();updateSessionUI();alert(tr("Copia restaurada correctamente."));}catch(err){alert(tr("No se pudo restaurar el archivo. Comprueba que sea una copia de GYM EVOLUTION."))}finally{e.target.value=""}};
 $("clear").onclick=()=>{if(confirm(tr("¿Borrar todo el historial de ejercicios?"))){data.history=[];persist();renderHistory()}};
 function refreshAppDataViews(){renderProfile();renderDays();renderExercises();renderMeals();renderNutritionSettings();renderNutritionMenu();renderMeasures();renderChallenges();renderHistory();updateSessionUI();if(data.activeSession&&!sessionTicker)sessionTicker=setInterval(updateSessionUI,1000);else if(!data.activeSession)stopSessionTicker()}
 function updateTestModeUI(){const banner=$("testModeBanner");banner.classList.toggle("hidden",!testMode);banner.textContent=tr("MODO DE PRUEBAS ACTIVO · Los datos son ficticios y están separados de tu progreso real.");$("enterTestMode").classList.toggle("hidden",testMode);$("loadTestData").classList.toggle("hidden",!testMode);$("resetTestData").classList.toggle("hidden",!testMode);$("exitTestMode").classList.toggle("hidden",!testMode);$("testModeStatus").textContent=testMode?tr("Estás usando datos de prueba aislados. Tus datos reales siguen protegidos."):tr("Modo normal: estás usando tu perfil e historial reales.") }
@@ -324,7 +340,7 @@ function stopSessionTicker(){if(sessionTicker){clearInterval(sessionTicker);sess
 $("enterTestMode").onclick=()=>{if(testMode)return;stopSessionTicker();testMode=true;localStorage.setItem("ge_test_mode","1");data=blankData();persist();refreshAppDataViews();updateTestModeUI()};
 $("loadTestData").onclick=()=>{if(!testMode){alert(tr("Activa primero el modo de pruebas."));return}if(!confirm(tr("Cargar el ejemplo sustituirá solo los datos de prueba actuales. Tus datos reales no se tocarán.")))return;data=sampleTestData();persist();refreshAppDataViews();updateTestModeUI()};
 $("resetTestData").onclick=()=>{if(!testMode)return;if(!confirm(tr("¿Poner a cero todos los datos de prueba? Tus datos reales no se modificarán.")))return;stopSessionTicker();data=blankData();persist();refreshAppDataViews();updateTestModeUI()};
-$("exitTestMode").onclick=()=>{if(!testMode)return;if(!confirm(tr("¿Finalizar las pruebas y borrar los datos ficticios? Tus datos reales se conservarán.")))return;stopSessionTicker();localStorage.removeItem("ge_test_v1");localStorage.removeItem("ge_test_mode");testMode=false;data=loadAppData();data.profile=data.profile||{};data.history=data.history||[];data.meals=data.meals||[];data.challenge=data.challenge||{};data.sessions=data.sessions||[];data.weights=data.weights||[];data.measurements=data.measurements||[];data.nutritionSettings=data.nutritionSettings||{};refreshAppDataViews();updateTestModeUI()};
+$("exitTestMode").onclick=()=>{if(!testMode)return;if(!confirm(tr("¿Finalizar las pruebas y borrar los datos ficticios? Tus datos reales se conservarán.")))return;stopSessionTicker();localStorage.removeItem("ge_test_v1");localStorage.removeItem("ge_test_mode");testMode=false;data=loadAppData();data.profile=data.profile||{};data.history=data.history||[];data.meals=data.meals||[];data.challenge=data.challenge||{};data.sessions=data.sessions||[];data.weights=data.weights||[];data.measurements=data.measurements||[];data.nutritionSettings=data.nutritionSettings||{};data.nutritionSwaps=data.nutritionSwaps||{};refreshAppDataViews();updateTestModeUI()};
 window.addEventListener("gym-language-change",()=>{renderMeals();renderNutritionResult(getValidNutritionEstimate());renderNutritionMenu();renderHistory();updateTestModeUI();});
 $("mealCount").value=String(data.meals.length||3);if(data.activeSession){if(!data.activeSession.id)data.activeSession.id=String(data.activeSession.startedAt||Date.now());$("day").value=String(data.activeSession.day??0);$("phase").value=String(data.activeSession.phase||2);$("phaseText").textContent=$("phase").value==="2"?"Vuelta progresiva: 2 series y RIR 3–4.":"Fase normal: 3 series y RIR 1–3."}renderProfile();renderDays();renderExercises();renderMeals();renderNutritionSettings();renderMeasures();renderChallenges();updateSessionUI();if(data.activeSession){sessionTicker=setInterval(updateSessionUI,1000)}persist();updateTestModeUI();
 
