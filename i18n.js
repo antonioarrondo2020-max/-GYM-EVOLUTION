@@ -601,30 +601,45 @@ Object.keys(workoutDayLabels).forEach(code=>Object.assign(labels[code],workoutDa
 
 const finalSectionCoverage={
 en:{
+"Cintura":"Waist",
+"Brazo":"Arm",
+"Muslo":"Thigh",
 "Marcar como completado":"Mark as completed",
 "Introduce un valor por serie, separado por comas. Ejemplo:":"Enter one value per set, separated by commas. Example:",
 "Registra las medidas siempre en condiciones parecidas, sin apretar la cinta.":"Take measurements under similar conditions each time, without tightening the tape.",
 "registros":"records","seg":"sec","reps":"reps"
 },
 fr:{
+"Cintura":"Tour de taille",
+"Brazo":"Bras",
+"Muslo":"Cuisse",
 "Marcar como completado":"Marquer comme terminé",
 "Introduce un valor por serie, separado por comas. Ejemplo:":"Saisissez une valeur par série, séparée par des virgules. Exemple :",
 "Registra las medidas siempre en condiciones parecidas, sin apretar la cinta.":"Prenez vos mesures dans des conditions similaires à chaque fois, sans serrer le mètre.",
 "registros":"enregistrements","seg":"s","reps":"rép."
 },
 de:{
+"Cintura":"Taille",
+"Brazo":"Arm",
+"Muslo":"Oberschenkel",
 "Marcar como completado":"Als erledigt markieren",
 "Introduce un valor por serie, separado por comas. Ejemplo:":"Gib für jeden Satz einen durch Kommas getrennten Wert ein. Beispiel:",
 "Registra las medidas siempre en condiciones parecidas, sin apretar la cinta.":"Miss immer unter ähnlichen Bedingungen und ziehe das Maßband nicht fest.",
 "registros":"Einträge","seg":"Sek.","reps":"Wdh."
 },
 it:{
+"Cintura":"Vita",
+"Brazo":"Braccio",
+"Muslo":"Coscia",
 "Marcar como completado":"Segna come completato",
 "Introduce un valor por serie, separado por comas. Ejemplo:":"Inserisci un valore per serie, separato da virgole. Esempio:",
 "Registra las medidas siempre en condiciones parecidas, sin apretar la cinta.":"Prendi le misure sempre in condizioni simili, senza stringere il metro.",
 "registros":"registrazioni","seg":"sec","reps":"rip."
 },
 pt:{
+"Cintura":"Cintura",
+"Brazo":"Braço",
+"Muslo":"Coxa",
 "Marcar como completado":"Marcar como concluído",
 "Introduce un valor por serie, separado por comas. Ejemplo:":"Introduz um valor por série, separado por vírgulas. Exemplo:",
 "Registra las medidas siempre en condiciones parecidas, sin apretar la cinta.":"Regista as medidas sempre em condições semelhantes, sem apertar a fita métrica.",
