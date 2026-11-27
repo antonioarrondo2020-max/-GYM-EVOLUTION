@@ -423,6 +423,102 @@ const globalUiTranslations={
  pt:{"Entrena con cabeza. Evoluciona cada semana. · V7.3":"Treina com inteligência. Evolui a cada semana. · V7.3","GYM EVOLUTION · Versión 7.3 · Desarrollo profesional":"GYM EVOLUTION · Versão 7.3 · Desenvolvimento profissional","Comida":"Almoço"}
 };
 Object.keys(globalUiTranslations).forEach(k=>Object.assign(labels[k],globalUiTranslations[k]));
+
+/* Cobertura centralizada de textos generados por las secciones de la app. */
+const sectionLabels={
+en:{
+"Glúteos":"Glutes","Cuádriceps":"Quadriceps","Máquina/polea":"Machine/cable","Misión semanal":"Weekly mission","Activación diaria":"Daily activation","Reto de disciplina":"Discipline challenge","Consistencia de la semana":"Weekly consistency","Formato no válido":"Invalid format","Introduce un peso válido.":"Enter a valid weight.","Primero inicia la sesión de entrenamiento.":"Start the training session first.","Ya tienes una sesión iniciada.":"You already have a session in progress.","Todavía no hay medidas registradas.":"No measurements recorded yet.","Peso guardado y nutrición actualizada.":"Weight saved and nutrition updated.","¿Borrar todo el historial de ejercicios?":"Delete the entire exercise history?","GYM EVOLUTION: entrenamiento, nutrición, progreso y retos.":"GYM EVOLUTION: training, nutrition, progress and challenges.","Registros guardados. Busca mejoras pequeñas y constantes.":"records saved. Look for small, consistent improvements.","Marcar activación como completada":"Mark activation as complete","Misión semanal cumplida":"Weekly mission completed","Pendiente de completar":"Pending completion","Sesión guardada sin ejercicios registrados; no contará para la misión semanal.":"Session saved without logged exercises; it will not count toward the weekly mission.","¿Restaurar esta copia? Los datos actuales de GYM EVOLUTION serán sustituidos.":"Restore this backup? Current GYM EVOLUTION data will be replaced.","Planifica y completa 3 sesiones de entrenamiento o actividad física adaptada a tu recuperación.":"Plan and complete 3 training sessions or physical activities adapted to your recovery.","Orden: registra cargas y repeticiones. Sube el peso solo cuando completes el rango con técnica limpia y margen suficiente.":"Order: log your weights and reps. Increase the load only when you complete the range with clean technique and enough reps in reserve.","Comandante. Ponte en marcha. Hoy no buscamos excusas ni récords. Cumple tu misión con técnica, constancia y cabeza. Evoluciona.":"Commander. Move out. Today is not about excuses or records. Complete your mission with good technique, consistency and focus. Evolve.","Orden: reparte proteína en tus comidas, acompaña con hidratos y mantén una alimentación variada. Ajustaremos cantidades según tu evolución.":"Order: include protein in your meals, add carbohydrates and keep your diet varied. We will adjust portions according to your progress.","Orden: escucha al cuerpo. Si hay fatiga intensa, dolor o mal descanso, baja la intensidad o recupera. La disciplina también es saber descansar.":"Order: listen to your body. If you feel intense fatigue, pain or poor sleep, reduce intensity or recover. Discipline also means knowing when to rest.","Los macros y kcal se calculan con la base nutricional interna de la app; las marcas y preparaciones pueden variar. Arroz, avena y crema de arroz se pesan en seco; atún escurrido; patata y verduras en crudo. Leche en ml.":"Macros and kcal are calculated using the app's internal nutrition database; brands and preparation methods may vary. Rice, oats and cream of rice are weighed dry; tuna drained; potatoes and vegetables raw. Milk is measured in ml."
+},
+fr:{
+"Glúteos":"Fessiers","Cuádriceps":"Quadriceps","Máquina/polea":"Machine/poulie","Misión semanal":"Mission hebdomadaire","Activación diaria":"Activation quotidienne","Reto de disciplina":"Défi de discipline","Consistencia de la semana":"Régularité de la semaine","Formato no válido":"Format invalide","Introduce un peso válido.":"Saisissez un poids valide.","Primero inicia la sesión de entrenamiento.":"Commencez d’abord la séance d’entraînement.","Ya tienes una sesión iniciada.":"Une séance est déjà en cours.","Todavía no hay medidas registradas.":"Aucune mesure enregistrée pour le moment.","Peso guardado y nutrición actualizada.":"Poids enregistré et nutrition mise à jour.","¿Borrar todo el historial de ejercicios?":"Supprimer tout l’historique des exercices ?","GYM EVOLUTION: entrenamiento, nutrición, progreso y retos.":"GYM EVOLUTION : entraînement, nutrition, progrès et défis.","Registros guardados. Busca mejoras pequeñas y constantes.":"enregistrements sauvegardés. Cherchez de petites améliorations régulières.","Marcar activación como completada":"Marquer l’activation comme terminée","Misión semanal cumplida":"Mission hebdomadaire accomplie","Pendiente de completar":"À terminer","Sesión guardada sin ejercicios registrados; no contará para la misión semanal.":"Séance enregistrée sans exercice saisi ; elle ne comptera pas pour la mission hebdomadaire.","¿Restaurar esta copia? Los datos actuales de GYM EVOLUTION serán sustituidos.":"Restaurer cette sauvegarde ? Les données actuelles de GYM EVOLUTION seront remplacées.","Planifica y completa 3 sesiones de entrenamiento o actividad física adaptada a tu recuperación.":"Planifiez et effectuez 3 séances d’entraînement ou activités physiques adaptées à votre récupération.","Orden: registra cargas y repeticiones. Sube el peso solo cuando completes el rango con técnica limpia y margen suficiente.":"Ordre : notez les charges et les répétitions. Augmentez le poids uniquement lorsque vous terminez la plage avec une technique propre et une marge suffisante.","Comandante. Ponte en marcha. Hoy no buscamos excusas ni récords. Cumple tu misión con técnica, constancia y cabeza. Evoluciona.":"Commandant. En avant. Aujourd’hui, pas d’excuses ni de records. Accomplissez votre mission avec technique, régularité et bon sens. Évoluez.","Orden: reparte proteína en tus comidas, acompaña con hidratos y mantén una alimentación variada. Ajustaremos cantidades según tu evolución.":"Ordre : répartissez les protéines dans vos repas, ajoutez des glucides et gardez une alimentation variée. Nous ajusterons les quantités selon vos progrès.","Orden: escucha al cuerpo. Si hay fatiga intensa, dolor o mal descanso, baja la intensidad o recupera. La disciplina también es saber descansar.":"Ordre : écoutez votre corps. En cas de fatigue intense, de douleur ou de mauvais sommeil, réduisez l’intensité ou récupérez. La discipline consiste aussi à savoir se reposer.","Los macros y kcal se calculan con la base nutricional interna de la app; las marcas y preparaciones pueden variar. Arroz, avena y crema de arroz se pesan en seco; atún escurrido; patata y verduras en crudo. Leche en ml.":"Les macros et les kcal sont calculés à partir de la base nutritionnelle interne de l’application ; les marques et préparations peuvent varier. Le riz, l’avoine et la crème de riz sont pesés secs ; le thon égoutté ; les pommes de terre et légumes crus. Le lait est mesuré en ml."
+},
+de:{
+"Glúteos":"Gesäß","Cuádriceps":"Quadrizeps","Máquina/polea":"Maschine/Kabelzug","Misión semanal":"Wochenmission","Activación diaria":"Tägliche Aktivierung","Reto de disciplina":"Disziplin-Challenge","Consistencia de la semana":"Wöchentliche Beständigkeit","Formato no válido":"Ungültiges Format","Introduce un peso válido.":"Gib ein gültiges Gewicht ein.","Primero inicia la sesión de entrenamiento.":"Starte zuerst die Trainingseinheit.","Ya tienes una sesión iniciada.":"Du hast bereits eine Sitzung gestartet.","Todavía no hay medidas registradas.":"Noch keine Messwerte gespeichert.","Peso guardado y nutrición actualizada.":"Gewicht gespeichert und Ernährung aktualisiert.","¿Borrar todo el historial de ejercicios?":"Den gesamten Trainingsverlauf löschen?","GYM EVOLUTION: entrenamiento, nutrición, progreso y retos.":"GYM EVOLUTION: Training, Ernährung, Fortschritt und Challenges.","Registros guardados. Busca mejoras pequeñas y constantes.":"Einträge gespeichert. Achte auf kleine, stetige Verbesserungen.","Marcar activación como completada":"Aktivierung als erledigt markieren","Misión semanal cumplida":"Wochenmission erfüllt","Pendiente de completar":"Noch offen","Sesión guardada sin ejercicios registrados; no contará para la misión semanal.":"Einheit ohne protokollierte Übungen gespeichert; sie zählt nicht für die Wochenmission.","¿Restaurar esta copia? Los datos actuales de GYM EVOLUTION serán sustituidos.":"Dieses Backup wiederherstellen? Die aktuellen GYM-EVOLUTION-Daten werden ersetzt.","Planifica y completa 3 sesiones de entrenamiento o actividad física adaptada a tu recuperación.":"Plane und absolviere 3 Trainingseinheiten oder an deine Erholung angepasste körperliche Aktivitäten.","Orden: registra cargas y repeticiones. Sube el peso solo cuando completes el rango con técnica limpia y margen suficiente.":"Anweisung: Notiere Gewichte und Wiederholungen. Erhöhe das Gewicht erst, wenn du den Bereich mit sauberer Technik und ausreichender Reserve schaffst.","Comandante. Ponte en marcha. Hoy no buscamos excusas ni récords. Cumple tu misión con técnica, constancia y cabeza. Evoluciona.":"Kommandant. Los geht’s. Heute geht es nicht um Ausreden oder Rekorde. Erfülle deine Mission mit Technik, Beständigkeit und Köpfchen. Entwickle dich weiter.","Orden: reparte proteína en tus comidas, acompaña con hidratos y mantén una alimentación variada. Ajustaremos cantidades según tu evolución.":"Anweisung: Verteile Protein auf deine Mahlzeiten, ergänze Kohlenhydrate und ernähre dich abwechslungsreich. Wir passen die Mengen an deinen Fortschritt an.","Orden: escucha al cuerpo. Si hay fatiga intensa, dolor o mal descanso, baja la intensidad o recupera. La disciplina también es saber descansar.":"Anweisung: Höre auf deinen Körper. Bei starker Müdigkeit, Schmerzen oder schlechtem Schlaf reduziere die Intensität oder erhole dich. Disziplin bedeutet auch, Pausen zu kennen.","Los macros y kcal se calculan con la base nutricional interna de la app; las marcas y preparaciones pueden variar. Arroz, avena y crema de arroz se pesan en seco; atún escurrido; patata y verduras en crudo. Leche en ml.":"Makros und kcal werden anhand der internen Nährwertdatenbank der App berechnet; Marken und Zubereitung können variieren. Reis, Haferflocken und Reiscreme werden trocken gewogen; Thunfisch abgetropft; Kartoffeln und Gemüse roh. Milch wird in ml gemessen."
+},
+it:{
+"Glúteos":"Glutei","Cuádriceps":"Quadricipiti","Máquina/polea":"Macchina/cavo","Misión semanal":"Missione settimanale","Activación diaria":"Attivazione quotidiana","Reto de disciplina":"Sfida di disciplina","Consistencia de la semana":"Costanza settimanale","Formato no válido":"Formato non valido","Introduce un peso válido.":"Inserisci un peso valido.","Primero inicia la sesión de entrenamiento.":"Avvia prima la sessione di allenamento.","Ya tienes una sesión iniciada.":"Hai già una sessione in corso.","Todavía no hay medidas registradas.":"Non ci sono ancora misurazioni registrate.","Peso guardado y nutrición actualizada.":"Peso salvato e nutrizione aggiornata.","¿Borrar todo el historial de ejercicios?":"Eliminare tutta la cronologia degli esercizi?","GYM EVOLUTION: entrenamiento, nutrición, progreso y retos.":"GYM EVOLUTION: allenamento, nutrizione, progressi e sfide.","Registros guardados. Busca mejoras pequeñas y constantes.":"registrazioni salvate. Cerca piccoli miglioramenti costanti.","Marcar activación como completada":"Segna l’attivazione come completata","Misión semanal cumplida":"Missione settimanale completata","Pendiente de completar":"Da completare","Sesión guardada sin ejercicios registrados; no contará para la misión semanal.":"Sessione salvata senza esercizi registrati; non conterà per la missione settimanale.","¿Restaurar esta copia? Los datos actuales de GYM EVOLUTION serán sustituidos.":"Ripristinare questo backup? I dati attuali di GYM EVOLUTION verranno sostituiti.","Planifica y completa 3 sesiones de entrenamiento o actividad física adaptada a tu recuperación.":"Pianifica e completa 3 sessioni di allenamento o attività fisica adatte al tuo recupero.","Orden: registra cargas y repeticiones. Sube el peso solo cuando completes el rango con técnica limpia y margen suficiente.":"Ordine: registra carichi e ripetizioni. Aumenta il peso solo quando completi il range con tecnica corretta e margine sufficiente.","Comandante. Ponte en marcha. Hoy no buscamos excusas ni récords. Cumple tu misión con técnica, constancia y cabeza. Evoluciona.":"Comandante. Si parte. Oggi niente scuse né record. Completa la missione con tecnica, costanza e lucidità. Evolviti.","Orden: reparte proteína en tus comidas, acompaña con hidratos y mantén una alimentación variada. Ajustaremos cantidades según tu evolución.":"Ordine: distribuisci le proteine nei pasti, aggiungi carboidrati e mantieni un’alimentazione varia. Adatteremo le quantità in base ai tuoi progressi.","Orden: escucha al cuerpo. Si hay fatiga intensa, dolor o mal descanso, baja la intensidad o recupera. La disciplina también es saber descansar.":"Ordine: ascolta il tuo corpo. In caso di forte stanchezza, dolore o poco riposo, riduci l’intensità o recupera. La disciplina significa anche saper riposare.","Los macros y kcal se calculan con la base nutricional interna de la app; las marcas y preparaciones pueden variar. Arroz, avena y crema de arroz se pesan en seco; atún escurrido; patata y verduras en crudo. Leche en ml.":"I macro e le kcal sono calcolati con il database nutrizionale interno dell’app; marche e preparazioni possono variare. Riso, avena e crema di riso si pesano a secco; tonno sgocciolato; patate e verdure crude. Il latte si misura in ml."
+},
+pt:{
+"Glúteos":"Glúteos","Cuádriceps":"Quadríceps","Máquina/polea":"Máquina/cabo","Misión semanal":"Missão semanal","Activación diaria":"Ativação diária","Reto de disciplina":"Desafio de disciplina","Consistencia de la semana":"Consistência da semana","Formato no válido":"Formato inválido","Introduce un peso válido.":"Introduz um peso válido.","Primero inicia la sesión de entrenamiento.":"Começa primeiro a sessão de treino.","Ya tienes una sesión iniciada.":"Já tens uma sessão iniciada.","Todavía no hay medidas registradas.":"Ainda não existem medidas registadas.","Peso guardado y nutrición actualizada.":"Peso guardado e nutrição atualizada.","¿Borrar todo el historial de ejercicios?":"Apagar todo o histórico de exercícios?","GYM EVOLUTION: entrenamiento, nutrición, progreso y retos.":"GYM EVOLUTION: treino, nutrição, progresso e desafios.","Registros guardados. Busca mejoras pequeñas y constantes.":"registos guardados. Procura pequenas melhorias constantes.","Marcar activación como completada":"Marcar ativação como concluída","Misión semanal cumplida":"Missão semanal cumprida","Pendiente de completar":"Por concluir","Sesión guardada sin ejercicios registrados; no contará para la misión semanal.":"Sessão guardada sem exercícios registados; não contará para a missão semanal.","¿Restaurar esta copia? Los datos actuales de GYM EVOLUTION serán sustituidos.":"Restaurar esta cópia de segurança? Os dados atuais do GYM EVOLUTION serão substituídos.","Planifica y completa 3 sesiones de entrenamiento o actividad física adaptada a tu recuperación.":"Planeia e completa 3 sessões de treino ou atividade física adaptada à tua recuperação.","Orden: registra cargas y repeticiones. Sube el peso solo cuando completes el rango con técnica limpia y margen suficiente.":"Ordem: regista cargas e repetições. Aumenta o peso apenas quando completares o intervalo com técnica correta e margem suficiente.","Comandante. Ponte en marcha. Hoy no buscamos excusas ni récords. Cumple tu misión con técnica, constancia y cabeza. Evoluciona.":"Comandante. Vamos a isso. Hoje não procuramos desculpas nem recordes. Cumpre a tua missão com técnica, consistência e cabeça. Evolui.","Orden: reparte proteína en tus comidas, acompaña con hidratos y mantén una alimentación variada. Ajustaremos cantidades según tu evolución.":"Ordem: distribui proteína pelas refeições, acompanha com hidratos e mantém uma alimentação variada. Ajustaremos as quantidades conforme a tua evolução.","Orden: escucha al cuerpo. Si hay fatiga intensa, dolor o mal descanso, baja la intensidad o recupera. La disciplina también es saber descansar.":"Ordem: ouve o teu corpo. Se sentires fadiga intensa, dor ou dormires mal, reduz a intensidade ou recupera. A disciplina também é saber descansar.","Los macros y kcal se calculan con la base nutricional interna de la app; las marcas y preparaciones pueden variar. Arroz, avena y crema de arroz se pesan en seco; atún escurrido; patata y verduras en crudo. Leche en ml.":"Os macros e as kcal são calculados com a base nutricional interna da aplicação; as marcas e preparações podem variar. Arroz, aveia e creme de arroz são pesados secos; atum escorrido; batata e legumes crus. O leite é medido em ml."
+}};
+Object.keys(sectionLabels).forEach(code=>Object.assign(labels[code],sectionLabels[code]));
+const dynamicText={
+en:{
+mealCount:n=>`Your ${n}-meal plan has been saved.`,
+sessionState:d=>`Workout in progress · ${t(d)}`,
+sessionSaved:(m,e)=>`Session saved: ${m} minutes and ${e} exercises logged.`,
+savedRecords:n=>`${n} records saved. Look for small, consistent improvements.`,
+sessionDay:d=>`This session belongs to ${t(d)}. Finish it before changing the day.`,
+dailyTitle:s=>`Daily challenge · ${t(s)}`,
+weeklyTitle:s=>`Weekly challenge · ${t(s)}`,
+weeklyCount:n=>`${n} of 3 sessions completed`,
+savedExercise:s=>`Saved in this session. ${t(s)}`,
+updatedExercise:s=>`Updated in this session. ${t(s)}`
+},
+fr:{
+mealCount:n=>`Votre répartition de ${n} repas est enregistrée.`,
+sessionState:d=>`Séance en cours · ${t(d)}`,
+sessionSaved:(m,e)=>`Séance enregistrée : ${m} minutes et ${e} exercices saisis.`,
+savedRecords:n=>`${n} enregistrements sauvegardés. Cherchez de petites améliorations régulières.`,
+sessionDay:d=>`Cette séance correspond à ${t(d)}. Terminez-la avant de changer de jour.`,
+dailyTitle:s=>`Défi quotidien · ${t(s)}`,
+weeklyTitle:s=>`Défi hebdomadaire · ${t(s)}`,
+weeklyCount:n=>`${n} sur 3 séances terminées`,
+savedExercise:s=>`Enregistré dans cette séance. ${t(s)}`,
+updatedExercise:s=>`Mis à jour dans cette séance. ${t(s)}`
+},
+de:{
+mealCount:n=>`Dein Plan mit ${n} Mahlzeiten wurde gespeichert.`,
+sessionState:d=>`Einheit läuft · ${t(d)}`,
+sessionSaved:(m,e)=>`Einheit gespeichert: ${m} Minuten und ${e} Übungen protokolliert.`,
+savedRecords:n=>`${n} Einträge gespeichert. Achte auf kleine, stetige Verbesserungen.`,
+sessionDay:d=>`Diese Einheit gehört zu ${t(d)}. Beende sie, bevor du den Tag wechselst.`,
+dailyTitle:s=>`Tägliche Challenge · ${t(s)}`,
+weeklyTitle:s=>`Wochen-Challenge · ${t(s)}`,
+weeklyCount:n=>`${n} von 3 Einheiten abgeschlossen`,
+savedExercise:s=>`In dieser Einheit gespeichert. ${t(s)}`,
+updatedExercise:s=>`In dieser Einheit aktualisiert. ${t(s)}`
+},
+it:{
+mealCount:n=>`Il tuo piano da ${n} pasti è stato salvato.`,
+sessionState:d=>`Sessione in corso · ${t(d)}`,
+sessionSaved:(m,e)=>`Sessione salvata: ${m} minuti e ${e} esercizi registrati.`,
+savedRecords:n=>`${n} registrazioni salvate. Cerca piccoli miglioramenti costanti.`,
+sessionDay:d=>`Questa sessione appartiene a ${t(d)}. Concludila prima di cambiare giorno.`,
+dailyTitle:s=>`Sfida quotidiana · ${t(s)}`,
+weeklyTitle:s=>`Sfida settimanale · ${t(s)}`,
+weeklyCount:n=>`${n} di 3 sessioni completate`,
+savedExercise:s=>`Salvato in questa sessione. ${t(s)}`,
+updatedExercise:s=>`Aggiornato in questa sessione. ${t(s)}`
+},
+pt:{
+mealCount:n=>`O teu plano de ${n} refeições foi guardado.`,
+sessionState:d=>`Sessão em curso · ${t(d)}`,
+sessionSaved:(m,e)=>`Sessão guardada: ${m} minutos e ${e} exercícios registados.`,
+savedRecords:n=>`${n} registos guardados. Procura pequenas melhorias constantes.`,
+sessionDay:d=>`Esta sessão pertence a ${t(d)}. Termina-a antes de mudares de dia.`,
+dailyTitle:s=>`Desafio diário · ${t(s)}`,
+weeklyTitle:s=>`Desafio semanal · ${t(s)}`,
+weeklyCount:n=>`${n} de 3 sessões concluídas`,
+savedExercise:s=>`Guardado nesta sessão. ${t(s)}`,
+updatedExercise:s=>`Atualizado nesta sessão. ${t(s)}`
+}
+};
+function translateDynamic(source){
+ const p=dynamicText[lang];if(!p)return source;let m;
+ if((m=source.match(/^Tu distribución de (\\d+) comidas está guardada\\.$/)))return p.mealCount(m[1]);
+ if((m=source.match(/^Sesión en curso · (.+)$/)))return p.sessionState(m[1]);
+ if((m=source.match(/^Sesión guardada: (\\d+) minutos y (\\d+) ejercicios registrados\\.$/)))return p.sessionSaved(m[1],m[2]);
+ if((m=source.match(/^(\\d+) registros guardados\\. Busca mejoras pequeñas y constantes\\.$/)))return p.savedRecords(m[1]);
+ if((m=source.match(/^Esta sesión pertenece a (.+)\\. Finalízala antes de cambiar de día\\.$/)))return p.sessionDay(m[1]);
+ if((m=source.match(/^Reto diario · (.+)$/)))return p.dailyTitle(m[1]);
+ if((m=source.match(/^Reto semanal · (.+)$/)))return p.weeklyTitle(m[1]);
+ if((m=source.match(/^(\\d+) de 3 sesiones completadas$/)))return p.weeklyCount(m[1]);
+ if((m=source.match(/^Guardado en esta sesión\\. (.+)$/)))return p.savedExercise(m[1]);
+ if((m=source.match(/^Registro actualizado en esta sesión\\. (.+)$/)))return p.updatedExercise(m[1]);
+ return source;
+}
+
 const names={es:"Español",en:"English",fr:"Français",de:"Deutsch",it:"Italiano",pt:"Português"};
 let lang=localStorage.getItem("ge_language")||"es";
 const originals=new WeakMap(), attrOriginals=new WeakMap();
@@ -432,7 +528,7 @@ function t(s){
  const dictionary=labels[lang]||{};
  // Traducción por coincidencia completa: nunca sustituye fragmentos dentro de cifras,
  // nombres, macros, unidades o frases dinámicas.
- return Object.prototype.hasOwnProperty.call(dictionary,source)?dictionary[source]:source;
+ return Object.prototype.hasOwnProperty.call(dictionary,source)?dictionary[source]:translateDynamic(source);
 }
 function translate(){
  document.documentElement.lang=lang;
