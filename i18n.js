@@ -557,6 +557,16 @@ function translateDynamic(source){
  return source;
 }
 
+
+const workoutDayLabels={
+en:{"Torso A":"Upper body A","Pierna A":"Legs A","Torso B":"Upper body B","Pierna B":"Legs B","Lunes":"Monday","Martes":"Tuesday","Jueves":"Thursday","Viernes":"Friday"},
+fr:{"Torso A":"Haut du corps A","Pierna A":"Jambes A","Torso B":"Haut du corps B","Pierna B":"Jambes B","Lunes":"Lundi","Martes":"Mardi","Jueves":"Jeudi","Viernes":"Vendredi"},
+de:{"Torso A":"Oberkörper A","Pierna A":"Beine A","Torso B":"Oberkörper B","Pierna B":"Beine B","Lunes":"Montag","Martes":"Dienstag","Jueves":"Donnerstag","Viernes":"Freitag"},
+it:{"Torso A":"Parte superiore A","Pierna A":"Gambe A","Torso B":"Parte superiore B","Pierna B":"Gambe B","Lunes":"Lunedì","Martes":"Martedì","Jueves":"Giovedì","Viernes":"Venerdì"},
+pt:{"Torso A":"Parte superior A","Pierna A":"Pernas A","Torso B":"Parte superior B","Pierna B":"Pernas B","Lunes":"Segunda-feira","Martes":"Terça-feira","Jueves":"Quinta-feira","Viernes":"Sexta-feira"}
+};
+Object.keys(workoutDayLabels).forEach(code=>Object.assign(labels[code],workoutDayLabels[code]));
+
 const names={es:"Español",en:"English",fr:"Français",de:"Deutsch",it:"Italiano",pt:"Português"};
 let lang=localStorage.getItem("ge_language")||"es";
 const originals=new WeakMap(), attrOriginals=new WeakMap();
