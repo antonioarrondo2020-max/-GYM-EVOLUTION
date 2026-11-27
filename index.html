@@ -331,7 +331,27 @@ $("askCommander").onclick=()=>{let a={motivation:"Orden: ponte la ropa de entren
 function downloadBackup(){const payload={app:"GYM EVOLUTION",version:5,exportedAt:new Date().toISOString(),data};const a=document.createElement("a"),u=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:"application/json"}));a.href=u;a.download="gym-evolution-respaldo-"+todayKey()+".json";a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)}
 $("export").onclick=downloadBackup;
 $("importTrigger").onclick=()=>$("importFile").click();
-$("importFile").onchange=async e=>{const file=e.target.files?.[0];if(!file)return;try{const parsed=JSON.parse(await file.text());const restored=parsed.data||parsed;if(!restored||typeof restored!=="object"||!restored.profile||!Array.isArray(restored.history))throw new Error("Formato no válido");if(!confirm(tr("¿Restaurar esta copia? Los datos actuales de GYM EVOLUTION serán sustituidos.")))return;data={...data,...restored};data.profile=data.profile||{};data.history=data.history||[];data.meals=data.meals||[];data.challenge=data.challenge||{};data.sessions=data.sessions||[];data.weights=data.weights||[];data.measurements=data.measurements||[];data.nutritionSettings=data.nutritionSettings||{};data.nutritionSwaps=data.nutritionSwaps||{};persist();renderProfile();renderDays();renderExercises();renderMeals();renderNutritionSettings();renderNutritionMenu();renderMeasures();renderChallenges();renderHistory();updateSessionUI();alert(tr("Copia restaurada correctamente."));}catch(err){alert(tr("No se pudo restaurar el archivo. Comprueba que sea una copia de GYM EVOLUTION."))}finally{e.target.value=""}};
+$("importFile").onchange=async e=>{
+ const file=e.target.files?.[0];if(!file)return;
+ try{
+  const parsed=JSON.parse(await file.text()),restored=parsed.data||parsed;
+  if(parsed.app&&parsed.app!=="GYM EVOLUTION")throw new Error("Aplicación de origen no válida");
+  if(!restored||typeof restored!=="object"||Array.isArray(restored)||!restored.profile||typeof restored.profile!=="object"||Array.isArray(restored.profile)||!Array.isArray(restored.history))throw new Error("Estructura principal no válida");
+  const arrayKeys=["meals","sessions","weights","measurements"];
+  if(arrayKeys.some(key=>restored[key]!==undefined&&!Array.isArray(restored[key])))throw new Error("Colección no válida");
+  const objectKeys=["challenge","nutritionSettings","nutritionSwaps"];
+  if(objectKeys.some(key=>restored[key]!==undefined&&(!restored[key]||typeof restored[key]!=="object"||Array.isArray(restored[key]))))throw new Error("Configuración no válida");
+  if(restored.activeSession!==undefined&&restored.activeSession!==null&&(!restored.activeSession||typeof restored.activeSession!=="object"||!Number.isFinite(Number(restored.activeSession.startedAt))||!Number.isInteger(Number(restored.activeSession.day))||Number(restored.activeSession.day)<0||Number(restored.activeSession.day)>=plan.length))throw new Error("Sesión activa no válida");
+  if(!confirm(tr("¿Restaurar esta copia? Los datos actuales de GYM EVOLUTION serán sustituidos.")))return;
+  stopSessionTicker();
+  data={...blankData(),...restored};
+  data.profile=data.profile||{};data.history=data.history||[];data.meals=data.meals||[];data.challenge=data.challenge||{};data.sessions=data.sessions||[];data.weights=data.weights||[];data.measurements=data.measurements||[];data.nutritionSettings=data.nutritionSettings||{};data.nutritionSwaps=data.nutritionSwaps||{};
+  persist();renderProfile();renderDays();renderExercises();renderMeals();renderNutritionSettings();renderNutritionMenu();renderMeasures();renderChallenges();renderHistory();updateSessionUI();
+  if(data.activeSession)sessionTicker=setInterval(updateSessionUI,1000);
+  alert(tr("Copia restaurada correctamente."));
+ }catch(err){alert(tr("No se pudo restaurar el archivo. Comprueba que sea una copia de GYM EVOLUTION."))}
+ finally{e.target.value=""}
+};
 $("clear").onclick=()=>{if(confirm(tr("¿Borrar todo el historial de ejercicios?"))){data.history=[];persist();renderHistory()}};
 function refreshAppDataViews(){renderProfile();renderDays();renderExercises();renderMeals();renderNutritionSettings();renderNutritionMenu();renderMeasures();renderChallenges();renderHistory();updateSessionUI();if(data.activeSession&&!sessionTicker)sessionTicker=setInterval(updateSessionUI,1000);else if(!data.activeSession)stopSessionTicker()}
 function updateTestModeUI(){const banner=$("testModeBanner");banner.classList.toggle("hidden",!testMode);banner.textContent=tr("MODO DE PRUEBAS ACTIVO · Los datos son ficticios y están separados de tu progreso real.");$("enterTestMode").classList.toggle("hidden",testMode);$("loadTestData").classList.toggle("hidden",!testMode);$("resetTestData").classList.toggle("hidden",!testMode);$("exitTestMode").classList.toggle("hidden",!testMode);$("testModeStatus").textContent=testMode?tr("Estás usando datos de prueba aislados. Tus datos reales siguen protegidos."):tr("Modo normal: estás usando tu perfil e historial reales.") }
