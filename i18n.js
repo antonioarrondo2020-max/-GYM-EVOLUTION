@@ -514,10 +514,29 @@ savedExercise:s=>`Guardado nesta sessão. ${t(s)}`,
 updatedExercise:s=>`Atualizado nesta sessão. ${t(s)}`
 }
 };
+const sectionCommon={
+en:{"series":"sets","repeticiones":"reps","segundos":"seconds","Nombre de la comida":"Meal name"},
+fr:{"series":"séries","repeticiones":"répétitions","segundos":"secondes","Nombre de la comida":"Nom du repas"},
+de:{"series":"Sätze","repeticiones":"Wiederholungen","segundos":"Sekunden","Nombre de la comida":"Mahlzeitenname"},
+it:{"series":"serie","repeticiones":"ripetizioni","segundos":"secondi","Nombre de la comida":"Nome del pasto"},
+pt:{"series":"séries","repeticiones":"repetições","segundos":"segundos","Nombre de la comida":"Nome da refeição"}
+};
+Object.keys(sectionCommon).forEach(code=>Object.assign(labels[code],sectionCommon[code]));
+const challengeDynamicText={
+en:{dailySquats:n=>`Complete ${n} controlled squats and 5 minutes of mobility.`,dailyPushups:n=>`Do ${n} adapted push-ups (knees down if needed) or an equivalent pain-free alternative, and 5 minutes of mobility.`},
+fr:{dailySquats:n=>`Effectuez ${n} squats contrôlés et 5 minutes de mobilité.`,dailyPushups:n=>`Faites ${n} pompes adaptées (sur les genoux si nécessaire) ou une alternative équivalente sans douleur, puis 5 minutes de mobilité.`},
+de:{dailySquats:n=>`Absolviere ${n} kontrollierte Kniebeugen und 5 Minuten Mobilität.`,dailyPushups:n=>`Mache ${n} angepasste Liegestütze (bei Bedarf auf den Knien) oder eine gleichwertige schmerzfreie Alternative sowie 5 Minuten Mobilität.`},
+it:{dailySquats:n=>`Completa ${n} squat controllati e 5 minuti di mobilità.`,dailyPushups:n=>`Esegui ${n} piegamenti adattati (con le ginocchia a terra se necessario) o un’alternativa equivalente senza dolore, e 5 minuti di mobilità.`},
+pt:{dailySquats:n=>`Completa ${n} agachamentos controlados e 5 minutos de mobilidade.`,dailyPushups:n=>`Faz ${n} flexões adaptadas (com os joelhos apoiados, se necessário) ou uma alternativa equivalente sem dor, e 5 minutos de mobilidade.`}
+};
+Object.keys(challengeDynamicText).forEach(code=>Object.assign(dynamicText[code],challengeDynamicText[code]));
+
 function translateDynamic(source){
  const p=dynamicText[lang];if(!p)return source;let m;
  if((m=source.match(/^Tu distribución de (\d+) comidas está guardada\.$/)))return p.mealCount(m[1]);
  if((m=source.match(/^Sesión en curso · (.+)$/)))return p.sessionState(m[1]);
+ if((m=source.match(/^Completa (\\d+) sentadillas controladas y 5 minutos de movilidad\\.$/)))return p.dailySquats(m[1]);
+ if((m=source.match(/^Haz (\\d+) flexiones adaptadas \\(apoyando rodillas si hace falta\\) o una alternativa equivalente sin dolor, y 5 minutos de movilidad\\.$/)))return p.dailyPushups(m[1]);
 
  if((m=source.match(/^Revisa los datos: carga entre 0 y 1000 kg, (\d+) series con valores enteros entre (\d+) y (\d+)( segundos| repeticiones), y RIR entero entre 0 y 10\.$/)))return ({
   en:`Check the data: load must be between 0 and 1000 kg, ${m[1]} sets with whole-number values between ${m[2]} and ${m[3]}${m[4]===" segundos"?" seconds":" reps"}, and RIR must be a whole number between 0 and 10.`,
