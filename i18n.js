@@ -723,6 +723,95 @@ const nutritionDisplayCoverage={
 };
 Object.keys(nutritionDisplayCoverage).forEach(code=>Object.assign(labels[code],nutritionDisplayCoverage[code]));
 
+const nutritionSwapCoverage={
+  "en": {
+    "Cambiar alimento": "Change food",
+    "Elige una sustitución en los selectores de cada comida para actualizar automáticamente las cantidades, los macros y la lista de compra. Las cantidades son orientativas.": "Choose a replacement in each meal selector to automatically update quantities, macros and the shopping list. Amounts are estimates.",
+    "Pollo": "Chicken",
+    "Pavo": "Turkey",
+    "Tofu": "Tofu",
+    "Arroz (en seco)": "Rice (dry)",
+    "Patata": "Potato",
+    "Pasta (en seco)": "Pasta (dry)",
+    "Yogur tipo skyr natural": "Plain skyr yogurt",
+    "Queso fresco batido": "Quark",
+    "Manzana": "Apple",
+    "Plátano": "Banana",
+    "Pera": "Pear",
+    "Avena": "Oats",
+    "Crema de arroz (en seco)": "Cream of rice (dry)"
+  },
+  "fr": {
+    "Cambiar alimento": "Changer l’aliment",
+    "Elige una sustitución en los selectores de cada comida para actualizar automáticamente las cantidades, los macros y la lista de compra. Las cantidades son orientativas.": "Choisissez un remplacement dans chaque repas pour mettre automatiquement à jour les quantités, les macros et la liste de courses. Les quantités sont indicatives.",
+    "Pollo": "Poulet",
+    "Pavo": "Dinde",
+    "Tofu": "Tofu",
+    "Arroz (en seco)": "Riz (sec)",
+    "Patata": "Pomme de terre",
+    "Pasta (en seco)": "Pâtes (sèches)",
+    "Yogur tipo skyr natural": "Yaourt skyr nature",
+    "Queso fresco batido": "Fromage blanc",
+    "Manzana": "Pomme",
+    "Plátano": "Banane",
+    "Pera": "Poire",
+    "Avena": "Flocons d’avoine",
+    "Crema de arroz (en seco)": "Crème de riz (sèche)"
+  },
+  "de": {
+    "Cambiar alimento": "Lebensmittel ändern",
+    "Elige una sustitución en los selectores de cada comida para actualizar automáticamente las cantidades, los macros y la lista de compra. Las cantidades son orientativas.": "Wähle in den Mahlzeiten eine Alternative aus, um Mengen, Makros und Einkaufsliste automatisch zu aktualisieren. Die Mengen sind Richtwerte.",
+    "Pollo": "Hähnchen",
+    "Pavo": "Pute",
+    "Tofu": "Tofu",
+    "Arroz (en seco)": "Reis (trocken)",
+    "Patata": "Kartoffel",
+    "Pasta (en seco)": "Nudeln (trocken)",
+    "Yogur tipo skyr natural": "Natur-Skyr",
+    "Queso fresco batido": "Magerquark",
+    "Manzana": "Apfel",
+    "Plátano": "Banane",
+    "Pera": "Birne",
+    "Avena": "Haferflocken",
+    "Crema de arroz (en seco)": "Reiscreme (trocken)"
+  },
+  "it": {
+    "Cambiar alimento": "Cambia alimento",
+    "Elige una sustitución en los selectores de cada comida para actualizar automáticamente las cantidades, los macros y la lista de compra. Las cantidades son orientativas.": "Scegli una sostituzione nei selettori dei pasti per aggiornare automaticamente quantità, macro e lista della spesa. Le quantità sono indicative.",
+    "Pollo": "Pollo",
+    "Pavo": "Tacchino",
+    "Tofu": "Tofu",
+    "Arroz (en seco)": "Riso (secco)",
+    "Patata": "Patata",
+    "Pasta (en seco)": "Pasta (secca)",
+    "Yogur tipo skyr natural": "Yogurt skyr naturale",
+    "Queso fresco batido": "Quark",
+    "Manzana": "Mela",
+    "Plátano": "Banana",
+    "Pera": "Pera",
+    "Avena": "Avena",
+    "Crema de arroz (en seco)": "Crema di riso (secca)"
+  },
+  "pt": {
+    "Cambiar alimento": "Trocar alimento",
+    "Elige una sustitución en los selectores de cada comida para actualizar automáticamente las cantidades, los macros y la lista de compra. Las cantidades son orientativas.": "Escolhe uma substituição nos seletores das refeições para atualizar automaticamente as quantidades, os macros e a lista de compras. As quantidades são indicativas.",
+    "Pollo": "Frango",
+    "Pavo": "Peru",
+    "Tofu": "Tofu",
+    "Arroz (en seco)": "Arroz (seco)",
+    "Patata": "Batata",
+    "Pasta (en seco)": "Massa (seca)",
+    "Yogur tipo skyr natural": "Iogurte skyr natural",
+    "Queso fresco batido": "Queijo quark",
+    "Manzana": "Maçã",
+    "Plátano": "Banana",
+    "Pera": "Pera",
+    "Avena": "Aveia",
+    "Crema de arroz (en seco)": "Creme de arroz (seco)"
+  }
+};
+Object.keys(nutritionSwapCoverage).forEach(code=>Object.assign(labels[code],nutritionSwapCoverage[code]));
+
 const names={es:"Español",en:"English",fr:"Français",de:"Deutsch",it:"Italiano",pt:"Português"};
 const supportedLanguages=["es","en","fr","de","it","pt"];
  let lang=localStorage.getItem("ge_language")||"es";
