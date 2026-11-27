@@ -435,8 +435,8 @@ function addSelector(){
  const card=document.createElement("div");card.className="card";card.innerHTML='<h2>Idioma / Language</h2><div class="field"><label for="geLanguage">Selecciona el idioma de la aplicación</label><select id="geLanguage"><option value="es">🇪🇸 Español</option><option value="en">🇬🇧 English</option><option value="fr">🇫🇷 Français</option><option value="de">🇩🇪 Deutsch</option><option value="it">🇮🇹 Italiano</option><option value="pt">🇵🇹 Português</option></select></div><p class="muted" id="geLanguageHint">El cambio se guarda en este dispositivo. Puedes volver al español cuando quieras.</p>';
  profile.insertBefore(card,profile.children[1]||null);
  const select=document.getElementById("geLanguage");select.value=lang;
- select.addEventListener("change",()=>{lang=select.value;localStorage.setItem("ge_language",lang);translate();select.value=lang;});
+ select.addEventListener("change",()=>{lang=select.value;localStorage.setItem("ge_language",lang);translate();select.value=lang;window.dispatchEvent(new Event("gym-language-change"));});
 }
-function boot(){addSelector();translate();new MutationObserver(()=>{addSelector();translate()}).observe(document.body,{childList:true,subtree:true,characterData:true});}
+function boot(){addSelector();translate();window.dispatchEvent(new Event("gym-language-change"));new MutationObserver(()=>{addSelector();translate()}).observe(document.body,{childList:true,subtree:true,characterData:true});}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
 })();
