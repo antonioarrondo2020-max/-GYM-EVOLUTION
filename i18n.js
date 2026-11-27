@@ -528,7 +528,28 @@ function t(s){
  const dictionary=labels[lang]||{};
  // Traducción por coincidencia completa: nunca sustituye fragmentos dentro de cifras,
  // nombres, macros, unidades o frases dinámicas.
- return Object.prototype.hasOwnProperty.call(dictionary,source)?dictionary[source]:translateDynamic(source);
+ if(Object.prototype.hasOwnProperty.call(dictionary,source))return dictionary[source];\n return translateFragments(translateDynamic(source),dictionary);
+}
+function translateFragments(source,dictionary){
+ let result=source;
+ const entries=Object.entries(dictionary)
+  .filter(([key,value])=>key.trim().length>=3&&value!==undefined&&key!==value&&!/^\\d+$/.test(key.trim()))
+  .sort((a,b)=>b[0].length-a[0].length);
+ const isWord=ch=>!!ch&&/[\\p{L}\\p{N}_]/u.test(ch);
+ for(const [key,value] of entries){
+  let from=0,index;
+  while((index=result.indexOf(key,from))!==-1){
+   const before=index>0?result[index-1]:"";
+   const after=result[index+key.length]||"";
+   const leftOk=!isWord(key[0])||!isWord(before);
+   const rightOk=!isWord(key[key.length-1])||!isWord(after);
+   if(leftOk&&rightOk){
+    result=result.slice(0,index)+value+result.slice(index+key.length);
+    from=index+String(value).length;
+   }else from=index+key.length;
+  }
+ }
+ return result;
 }
 function translate(){
  document.documentElement.lang=lang;
