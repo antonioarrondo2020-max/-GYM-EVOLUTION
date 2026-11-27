@@ -689,6 +689,35 @@ const practicalPortionCoverage={
 };
 Object.keys(practicalPortionCoverage).forEach(code=>Object.assign(labels[code],practicalPortionCoverage[code]));
 
+const nutritionDisplayCoverage={
+ en:{
+  "Calcula tus objetivos para ver el reparto por comida.":"Calculate your targets to see the meal breakdown.",
+  "La lista de compra aparecerá después de calcular tus objetivos.":"Your shopping list will appear after you calculate your targets.",
+  "No hay alimentos en la lista de compra.":"There are no items in the shopping list."
+ },
+ fr:{
+  "Calcula tus objetivos para ver el reparto por comida.":"Calculez vos objectifs pour afficher la répartition par repas.",
+  "La lista de compra aparecerá después de calcular tus objetivos.":"Votre liste de courses apparaîtra après le calcul de vos objectifs.",
+  "No hay alimentos en la lista de compra.":"La liste de courses ne contient aucun article."
+ },
+ de:{
+  "Calcula tus objetivos para ver el reparto por comida.":"Berechne deine Ziele, um die Aufteilung nach Mahlzeiten zu sehen.",
+  "La lista de compra aparecerá después de calcular tus objetivos.":"Deine Einkaufsliste erscheint, nachdem du deine Ziele berechnet hast.",
+  "No hay alimentos en la lista de compra.":"Die Einkaufsliste enthält keine Artikel."
+ },
+ it:{
+  "Calcula tus objetivos para ver el reparto por comida.":"Calcola i tuoi obiettivi per visualizzare la ripartizione per pasto.",
+  "La lista de compra aparecerá después de calcular tus objetivos.":"La lista della spesa apparirà dopo aver calcolato i tuoi obiettivi.",
+  "No hay alimentos en la lista de compra.":"La lista della spesa non contiene articoli."
+ },
+ pt:{
+  "Calcula tus objetivos para ver el reparto por comida.":"Calcula os teus objetivos para veres a distribuição por refeição.",
+  "La lista de compra aparecerá después de calcular tus objetivos.":"A tua lista de compras aparecerá depois de calculares os teus objetivos.",
+  "No hay alimentos en la lista de compra.":"A lista de compras não contém artigos."
+ }
+};
+Object.keys(nutritionDisplayCoverage).forEach(code=>Object.assign(labels[code],nutritionDisplayCoverage[code]));
+
 const names={es:"Español",en:"English",fr:"Français",de:"Deutsch",it:"Italiano",pt:"Português"};
 const supportedLanguages=["es","en","fr","de","it","pt"];
  let lang=localStorage.getItem("ge_language")||"es";
