@@ -422,6 +422,7 @@ function translate(){
  let n;while(n=walker.nextNode()){if(!originals.has(n))originals.set(n,n.nodeValue);const base=originals.get(n);const lead=(base.match(/^\s*/)||[""])[0],trail=(base.match(/\s*$/)||[""])[0],core=base.trim();const translated=lead+t(core)+trail;if(n.nodeValue!==translated)n.nodeValue=translated;}
  document.querySelectorAll("input[placeholder],textarea[placeholder],button[title],input[aria-label],select[aria-label]").forEach(el=>{let attrs=attrOriginals.get(el);if(!attrs){attrs={};["placeholder","title","aria-label"].forEach(k=>{if(el.hasAttribute(k))attrs[k]=el.getAttribute(k)});attrOriginals.set(el,attrs)}Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,t(v)));});
 }
+window.GymI18n={t:value=>t(String(value)),get language(){return lang;}};
 function addSelector(){
  const profile=document.getElementById("profile");if(!profile||document.getElementById("geLanguage"))return;
  const card=document.createElement("div");card.className="card";card.innerHTML='<h2>Idioma / Language</h2><div class="field"><label for="geLanguage">Selecciona el idioma de la aplicación</label><select id="geLanguage"><option value="es">🇪🇸 Español</option><option value="en">🇬🇧 English</option><option value="fr">🇫🇷 Français</option><option value="de">🇩🇪 Deutsch</option><option value="it">🇮🇹 Italiano</option><option value="pt">🇵🇹 Português</option></select></div><p class="muted" id="geLanguageHint">El cambio se guarda en este dispositivo. Puedes volver al español cuando quieras.</p>';
