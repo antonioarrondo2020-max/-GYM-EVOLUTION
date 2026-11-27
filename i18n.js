@@ -506,16 +506,16 @@ updatedExercise:s=>`Atualizado nesta sessão. ${t(s)}`
 };
 function translateDynamic(source){
  const p=dynamicText[lang];if(!p)return source;let m;
- if((m=source.match(/^Tu distribución de (\\d+) comidas está guardada\\.$/)))return p.mealCount(m[1]);
+ if((m=source.match(/^Tu distribución de (\d+) comidas está guardada\.$/)))return p.mealCount(m[1]);
  if((m=source.match(/^Sesión en curso · (.+)$/)))return p.sessionState(m[1]);
- if((m=source.match(/^Sesión guardada: (\\d+) minutos y (\\d+) ejercicios registrados\\.$/)))return p.sessionSaved(m[1],m[2]);
- if((m=source.match(/^(\\d+) registros guardados\\. Busca mejoras pequeñas y constantes\\.$/)))return p.savedRecords(m[1]);
- if((m=source.match(/^Esta sesión pertenece a (.+)\\. Finalízala antes de cambiar de día\\.$/)))return p.sessionDay(m[1]);
+ if((m=source.match(/^Sesión guardada: (\d+) minutos y (\d+) ejercicios registrados\.$/)))return p.sessionSaved(m[1],m[2]);
+ if((m=source.match(/^(\d+) registros guardados\. Busca mejoras pequeñas y constantes\.$/)))return p.savedRecords(m[1]);
+ if((m=source.match(/^Esta sesión pertenece a (.+)\. Finalízala antes de cambiar de día\.$/)))return p.sessionDay(m[1]);
  if((m=source.match(/^Reto diario · (.+)$/)))return p.dailyTitle(m[1]);
  if((m=source.match(/^Reto semanal · (.+)$/)))return p.weeklyTitle(m[1]);
- if((m=source.match(/^(\\d+) de 3 sesiones completadas$/)))return p.weeklyCount(m[1]);
- if((m=source.match(/^Guardado en esta sesión\\. (.+)$/)))return p.savedExercise(m[1]);
- if((m=source.match(/^Registro actualizado en esta sesión\\. (.+)$/)))return p.updatedExercise(m[1]);
+ if((m=source.match(/^(\d+) de 3 sesiones completadas$/)))return p.weeklyCount(m[1]);
+ if((m=source.match(/^Guardado en esta sesión\. (.+)$/)))return p.savedExercise(m[1]);
+ if((m=source.match(/^Registro actualizado en esta sesión\. (.+)$/)))return p.updatedExercise(m[1]);
  return source;
 }
 
