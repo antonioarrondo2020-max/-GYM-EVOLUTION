@@ -452,6 +452,30 @@ pt:{"Completa 3 sesiones de entrenamiento registradas durante la semana.":"Compl
 };
 Object.keys(alertLabels).forEach(code=>Object.assign(labels[code],alertLabels[code]));
 
+const finalUiCoverage={
+en:{
+"Comandante, tu misión empieza hoy. No necesitas hacerlo perfecto; necesitas cumplir el siguiente paso.":"Commander, your mission starts today. You don't need to be perfect; you need to take the next step.",
+"Ej. 53.0":"E.g. 53.0","Opcional":"Optional"
+},
+fr:{
+"Comandante, tu misión empieza hoy. No necesitas hacerlo perfecto; necesitas cumplir el siguiente paso.":"Commandant, ta mission commence aujourd’hui. Tu n’as pas besoin d’être parfait : accomplis simplement l’étape suivante.",
+"Ej. 53.0":"Ex. 53,0","Opcional":"Facultatif"
+},
+de:{
+"Comandante, tu misión empieza hoy. No necesitas hacerlo perfecto; necesitas cumplir el siguiente paso.":"Kommandant, deine Mission beginnt heute. Du musst nicht perfekt sein; erledige einfach den nächsten Schritt.",
+"Ej. 53.0":"Z. B. 53,0","Opcional":"Optional"
+},
+it:{
+"Comandante, tu misión empieza hoy. No necesitas hacerlo perfecto; necesitas cumplir el siguiente paso.":"Comandante, la tua missione inizia oggi. Non devi essere perfetto: devi solo compiere il prossimo passo.",
+"Ej. 53.0":"Es. 53,0","Opcional":"Facoltativo"
+},
+pt:{
+"Comandante, tu misión empieza hoy. No necesitas hacerlo perfecto; necesitas cumplir el siguiente paso.":"Comandante, a tua missão começa hoje. Não precisas de ser perfeito; basta cumprires o próximo passo.",
+"Ej. 53.0":"Ex.: 53,0","Opcional":"Opcional"
+}
+};
+Object.keys(finalUiCoverage).forEach(code=>Object.assign(labels[code],finalUiCoverage[code]));
+
 const dynamicText={
 en:{
 mealCount:n=>`Your ${n}-meal plan has been saved.`,
@@ -534,7 +558,7 @@ Object.keys(challengeDynamicText).forEach(code=>Object.assign(dynamicText[code],
 function translateDynamic(source){
  const p=dynamicText[lang];if(!p)return source;let m;
  if((m=source.match(/^Tu distribución de (\d+) comidas está guardada\.$/)))return p.mealCount(m[1]);
- if((m=source.match(/^Revisa la medida de (Cintura|Pecho|Brazo|Muslo)\\.$/)))return ({
+ if((m=source.match(/^Revisa la medida de (Cintura|Pecho|Brazo|Muslo)\.$/)))return ({
   en:{Cintura:"Check the waist measurement.",Pecho:"Check the chest measurement.",Brazo:"Check the arm measurement.",Muslo:"Check the thigh measurement."},
   fr:{Cintura:"Vérifiez la mesure du tour de taille.",Pecho:"Vérifiez la mesure du tour de poitrine.",Brazo:"Vérifiez la mesure du bras.",Muslo:"Vérifiez la mesure de la cuisse."},
   de:{Cintura:"Überprüfe den Taillenumfang.",Pecho:"Überprüfe den Brustumfang.",Brazo:"Überprüfe den Armumfang.",Muslo:"Überprüfe den Oberschenkelumfang."},
