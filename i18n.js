@@ -418,18 +418,12 @@ const names={es:"Español",en:"English",fr:"Français",de:"Deutsch",it:"Italiano
 let lang=localStorage.getItem("ge_language")||"es";
 const originals=new WeakMap(), attrOriginals=new WeakMap();
 function t(s){
- const d=labels[lang]||{};
- if(d[s]!==undefined)return d[s];
- let out=s;
- const keys=Object.keys(d).sort((a,b)=>b.length-a.length);
- for(const key of keys){
-  if(key.length<=2)continue;
-  const escaped=key.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
-  const pattern=key.length>8?new RegExp(escaped,"giu"):new RegExp("(^|[^\\p{L}\\p{N}])"+escaped+"(?=$|[^\\p{L}\\p{N}])","giu");
-  const hasPrefix=key.length<=8;
-  out=out.replace(pattern,(...args)=>((hasPrefix?(args[1]||""):"")+d[key]));
- }
- return out;
+ const source=String(s);
+ if(lang==="es")return source;
+ const dictionary=labels[lang]||{};
+ // Traducción por coincidencia completa: nunca sustituye fragmentos dentro de cifras,
+ // nombres, macros, unidades o frases dinámicas.
+ return Object.prototype.hasOwnProperty.call(dictionary,source)?dictionary[source]:source;
 }
 function translate(){
  document.documentElement.lang=lang;
