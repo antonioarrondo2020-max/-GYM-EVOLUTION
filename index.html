@@ -353,22 +353,6 @@ $("importFile").onchange=async e=>{
  finally{e.target.value=""}
 };
 $("clear").onclick=()=>{if(confirm(tr("¿Borrar solo los registros de ejercicios? Se conservarán las sesiones, rutinas, perfil, nutrición, peso, medidas y retos."))){data.history=[];persist();renderHistory();renderExercises()}};
- const message="¿Reiniciar el historial de entrenamientos? Se borrarán las sesiones y los ejercicios registrados. Tu perfil, nutrición, peso, medidas y retos se conservarán.";
- if(!confirm(tr(message)))return;
- const completedThisWeek=getWeeklySessionCount();
- data.challenge=data.challenge||{};
- data.challenge.weeklyCarryWeek=weekKey();
- data.challenge.weeklyCarryCount=completedThisWeek;
- data.history=[];
- data.sessions=[];
- if(data.activeSession)delete data.activeSession;
- stopSessionTicker();
- persist();
- renderHistory();
- renderExercises();
- updateSessionUI();
- renderChallenges();
-};
 function refreshAppDataViews(){renderProfile();renderDays();renderExercises();renderMeals();renderNutritionSettings();renderNutritionMenu();renderMeasures();renderChallenges();renderHistory();updateSessionUI();if(data.activeSession&&!sessionTicker)sessionTicker=setInterval(updateSessionUI,1000);else if(!data.activeSession)stopSessionTicker()}
 function updateTestModeUI(){const banner=$("testModeBanner");banner.classList.toggle("hidden",!testMode);banner.textContent=tr("MODO DE PRUEBAS ACTIVO · Los datos son ficticios y están separados de tu progreso real.");$("enterTestMode").classList.toggle("hidden",testMode);$("loadTestData").classList.toggle("hidden",!testMode);$("resetTestData").classList.toggle("hidden",!testMode);$("exitTestMode").classList.toggle("hidden",!testMode);$("testModeStatus").textContent=testMode?tr("Estás usando datos de prueba aislados. Tus datos reales siguen protegidos."):tr("Modo normal: estás usando tu perfil e historial reales.") }
 function sampleTestData(){const now=Date.now(),start=now-42*60000,end=now-8*60000;return {profile:{name:"Usuario de prueba",age:"35",height:"167",weight:"60",target:"65",level:"Intermedio",goal:"Ganar masa muscular"},history:[{date:new Date(start+12*60000).toISOString(),sessionId:"demo-session-1",day:plan[0].day,exercise:plan[0].e[0][0],kg:30,reps:[12,10],unit:"reps",rir:3,suggestion:"Registro ficticio de comprobación."}],meals:[{name:"Desayuno"},{name:"Comida"},{name:"Cena"}],challenge:{date:todayKey(),week:weekKey(),daily:{title:"Reto de prueba",desc:"Este reto es ficticio y solo sirve para comprobar el guardado.",done:false},weekly:{title:"Reto semanal de prueba",desc:"Datos de ejemplo.",done:false}},sessions:[{startedAt:start,endedAt:end,day:plan[0].day,duration:34,exerciseLogs:1}],weights:[{date:new Date(start).toISOString(),kg:60}],measurements:[{date:new Date(start).toISOString(),values:{Cintura:78,Pecho:92,Brazo:30,Muslo:50}}],nutritionSettings:{sex:"male",activity:1.55}}}
