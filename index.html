@@ -201,17 +201,21 @@ function renderNutritionMenu(){
  const dailyKcal=daily.p*4+daily.c*4+daily.f*9;
  const dailySummary='<div class="notice"><b>'+tr("Totales del menú")+'</b><p class="mini">'+tr("Energía:")+' <b>'+dailyKcal.toFixed(1)+' kcal</b> ('+tr("objetivo ")+' '+est.target+' kcal; '+diff(dailyKcal,est.target)+' kcal) · '+tr("Proteínas:")+' <b>'+daily.p.toFixed(1)+' g</b> ('+tr("objetivo ")+' '+est.protein+' g; '+diff(daily.p,est.protein)+' g) · '+tr("Hidratos:")+' <b>'+daily.c.toFixed(1)+' g</b> ('+tr("objetivo ")+' '+est.carbs.toFixed(1)+' g; '+diff(daily.c,est.carbs)+' g) · '+tr("Grasas:")+' <b>'+daily.f.toFixed(1)+' g</b> ('+tr("objetivo ")+' '+est.fat+' g; '+diff(daily.f,est.fat)+' g).</p>'+scaleNote+'</div>';
  $("nutritionMenu").innerHTML=dailySummary+cards.join("")+'<p class="mini">'+tr("Los macros y kcal se calculan con la base nutricional interna de la app; las marcas y preparaciones pueden variar. Arroz, avena y crema de arroz se pesan en seco; atún escurrido; patata y verduras en crudo. Leche en ml.")+'</p>';
+ const shoppingEntries=Object.entries(totals).map(([id,g])=>{const food=nutritionFoodDB[id];return {name:tr(food.name),amount:food.unit==="ml"?g+" ml":Math.round(g)+" g"};});
+ $("nutritionShopping").innerHTML=shoppingEntries.length
+  ? "<ul style='margin:0;padding-left:20px'>"+shoppingEntries.map(item=>"<li>"+escapeHtml(item.name)+": "+escapeHtml(item.amount)+"</li>").join("")+"</ul>"
+  : "<p>"+tr("No hay alimentos en la lista de compra.")+"</p>";
+ $("copyNutritionList").onclick=async()=>{const value=$("nutritionShopping").innerText.trim();try{await navigator.clipboard.writeText(value);$("nutritionCopyStatus").textContent=tr("Lista copiada.")}catch(e){$("nutritionCopyStatus").textContent=tr("Mantén pulsada la lista para copiarla.")}};
  renderNutritionDistribution(mealBreakdown);
- $("nutritionShopping").textContent=Object.entries(totals).map(([id,g])=>{const food=nutritionFoodDB[id];return tr(food.name)+": "+(food.unit==="ml"?g+" ml":Math.round(g)+" g")}).join("; ")+".";
 }
 function renderNutritionDistribution(meals=[]){
  const box=$("nutritionPerMeal"),est=getValidNutritionEstimate();
  if(!box)return;
  if(!est){box.textContent=tr("Calcula tus objetivos para ver el reparto por comida.");return}
  const n=+$("mealCount").value||3,savedNames=data.meals.length?data.meals.slice(0,n).map(x=>x.name):[];
- box.innerHTML="<b>"+tr("Reparto real del menú por comida")+"</b><p class='mini'>"+tr("Objetivo diario:")+" "+est.target+" kcal · "+est.protein+" g "+tr("proteína")+" · "+est.fat+" g "+tr("grasas")+" · "+est.carbs.toFixed(1)+" g "+tr("hidratos")+". "+tr("Cada comida muestra los valores calculados de sus propias raciones.")+"</p>"+meals.map(m=>"<div class='history'><b>"+escapeHtml(localizedMealName(m.name,mealBreakdown.indexOf(m),n))+"</b><br>"+m.kcal.toFixed(1)+" kcal · "+m.p.toFixed(1)+" g "+tr("proteínas")+" · "+m.f.toFixed(1)+" g "+tr("grasas")+" · "+m.c.toFixed(1)+" g "+tr("hidratos")+"</div>").join("");
+ box.innerHTML="<b>"+tr("Reparto real del menú por comida")+"</b><p class='mini'>"+tr("Objetivo diario:")+" "+est.target+" kcal · "+est.protein+" g "+tr("proteína")+" · "+est.fat+" g "+tr("grasas")+" · "+est.carbs.toFixed(1)+" g "+tr("hidratos")+". "+tr("Cada comida muestra los valores calculados de sus propias raciones.")+"</p>"+meals.map(m=>"<div class='history'><b>"+escapeHtml(localizedMealName(m.name,meals.indexOf(m),n))+"</b><br>"+m.kcal.toFixed(1)+" kcal · "+m.p.toFixed(1)+" g "+tr("proteínas")+" · "+m.f.toFixed(1)+" g "+tr("grasas")+" · "+m.c.toFixed(1)+" g "+tr("hidratos")+"</div>").join("");
 }
-$("copyNutritionList").onclick=async()=>{let value=$("nutritionShopping").textContent;try{await navigator.clipboard.writeText(value);$("nutritionCopyStatus").textContent=tr("Lista copiada.")}catch(e){$("nutritionCopyStatus").textContent=tr("Mantén pulsada la lista para copiarla.")}};
+// El botón de copiar se configura al renderizar la lista visible.
 function getValidNutritionEstimate(){
  const est=data.nutritionEstimate,p=data.profile||{},s=data.nutritionSettings||{};
  if(!est||est.formulaVersion!==4||!est.profileSnapshot)return null;
