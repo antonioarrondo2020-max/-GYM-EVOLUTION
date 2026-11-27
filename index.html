@@ -89,11 +89,12 @@ function renderWeights(){let el=$("weightHistory");if(!el)return;el.innerHTML=da
 $("saveWeight").onclick=()=>{let kg=Number($("weightEntry").value);if(!kg||kg<25||kg>350){alert(tr("Introduce un peso válido."));return}data.weights.push({date:new Date().toISOString(),kg});data.profile.weight=String(kg);persist();$("weightEntry").value="";renderProfile();renderWeights();renderNutritionSettings();renderNutritionMenu();alert(tr("Peso guardado y nutrición actualizada."))};
 $("save").onclick=()=>{data.profile={};["name","age","height","weight","target","level","goal"].forEach(k=>data.profile[k]=$(k).value);persist();renderProfile();renderNutritionSettings();renderNutritionMenu();$("saved").textContent="Perfil guardado correctamente. Nutrición actualizada."};
 function renderProfile(){let p=data.profile||{};["name","age","height","weight","target","level","goal"].forEach(k=>{if(p[k]!==undefined)$(k).value=p[k]});$("homeWeight").innerHTML=(p.weight?escapeHtml(p.weight)+" kg":"—")+"<small>Peso actual</small>";$("homeTarget").innerHTML=(p.target?escapeHtml(p.target)+" kg":"—")+"<small>Objetivo</small>";}
-const mealDefaults=["Desayuno","Comida","Cena","Media mañana","Merienda"];
-function localizedMealName(name,index){let i=Number.isInteger(index)?index:mealDefaults.indexOf(name);return i>=0&&name===mealDefaults[i]?tr(name):name}
-function renderMeals(){let count=+$("mealCount").value||3;let names=data.meals.length?data.meals.slice(0,count).map(x=>x.name):[];$("meals").innerHTML=Array.from({length:count},(_,i)=>{let base=names[i]||mealDefaults[i]||"Comida "+(i+1);let display=localizedMealName(base,i);return `<div class="field"><label>Comida ${i+1}</label><input id="meal${i}" value="${escapeHtml(display)}" placeholder="Nombre de la comida"></div>`}).join("")}
+const mealDefaultsByCount={3:["Desayuno","Comida","Cena"],4:["Desayuno","Media mañana","Comida","Cena"],5:["Desayuno","Media mañana","Comida","Merienda","Cena"]};
+function mealDefaultsForCount(count){return mealDefaultsByCount[count]||mealDefaultsByCount[3]}
+function localizedMealName(name,index,count){const defaults=mealDefaultsForCount(count||+ $("mealCount").value||3),canonical=defaults[index];return canonical&&(!name||mealDefaultsByCount[3].includes(name)||mealDefaultsByCount[4].includes(name)||mealDefaultsByCount[5].includes(name))?tr(canonical):name}
+function renderMeals(){let count=+ $("mealCount").value||3,defaults=mealDefaultsForCount(count),names=data.meals.length?data.meals.slice(0,count).map(x=>x.name):[];$("meals").innerHTML=Array.from({length:count},(_,i)=>{let base=names[i]||defaults[i]||"Comida "+(i+1);let display=localizedMealName(base,i,count);return `<div class="field"><label>Comida ${i+1}</label><input id="meal${i}" value="${escapeHtml(display)}" placeholder="Nombre de la comida"></div>`}).join("")}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-$("mealCount").onchange=()=>{renderMeals();renderNutritionMenu()};$("saveMeals").onclick=()=>{let n=+$("mealCount").value;data.meals=Array.from({length:n},(_,i)=>{let base=mealDefaults[i]||"Comida "+(i+1),value=$("meal"+i).value.trim();return {name:!value||value===tr(base)?base:value}});persist();renderNutritionMenu();$("mealSaved").textContent="Tu distribución de "+n+" comidas está guardada.";};
+$("mealCount").onchange=()=>{renderMeals();renderNutritionMenu()};$("saveMeals").onclick=()=>{let n=+$("mealCount").value,defaults=mealDefaultsForCount(n);data.meals=Array.from({length:n},(_,i)=>{let base=defaults[i]||"Comida "+(i+1),value=$("meal"+i).value.trim();return {name:!value||value===tr(base)?base:value}});persist();renderNutritionMenu();$("mealSaved").textContent="Tu distribución de "+n+" comidas está guardada.";};
 const nutritionFoodDB={
  whey:{name:"Proteína whey",p:80,c:8,f:5,group:"protein"},
  creamRice:{name:"Crema de arroz (en seco)",p:7,c:80,f:1,group:"carb"},
@@ -184,7 +185,7 @@ function renderNutritionMenu(){
   });
   const mealName=savedNames[i]||meal.name,mealKcal=mealTotals.p*4+mealTotals.c*4+mealTotals.f*9;
   mealBreakdown.push({name:mealName,p:mealTotals.p,c:mealTotals.c,f:mealTotals.f,kcal:mealKcal});
-  cards.push('<div class="history"><b>'+escapeHtml(localizedMealName(mealName,i))+'</b><p>'+items.join(" · ")+'</p><span class="muted">'+mealKcal.toFixed(1)+' kcal · '+mealTotals.p.toFixed(1)+' g '+tr("proteína")+' · '+mealTotals.c.toFixed(1)+' g '+tr("hidratos")+' · '+mealTotals.f.toFixed(1)+' g '+tr("grasas")+'</span></div>');
+  cards.push('<div class="history"><b>'+escapeHtml(localizedMealName(mealName,i,n))+'</b><p>'+items.join(" · ")+'</p><span class="muted">'+mealKcal.toFixed(1)+' kcal · '+mealTotals.p.toFixed(1)+' g '+tr("proteína")+' · '+mealTotals.c.toFixed(1)+' g '+tr("hidratos")+' · '+mealTotals.f.toFixed(1)+' g '+tr("grasas")+'</span></div>');
  });
  const diff=(actual,target)=>{const d=Math.round((actual-target)*10)/10;return (d>0?"+":"")+d.toFixed(1)};
  const scaleNote=scaleWasClamped
@@ -203,7 +204,7 @@ function renderNutritionDistribution(meals=[]){
  if(!box)return;
  if(!est){box.textContent=tr("Calcula tus objetivos para ver el reparto por comida.");return}
  const n=+$("mealCount").value||3,savedNames=data.meals.length?data.meals.slice(0,n).map(x=>x.name):[];
- box.innerHTML="<b>"+tr("Reparto real del menú por comida")+"</b><p class='mini'>"+tr("Objetivo diario:")+" "+est.target+" kcal · "+est.protein+" g "+tr("proteína")+" · "+est.fat+" g "+tr("grasas")+" · "+est.carbs.toFixed(1)+" g "+tr("hidratos")+". "+tr("Cada comida muestra los valores calculados de sus propias raciones.")+"</p>"+meals.map(m=>"<div class='history'><b>"+escapeHtml(localizedMealName(m.name))+"</b><br>"+m.kcal.toFixed(1)+" kcal · "+m.p.toFixed(1)+" g "+tr("proteínas")+" · "+m.f.toFixed(1)+" g "+tr("grasas")+" · "+m.c.toFixed(1)+" g "+tr("hidratos")+"</div>").join("");
+ box.innerHTML="<b>"+tr("Reparto real del menú por comida")+"</b><p class='mini'>"+tr("Objetivo diario:")+" "+est.target+" kcal · "+est.protein+" g "+tr("proteína")+" · "+est.fat+" g "+tr("grasas")+" · "+est.carbs.toFixed(1)+" g "+tr("hidratos")+". "+tr("Cada comida muestra los valores calculados de sus propias raciones.")+"</p>"+meals.map(m=>"<div class='history'><b>"+escapeHtml(localizedMealName(m.name,mealBreakdown.indexOf(m),n))+"</b><br>"+m.kcal.toFixed(1)+" kcal · "+m.p.toFixed(1)+" g "+tr("proteínas")+" · "+m.f.toFixed(1)+" g "+tr("grasas")+" · "+m.c.toFixed(1)+" g "+tr("hidratos")+"</div>").join("");
 }
 $("copyNutritionList").onclick=async()=>{let value=$("nutritionShopping").textContent;try{await navigator.clipboard.writeText(value);$("nutritionCopyStatus").textContent=tr("Lista copiada.")}catch(e){$("nutritionCopyStatus").textContent=tr("Mantén pulsada la lista para copiarla.")}};
 function getValidNutritionEstimate(){
