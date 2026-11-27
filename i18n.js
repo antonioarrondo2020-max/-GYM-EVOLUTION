@@ -535,8 +535,8 @@ function translateDynamic(source){
  const p=dynamicText[lang];if(!p)return source;let m;
  if((m=source.match(/^Tu distribución de (\d+) comidas está guardada\.$/)))return p.mealCount(m[1]);
  if((m=source.match(/^Sesión en curso · (.+)$/)))return p.sessionState(m[1]);
- if((m=source.match(/^Completa (\\d+) sentadillas controladas y 5 minutos de movilidad\\.$/)))return p.dailySquats(m[1]);
- if((m=source.match(/^Haz (\\d+) flexiones adaptadas \\(apoyando rodillas si hace falta\\) o una alternativa equivalente sin dolor, y 5 minutos de movilidad\\.$/)))return p.dailyPushups(m[1]);
+ if((m=source.match(/^Completa (\d+) sentadillas controladas y 5 minutos de movilidad\.$/)))return p.dailySquats(m[1]);
+ if((m=source.match(/^Haz (\d+) flexiones adaptadas \(apoyando rodillas si hace falta\) o una alternativa equivalente sin dolor, y 5 minutos de movilidad\.$/)))return p.dailyPushups(m[1]);
 
  if((m=source.match(/^Revisa los datos: carga entre 0 y 1000 kg, (\d+) series con valores enteros entre (\d+) y (\d+)( segundos| repeticiones), y RIR entero entre 0 y 10\.$/)))return ({
   en:`Check the data: load must be between 0 and 1000 kg, ${m[1]} sets with whole-number values between ${m[2]} and ${m[3]}${m[4]===" segundos"?" seconds":" reps"}, and RIR must be a whole number between 0 and 10.`,
