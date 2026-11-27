@@ -63,11 +63,11 @@
   let registrationRef = null;
   let reloading = false;
   const button = () => document.getElementById("gymUpdateButton");
-  const message = key => { const el=document.getElementById("gymUpdateMessage"); if(el)el.textContent=current()[key]||current().notice; };
+  const message = key => { const el=document.getElementById("gymUpdateMessage"); if(el){el.textContent=current()[key]||current().notice;el.dataset.messageKey=key;} };
   const refreshText = () => {
     const m=current(), el=document.getElementById("gymUpdateMessage"), b=button();
-    if(el && (!el.dataset.messageKey || el.dataset.messageKey==="notice")){el.textContent=m.notice;el.dataset.messageKey="notice";}
-    if(b && (!b.dataset.labelKey || b.dataset.labelKey==="update")){b.textContent=m.update;b.dataset.labelKey="update";}
+    if(el){const key=el.dataset.messageKey||"notice";el.textContent=m[key]||m.notice;}
+    if(b){const key=b.dataset.labelKey||"update";b.textContent=m[key]||m.update;}
   };
   const showNotice = () => { if(!notice.isConnected)document.body.appendChild(notice); notice.style.display="block"; refreshText(); };
 
