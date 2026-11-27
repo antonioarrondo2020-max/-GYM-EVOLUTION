@@ -519,7 +519,7 @@ function translateDynamic(source){
  if((m=source.match(/^Tu distribución de (\d+) comidas está guardada\.$/)))return p.mealCount(m[1]);
  if((m=source.match(/^Sesión en curso · (.+)$/)))return p.sessionState(m[1]);
 
- if((m=source.match(/^Revisa los datos: carga entre 0 y 1000 kg, (\\d+) series con valores enteros entre (\\d+) y (\\d+)( segundos| repeticiones), y RIR entero entre 0 y 10\\.$/)))return ({
+ if((m=source.match(/^Revisa los datos: carga entre 0 y 1000 kg, (\d+) series con valores enteros entre (\d+) y (\d+)( segundos| repeticiones), y RIR entero entre 0 y 10\.$/)))return ({
   en:`Check the data: load must be between 0 and 1000 kg, ${m[1]} sets with whole-number values between ${m[2]} and ${m[3]}${m[4]===" segundos"?" seconds":" reps"}, and RIR must be a whole number between 0 and 10.`,
   fr:`Vérifiez les données : charge entre 0 et 1000 kg, ${m[1]} séries avec des valeurs entières entre ${m[2]} et ${m[3]}${m[4]===" segundos"?" secondes":" répétitions"}, et RIR entier entre 0 et 10.`,
   de:`Prüfe die Angaben: Gewicht zwischen 0 und 1000 kg, ${m[1]} Sätze mit ganzen Zahlen zwischen ${m[2]} und ${m[3]}${m[4]===" segundos"?" Sekunden":" Wiederholungen"} und RIR als ganze Zahl zwischen 0 und 10.`,
