@@ -680,6 +680,15 @@ pt:{
 };
 Object.keys(nutritionFallbackCoverage).forEach(code=>Object.assign(labels[code],nutritionFallbackCoverage[code]));
 
+const practicalPortionCoverage={
+ en:{"Se priorizan raciones mínimas prácticas; por eso los macronutrientes pueden diferir del objetivo. Las calorías se reajustan para mantenerse cerca del objetivo diario.":"Practical minimum portions are prioritised, so macros may differ from the target. Calories are adjusted to stay close to the daily target."},
+ fr:{"Se priorizan raciones mínimas prácticas; por eso los macronutrientes pueden diferir del objetivo. Las calorías se reajustan para mantenerse cerca del objetivo diario.":"Les portions minimales pratiques sont privilégiées ; les macronutriments peuvent donc différer de l’objectif. Les calories sont ajustées pour rester proches de l’objectif quotidien."},
+ de:{"Se priorizan raciones mínimas prácticas; por eso los macronutrientes pueden diferir del objetivo. Las calorías se reajustan para mantenerse cerca del objetivo diario.":"Praktische Mindestportionen haben Vorrang; daher können die Makros vom Ziel abweichen. Die Kalorien werden angepasst, damit sie nahe am Tagesziel bleiben."},
+ it:{"Se priorizan raciones mínimas prácticas; por eso los macronutrientes pueden diferir del objetivo. Las calorías se reajustan para mantenerse cerca del objetivo diario.":"Si privilegiano porzioni minime pratiche, quindi i macronutrienti possono differire dall’obiettivo. Le calorie vengono regolate per restare vicine all’obiettivo giornaliero."},
+ pt:{"Se priorizan raciones mínimas prácticas; por eso los macronutrientes pueden diferir del objetivo. Las calorías se reajustan para mantenerse cerca del objetivo diario.":"São priorizadas porções mínimas práticas; por isso, os macronutrientes podem diferir do objetivo. As calorias são ajustadas para se manterem próximas do objetivo diário."}
+};
+Object.keys(practicalPortionCoverage).forEach(code=>Object.assign(labels[code],practicalPortionCoverage[code]));
+
 const names={es:"Español",en:"English",fr:"Français",de:"Deutsch",it:"Italiano",pt:"Português"};
 const supportedLanguages=["es","en","fr","de","it","pt"];
  let lang=localStorage.getItem("ge_language")||"es";
