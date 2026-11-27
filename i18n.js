@@ -528,7 +528,8 @@ function t(s){
  const dictionary=labels[lang]||{};
  // Traducción por coincidencia completa: nunca sustituye fragmentos dentro de cifras,
  // nombres, macros, unidades o frases dinámicas.
- if(Object.prototype.hasOwnProperty.call(dictionary,source))return dictionary[source];\n return translateFragments(translateDynamic(source),dictionary);
+ if(Object.prototype.hasOwnProperty.call(dictionary,source))return dictionary[source];
+ return translateFragments(translateDynamic(source),dictionary);
 }
 function translateFragments(source,dictionary){
  let result=source;
