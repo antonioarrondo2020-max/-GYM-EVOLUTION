@@ -411,7 +411,8 @@ function t(s){
   if(key.length<=2)continue;
   const escaped=key.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
   const pattern=key.length>8?new RegExp(escaped,"giu"):new RegExp("(^|[^\\p{L}\\p{N}])"+escaped+"(?=$|[^\\p{L}\\p{N}])","giu");
-  out=out.replace(pattern,(match,prefix)=>((prefix||"")+d[key]));
+  const hasPrefix=key.length<=8;
+  out=out.replace(pattern,(...args)=>((hasPrefix?(args[1]||""):"")+d[key]));
  }
  return out;
 }
