@@ -681,7 +681,9 @@ pt:{
 Object.keys(nutritionFallbackCoverage).forEach(code=>Object.assign(labels[code],nutritionFallbackCoverage[code]));
 
 const names={es:"Español",en:"English",fr:"Français",de:"Deutsch",it:"Italiano",pt:"Português"};
-let lang=localStorage.getItem("ge_language")||"es";
+const supportedLanguages=["es","en","fr","de","it","pt"];
+ let lang=localStorage.getItem("ge_language")||"es";
+ if(!supportedLanguages.includes(lang)){lang="es";localStorage.setItem("ge_language","es");}
 const originals=new WeakMap(), attrOriginals=new WeakMap();
 function t(s){
  const source=String(s);
@@ -717,7 +719,7 @@ function translate(){
  document.documentElement.lang=lang;
  const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
  let n;while(n=walker.nextNode()){if(n.parentElement&&n.parentElement.closest("#nutritionResult,#nutritionMenu,#nutritionPerMeal,#nutritionShopping"))continue;if(!originals.has(n))originals.set(n,n.nodeValue);const base=originals.get(n);const lead=(base.match(/^\s*/)||[""])[0],trail=(base.match(/\s*$/)||[""])[0],core=base.trim();const translated=lead+t(core)+trail;if(n.nodeValue!==translated)n.nodeValue=translated;}
- document.querySelectorAll("input[placeholder],textarea[placeholder],button[title],input[aria-label],select[aria-label]").forEach(el=>{let attrs=attrOriginals.get(el);if(!attrs){attrs={};["placeholder","title","aria-label"].forEach(k=>{if(el.hasAttribute(k))attrs[k]=el.getAttribute(k)});attrOriginals.set(el,attrs)}Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,t(v)));});
+ document.querySelectorAll("[placeholder],[title],[aria-label]").forEach(el=>{let attrs=attrOriginals.get(el);if(!attrs){attrs={};attrOriginals.set(el,attrs)}["placeholder","title","aria-label"].forEach(k=>{if(el.hasAttribute(k)&&!Object.prototype.hasOwnProperty.call(attrs,k))attrs[k]=el.getAttribute(k)});Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,t(v)));});
 }
 window.GymI18n={t:value=>t(String(value)),get language(){return lang;}};
 function addSelector(){
