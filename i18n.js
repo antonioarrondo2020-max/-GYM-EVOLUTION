@@ -602,6 +602,38 @@ pt:{
 };
 Object.keys(finalSectionCoverage).forEach(code=>Object.assign(labels[code],finalSectionCoverage[code]));
 
+const nutritionFallbackCoverage={
+fr:{
+"La lista de compra aparecerá después de calcular tus objetivos.":"La liste de courses apparaîtra après le calcul de vos objectifs.",
+"Reparto real del menú por comida":"Répartition réelle du menu par repas",
+"La estimación guardada necesita actualizarse. Comprueba tu perfil y los ajustes de nutrición.":"L’estimation enregistrée doit être mise à jour. Vérifiez votre profil et les paramètres nutritionnels.",
+"Completa edad, altura y peso en Mi perfil y selecciona la fórmula fisiológica para calcular una estimación.":"Renseignez l’âge, la taille et le poids dans Mon profil et sélectionnez la formule physiologique pour obtenir une estimation.",
+"No se ha podido calcular. Revisa edad, altura y peso en Mi perfil; deben ser valores válidos.":"Impossible d’effectuer le calcul. Vérifiez l’âge, la taille et le poids dans Mon profil ; les valeurs doivent être valides."
+},
+de:{
+"La lista de compra aparecerá después de calcular tus objetivos.":"Die Einkaufsliste wird angezeigt, sobald du deine Ziele berechnet hast.",
+"Reparto real del menú por comida":"Tatsächliche Menüaufteilung pro Mahlzeit",
+"La estimación guardada necesita actualizarse. Comprueba tu perfil y los ajustes de nutrición.":"Die gespeicherte Schätzung muss aktualisiert werden. Prüfe dein Profil und die Ernährungseinstellungen.",
+"Completa edad, altura y peso en Mi perfil y selecciona la fórmula fisiológica para calcular una estimación.":"Gib Alter, Größe und Gewicht in Mein Profil ein und wähle die physiologische Formel, um eine Schätzung zu berechnen.",
+"No se ha podido calcular. Revisa edad, altura y peso en Mi perfil; deben ser valores válidos.":"Die Berechnung war nicht möglich. Prüfe Alter, Größe und Gewicht in Mein Profil; alle Werte müssen gültig sein."
+},
+it:{
+"La lista de compra aparecerá después de calcular tus objetivos.":"La lista della spesa apparirà dopo aver calcolato i tuoi obiettivi.",
+"Reparto real del menú por comida":"Ripartizione effettiva del menu per pasto",
+"La estimación guardada necesita actualizarse. Comprueba tu perfil y los ajustes de nutrición.":"La stima salvata deve essere aggiornata. Controlla il profilo e le impostazioni nutrizionali.",
+"Completa edad, altura y peso en Mi perfil y selecciona la fórmula fisiológica para calcular una estimación.":"Inserisci età, altezza e peso in Il mio profilo e seleziona la formula fisiologica per calcolare una stima.",
+"No se ha podido calcular. Revisa edad, altura y peso en Mi perfil; deben ser valores válidos.":"Impossibile eseguire il calcolo. Controlla età, altezza e peso in Il mio profilo: i valori devono essere validi."
+},
+pt:{
+"La lista de compra aparecerá después de calcular tus objetivos.":"A lista de compras aparecerá depois de calculares os teus objetivos.",
+"Reparto real del menú por comida":"Distribuição real do menu por refeição",
+"La estimación guardada necesita actualizarse. Comprueba tu perfil y los ajustes de nutrición.":"A estimativa guardada precisa de ser atualizada. Verifica o teu perfil e as definições de nutrição.",
+"Completa edad, altura y peso en Mi perfil y selecciona la fórmula fisiológica para calcular una estimación.":"Introduz a idade, a altura e o peso em O meu perfil e seleciona a fórmula fisiológica para calcular uma estimativa.",
+"No se ha podido calcular. Revisa edad, altura y peso en Mi perfil; deben ser valores válidos.":"Não foi possível calcular. Verifica a idade, a altura e o peso em O meu perfil; os valores têm de ser válidos."
+}
+};
+Object.keys(nutritionFallbackCoverage).forEach(code=>Object.assign(labels[code],nutritionFallbackCoverage[code]));
+
 const names={es:"Español",en:"English",fr:"Français",de:"Deutsch",it:"Italiano",pt:"Português"};
 let lang=localStorage.getItem("ge_language")||"es";
 const originals=new WeakMap(), attrOriginals=new WeakMap();
