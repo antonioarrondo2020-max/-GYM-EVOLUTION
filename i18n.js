@@ -480,7 +480,7 @@ const dynamicText={
 en:{
 mealCount:n=>`Your ${n}-meal plan has been saved.`,
 sessionState:d=>`Workout in progress · ${t(d)}`,
-sessionSaved:(m,e)=>`Session saved: ${m} minutes and ${e} exercises logged.`,
+sessionSaved:(m,e)=>`Session saved: ${m} minutes and ${e} ${e==="1"?"exercise":"exercises"} logged.`,
 savedRecords:n=>`${n} records saved. Look for small, consistent improvements.`,
 sessionDay:d=>`This session belongs to ${t(d)}. Finish it before changing the day.`,
 dailyTitle:s=>`Daily challenge · ${t(s)}`,
@@ -492,7 +492,7 @@ updatedExercise:s=>`Updated in this session. ${t(s)}`
 fr:{
 mealCount:n=>`Votre répartition de ${n} repas est enregistrée.`,
 sessionState:d=>`Séance en cours · ${t(d)}`,
-sessionSaved:(m,e)=>`Séance enregistrée : ${m} minutes et ${e} exercices saisis.`,
+sessionSaved:(m,e)=>`Séance enregistrée : ${m} minutes et ${e} ${e==="1"?"exercice saisi":"exercices saisis"}.`,
 savedRecords:n=>`${n} enregistrements sauvegardés. Cherchez de petites améliorations régulières.`,
 sessionDay:d=>`Cette séance correspond à ${t(d)}. Terminez-la avant de changer de jour.`,
 dailyTitle:s=>`Défi quotidien · ${t(s)}`,
@@ -504,7 +504,7 @@ updatedExercise:s=>`Mis à jour dans cette séance. ${t(s)}`
 de:{
 mealCount:n=>`Dein Plan mit ${n} Mahlzeiten wurde gespeichert.`,
 sessionState:d=>`Einheit läuft · ${t(d)}`,
-sessionSaved:(m,e)=>`Einheit gespeichert: ${m} Minuten und ${e} Übungen protokolliert.`,
+sessionSaved:(m,e)=>`Einheit gespeichert: ${m} Minuten und ${e} ${e==="1"?"Übung protokolliert":"Übungen protokolliert"}.`,
 savedRecords:n=>`${n} Einträge gespeichert. Achte auf kleine, stetige Verbesserungen.`,
 sessionDay:d=>`Diese Einheit gehört zu ${t(d)}. Beende sie, bevor du den Tag wechselst.`,
 dailyTitle:s=>`Tägliche Challenge · ${t(s)}`,
@@ -516,7 +516,7 @@ updatedExercise:s=>`In dieser Einheit aktualisiert. ${t(s)}`
 it:{
 mealCount:n=>`Il tuo piano da ${n} pasti è stato salvato.`,
 sessionState:d=>`Sessione in corso · ${t(d)}`,
-sessionSaved:(m,e)=>`Sessione salvata: ${m} minuti e ${e} esercizi registrati.`,
+sessionSaved:(m,e)=>`Sessione salvata: ${m} minuti e ${e} ${e==="1"?"esercizio registrato":"esercizi registrati"}.`,
 savedRecords:n=>`${n} registrazioni salvate. Cerca piccoli miglioramenti costanti.`,
 sessionDay:d=>`Questa sessione appartiene a ${t(d)}. Concludila prima di cambiare giorno.`,
 dailyTitle:s=>`Sfida quotidiana · ${t(s)}`,
@@ -528,7 +528,7 @@ updatedExercise:s=>`Aggiornato in questa sessione. ${t(s)}`
 pt:{
 mealCount:n=>`O teu plano de ${n} refeições foi guardado.`,
 sessionState:d=>`Sessão em curso · ${t(d)}`,
-sessionSaved:(m,e)=>`Sessão guardada: ${m} minutos e ${e} exercícios registados.`,
+sessionSaved:(m,e)=>`Sessão guardada: ${m} minutos e ${e} ${e==="1"?"exercício registado":"exercícios registados"}.`,
 savedRecords:n=>`${n} registos guardados. Procura pequenas melhorias constantes.`,
 sessionDay:d=>`Esta sessão pertence a ${t(d)}. Termina-a antes de mudares de dia.`,
 dailyTitle:s=>`Desafio diário · ${t(s)}`,
@@ -577,7 +577,7 @@ function translateDynamic(source){
   pt:`Verifica os dados: carga entre 0 e 1000 kg, ${m[1]} séries com valores inteiros entre ${m[2]} e ${m[3]}${m[4]===" segundos"?" segundos":" repetições"}, e RIR inteiro entre 0 e 10.`
  })[lang];
 
- if((m=source.match(/^Sesión guardada: (\d+) minutos y (\d+) ejercicios registrados\.$/)))return p.sessionSaved(m[1],m[2]);
+ if((m=source.match(/^Sesión guardada: (\d+) minutos y (\d+) ejercicio(?:s)? registrado(?:s)?\.$/)))return p.sessionSaved(m[1],m[2]);
  if((m=source.match(/^(\d+) registros guardados\. Busca mejoras pequeñas y constantes\.$/)))return p.savedRecords(m[1]);
  if((m=source.match(/^Esta sesión pertenece a (.+)\. Finalízala antes de cambiar de día\.$/)))return p.sessionDay(m[1]);
  if((m=source.match(/^Reto diario · (.+)$/)))return p.dailyTitle(m[1]);
