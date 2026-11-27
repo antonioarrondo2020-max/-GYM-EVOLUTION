@@ -414,6 +414,15 @@ Object.assign(nutritionPhrases.it,{"años":"anni","actividad":"attività","los o
 Object.assign(nutritionPhrases.pt,{"años":"anos","actividad":"atividade","los objetivos se salen del rango de ajuste de esta plantilla. las cantidades mostradas son orientativas y los macros pueden desviarse; revisa el menú antes de usarlo.":"Os objetivos estão fora do intervalo de ajuste deste modelo. As quantidades são indicativas e os macronutrientes podem variar; revê o menu antes de o utilizar.","Para alcanzar estos objetivos algunas raciones pueden quedar pequeñas o grandes. Revisa las cantidades y utiliza equivalencias si lo necesitas.":"Algumas porções podem ser demasiado pequenas ou grandes para atingir estes objetivos. Revê as quantidades e utiliza equivalências se necessário.","Mantén pulsada la lista para copiarla.":"Mantém a lista premida para a copiar."});
 
 Object.keys(nutritionPhrases).forEach(k=>Object.assign(labels[k],nutritionPhrases[k]));
+// Correcciones de textos de marca y nombres de comidas.
+const globalUiTranslations={
+ en:{"Entrena con cabeza. Evoluciona cada semana. · V7.3":"Train smart. Evolve every week. · V7.3","GYM EVOLUTION · Versión 7.3 · Desarrollo profesional":"GYM EVOLUTION · Version 7.3 · Professional development","Comida":"Lunch"},
+ fr:{"Entrena con cabeza. Evoluciona cada semana. · V7.3":"Entraînez-vous intelligemment. Évoluez chaque semaine. · V7.3","GYM EVOLUTION · Versión 7.3 · Desarrollo profesional":"GYM EVOLUTION · Version 7.3 · Développement professionnel","Comida":"Déjeuner"},
+ de:{"Entrena con cabeza. Evoluciona cada semana. · V7.3":"Trainiere mit Köpfchen. Entwickle dich jede Woche weiter. · V7.3","GYM EVOLUTION · Versión 7.3 · Desarrollo profesional":"GYM EVOLUTION · Version 7.3 · Professionelle Entwicklung","Comida":"Mittagessen"},
+ it:{"Entrena con cabeza. Evoluciona cada semana. · V7.3":"Allenati con intelligenza. Evolviti ogni settimana. · V7.3","GYM EVOLUTION · Versión 7.3 · Desarrollo profesional":"GYM EVOLUTION · Versione 7.3 · Sviluppo professionale","Comida":"Pranzo"},
+ pt:{"Entrena con cabeza. Evoluciona cada semana. · V7.3":"Treina com inteligência. Evolui a cada semana. · V7.3","GYM EVOLUTION · Versión 7.3 · Desarrollo profesional":"GYM EVOLUTION · Versão 7.3 · Desenvolvimento profissional","Comida":"Almoço"}
+};
+Object.keys(globalUiTranslations).forEach(k=>Object.assign(labels[k],globalUiTranslations[k]));
 const names={es:"Español",en:"English",fr:"Français",de:"Deutsch",it:"Italiano",pt:"Português"};
 let lang=localStorage.getItem("ge_language")||"es";
 const originals=new WeakMap(), attrOriginals=new WeakMap();
