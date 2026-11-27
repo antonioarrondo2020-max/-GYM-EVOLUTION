@@ -533,9 +533,9 @@ function t(s){
 function translateFragments(source,dictionary){
  let result=source;
  const entries=Object.entries(dictionary)
-  .filter(([key,value])=>key.trim().length>=3&&value!==undefined&&key!==value&&!/^\\d+$/.test(key.trim()))
+  .filter(([key,value])=>key.trim().length>=3&&value!==undefined&&key!==value&&!/^\d+$/.test(key.trim()))
   .sort((a,b)=>b[0].length-a[0].length);
- const isWord=ch=>!!ch&&/[\\p{L}\\p{N}_]/u.test(ch);
+ const isWord=ch=>!!ch&&/[\p{L}\p{N}_]/u.test(ch);
  for(const [key,value] of entries){
   let from=0,index;
   while((index=result.indexOf(key,from))!==-1){
