@@ -812,6 +812,15 @@ const nutritionSwapCoverage={
 };
 Object.keys(nutritionSwapCoverage).forEach(code=>Object.assign(labels[code],nutritionSwapCoverage[code]));
 
+const exerciseClearButtonCoverage = {
+ en: {"Borrar registros de ejercicios":"Delete exercise records"},
+ fr: {"Borrar registros de ejercicios":"Supprimer les enregistrements d’exercices"},
+ de: {"Borrar registros de ejercicios":"Trainingsaufzeichnungen löschen"},
+ it: {"Borrar registros de ejercicios":"Elimina i registri degli esercizi"},
+ pt: {"Borrar registros de ejercicios":"Apagar registos de exercícios"}
+};
+Object.keys(exerciseClearButtonCoverage).forEach(code=>Object.assign(labels[code],exerciseClearButtonCoverage[code]));
+
 const names={es:"Español",en:"English",fr:"Français",de:"Deutsch",it:"Italiano",pt:"Português"};
 const supportedLanguages=["es","en","fr","de","it","pt"];
  let lang=localStorage.getItem("ge_language")||"es";
