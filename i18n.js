@@ -821,6 +821,44 @@ const exerciseClearButtonCoverage = {
 };
 Object.keys(exerciseClearButtonCoverage).forEach(code=>Object.assign(labels[code],exerciseClearButtonCoverage[code]));
 
+
+const workoutFrenchCoverage = {
+ en: {
+  "Pectorales":"Chest","Espalda":"Back","Hombros":"Shoulders","Bíceps":"Biceps","Tríceps":"Triceps",
+  "Máquina":"Machine","Polea":"Cable","Máquina/polea":"Machine/cable",
+  "RIR final · objetivo 3–4":"Final RIR · target 3–4"
+ },
+ fr: {
+  "Carga kg (0 si peso corporal)":"Charge (kg, 0 si poids du corps)",
+  "Reps por serie":"Répétitions par série",
+  "Pectorales":"Pectoraux","Espalda":"Dos","Hombros":"Épaules","Bíceps":"Biceps","Tríceps":"Triceps",
+  "Máquina":"Machine","Polea":"Poulie","Máquina/polea":"Machine/poulie",
+  "RIR final · objetivo 3–4":"RIR final · objectif 3–4"
+ },
+ de: {
+  "Carga kg (0 si peso corporal)":"Gewicht (kg, 0 bei Körpergewicht)",
+  "Reps por serie":"Wiederholungen pro Satz",
+  "Pectorales":"Brust","Espalda":"Rücken","Hombros":"Schultern","Bíceps":"Bizeps","Tríceps":"Trizeps",
+  "Máquina":"Maschine","Polea":"Kabelzug","Máquina/polea":"Maschine/Kabelzug",
+  "RIR final · objetivo 3–4":"Letztes RIR · Ziel 3–4"
+ },
+ it: {
+  "Carga kg (0 si peso corporal)":"Carico (kg, 0 se a corpo libero)",
+  "Reps por serie":"Ripetizioni per serie",
+  "Pectorales":"Petto","Espalda":"Schiena","Hombros":"Spalle","Bíceps":"Bicipiti","Tríceps":"Tricipiti",
+  "Máquina":"Macchina","Polea":"Cavo","Máquina/polea":"Macchina/cavo",
+  "RIR final · objetivo 3–4":"RIR finale · obiettivo 3–4"
+ },
+ pt: {
+  "Carga kg (0 si peso corporal)":"Carga (kg, 0 se for peso corporal)",
+  "Reps por serie":"Repetições por série",
+  "Pectorales":"Peitorais","Espalda":"Costas","Hombros":"Ombros","Bíceps":"Bíceps","Tríceps":"Tríceps",
+  "Máquina":"Máquina","Polea":"Polia","Máquina/polea":"Máquina/polia",
+  "RIR final · objetivo 3–4":"RIR final · objetivo 3–4"
+ }
+};
+Object.keys(workoutFrenchCoverage).forEach(code=>Object.assign(labels[code],workoutFrenchCoverage[code]));
+
 const names={es:"Español",en:"English",fr:"Français",de:"Deutsch",it:"Italiano",pt:"Português"};
 const supportedLanguages=["es","en","fr","de","it","pt"];
  let lang=localStorage.getItem("ge_language")||"es";
