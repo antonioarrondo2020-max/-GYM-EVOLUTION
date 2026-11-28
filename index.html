@@ -348,7 +348,7 @@ $("importFile").onchange=async e=>{
   if(restored.challenge?.daily!==undefined&&!isRecord(restored.challenge.daily))throw new Error("Reto diario no válido");
   if(restored.challenge?.weekly!==undefined&&!isRecord(restored.challenge.weekly))throw new Error("Reto semanal no válido");
   if(restored.nutritionEstimate!==undefined&&restored.nutritionEstimate!==null&&(!isRecord(restored.nutritionEstimate)||(restored.nutritionEstimate.profileSnapshot!==undefined&&!isRecord(restored.nutritionEstimate.profileSnapshot))))throw new Error("Estimación nutricional no válida");
-  if(restored.activeSession!==undefined&&restored.activeSession!==null&&(!isRecord(restored.activeSession)||!Number.isFinite(Number(restored.activeSession.startedAt))||!Number.isInteger(Number(restored.activeSession.day))||Number(restored.activeSession.day)<0||Number(restored.activeSession.day)>=plan.length||![2,3].includes(Number(restored.activeSession.phase))))throw new Error("Sesión activa no válida");
+  if(restored.activeSession!==undefined&&restored.activeSession!==null&&(!isRecord(restored.activeSession)||!Number.isFinite(Number(restored.activeSession.startedAt))||!Number.isInteger(Number(restored.activeSession.day))||Number(restored.activeSession.day)<0||Number(restored.activeSession.day)>=plan.length||(restored.activeSession.phase!==undefined&&![2,3].includes(Number(restored.activeSession.phase)))))throw new Error("Sesión activa no válida");
   if(!confirm(tr("¿Restaurar esta copia? Los datos actuales de GYM EVOLUTION serán sustituidos.")))return;
   stopSessionTicker();
   data={...blankData(),...restored};
