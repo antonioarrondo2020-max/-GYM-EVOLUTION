@@ -878,6 +878,67 @@ const portugueseHomeCoverage = {
 Object.keys(portugueseHomeCoverage).forEach(code=>Object.assign(labels[code],portugueseHomeCoverage[code]));
 
 
+// Cobertura final: grupos musculares, ejercicios de pierna y mensajes de estado.
+const finalAuditCoverage = {
+ fr: {
+  "Peso actual":"Poids actuel",
+  "Cuádriceps/glúteo":"Quadriceps/fessiers",
+  "Isquios":"Ischio-jambiers",
+  "Gemelos":"Mollets",
+  "Abdomen":"Abdominaux",
+  "Peso corporal":"Poids du corps",
+  "Segundos por serie":"Secondes par série",
+  "RIR final":"RIR final",
+  "Marcar activación como completada":"Marquer l’activation comme terminée",
+  "Sesión guardada sin ejercicios registrados; no contará para la misión semanal.":"Séance enregistrée sans exercice ; elle ne comptera pas pour le défi hebdomadaire.",
+  "Revisa edad, altura y peso en Mi perfil":"Vérifiez l’âge, la taille et le poids dans Mon profil",
+  "Revisa las cantidades y utiliza equivalencias si lo necesitas.":"Vérifiez les quantités et utilisez des équivalences si nécessaire.",
+  "Las cantidades mostradas son orientativas y los macros pueden desviarse; revisa el menú antes de usarlo.":"Les quantités sont indicatives et les macros peuvent varier ; vérifiez le menu avant de l’utiliser."
+ },
+ de: {
+  "Cuádriceps/glúteo":"Quadrizeps/Gesäß",
+  "Isquios":"Beinbeuger",
+  "Gemelos":"Waden",
+  "Abdomen":"Bauch",
+  "Peso corporal":"Körpergewicht",
+  "Segundos por serie":"Sekunden pro Satz",
+  "RIR final":"RIR am Satzende",
+  "Marcar activación como completada":"Aktivierung als erledigt markieren",
+  "Sesión guardada sin ejercicios registrados; no contará para la misión semanal.":"Trainingseinheit ohne gespeicherte Übungen gespeichert; sie zählt nicht für die Wochenmission.",
+  "Revisa edad, altura y peso en Mi perfil":"Prüfe Alter, Größe und Gewicht in Mein Profil",
+  "Revisa las cantidades y utiliza equivalencias si lo necesitas.":"Prüfe die Mengen und nutze bei Bedarf entsprechende Alternativen.",
+  "Las cantidades mostradas son orientativas y los macros pueden desviarse; revisa el menú antes de usarlo.":"Die Mengen sind Richtwerte und die Makros können abweichen; prüfe den Speiseplan vor der Verwendung."
+ },
+ it: {
+  "Cuádriceps/glúteo":"Quadricipiti/glutei",
+  "Isquios":"Femorali",
+  "Gemelos":"Polpacci",
+  "Abdomen":"Addome",
+  "Peso corporal":"Peso corporeo",
+  "Segundos por serie":"Secondi per serie",
+  "RIR final":"RIR finale",
+  "Sesión guardada sin ejercicios registrados; no contará para la misión semanal.":"Sessione salvata senza esercizi registrati; non conterà per la missione settimanale.",
+  "Revisa edad, altura y peso en Mi perfil":"Controlla età, altezza e peso in Il mio profilo",
+  "Revisa las cantidades y utiliza equivalencias si lo necesitas.":"Controlla le quantità e usa equivalenze se necessario.",
+  "Las cantidades mostradas son orientativas y los macros pueden desviarse; revisa el menú antes de usarlo.":"Le quantità sono indicative e i macro possono variare; controlla il menu prima di utilizzarlo."
+ },
+ pt: {
+  "Cuádriceps/glúteo":"Quadríceps/glúteos",
+  "Isquios":"Isquiotibiais",
+  "Gemelos":"Gémeos",
+  "Abdomen":"Abdómen",
+  "Peso corporal":"Peso corporal",
+  "Segundos por serie":"Segundos por série",
+  "RIR final":"RIR final",
+  "Sesión guardada sin ejercicios registrados; no contará para la misión semanal.":"Sessão guardada sem exercícios registados; não contará para o desafio semanal.",
+  "Revisa edad, altura y peso en Mi perfil":"Verifica a idade, a altura e o peso no Meu perfil",
+  "Revisa las cantidades y utiliza equivalencias si lo necesitas.":"Verifica as quantidades e utiliza equivalências, se necessário.",
+  "Las cantidades mostradas son orientativas y los macros pueden desviarse; revisa el menú antes de usarlo.":"As quantidades são indicativas e os macros podem variar; verifica o menu antes de o utilizar."
+ }
+};
+Object.keys(finalAuditCoverage).forEach(code=>Object.assign(labels[code],finalAuditCoverage[code]));
+
+
 const names={es:"Español",en:"English",fr:"Français",de:"Deutsch",it:"Italiano",pt:"Português"};
 const supportedLanguages=["es","en","fr","de","it","pt"];
  let lang=localStorage.getItem("ge_language")||"es";
