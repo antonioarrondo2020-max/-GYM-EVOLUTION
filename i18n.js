@@ -868,6 +868,16 @@ const italianHomeCoverage = {
 };
 Object.keys(italianHomeCoverage).forEach(code=>Object.assign(labels[code],italianHomeCoverage[code]));
 
+const portugueseHomeCoverage = {
+ pt: {
+  "Peso actual":"Peso atual",
+  "Marcar activación como completada":"Marca a ativação como concluída",
+  "Pendiente de completar":"Ainda por concluir"
+ }
+};
+Object.keys(portugueseHomeCoverage).forEach(code=>Object.assign(labels[code],portugueseHomeCoverage[code]));
+
+
 const names={es:"Español",en:"English",fr:"Français",de:"Deutsch",it:"Italiano",pt:"Português"};
 const supportedLanguages=["es","en","fr","de","it","pt"];
  let lang=localStorage.getItem("ge_language")||"es";
