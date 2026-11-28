@@ -859,6 +859,15 @@ const workoutFrenchCoverage = {
 };
 Object.keys(workoutFrenchCoverage).forEach(code=>Object.assign(labels[code],workoutFrenchCoverage[code]));
 
+const italianHomeCoverage = {
+ it: {
+  "Peso actual":"Peso attuale",
+  "Marcar activación como completada":"Segna l'attivazione come completata",
+  "Pendiente de completar":"Ancora da completare"
+ }
+};
+Object.keys(italianHomeCoverage).forEach(code=>Object.assign(labels[code],italianHomeCoverage[code]));
+
 const names={es:"Español",en:"English",fr:"Français",de:"Deutsch",it:"Italiano",pt:"Português"};
 const supportedLanguages=["es","en","fr","de","it","pt"];
  let lang=localStorage.getItem("ge_language")||"es";
