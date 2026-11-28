@@ -939,6 +939,15 @@ const finalAuditCoverage = {
 Object.keys(finalAuditCoverage).forEach(code=>Object.assign(labels[code],finalAuditCoverage[code]));
 
 
+
+const frenchHomeLiteralCoverage = {
+ fr: {
+  "Mark activation as complete":"Marquer l’activation comme terminée",
+  "Pending completion":"En attente de réalisation"
+ }
+};
+Object.keys(frenchHomeLiteralCoverage).forEach(code=>Object.assign(labels[code],frenchHomeLiteralCoverage[code]));
+
 const names={es:"Español",en:"English",fr:"Français",de:"Deutsch",it:"Italiano",pt:"Português"};
 const supportedLanguages=["es","en","fr","de","it","pt"];
  let lang=localStorage.getItem("ge_language")||"es";
