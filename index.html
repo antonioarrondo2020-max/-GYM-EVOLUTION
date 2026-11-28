@@ -277,8 +277,9 @@ function calculateNutritionEstimate(p,sex,activity){
 }
 function renderNutritionResult(est){
  if(!est){$("nutritionResult").textContent=data.nutritionEstimate?tr("La estimación guardada necesita actualizarse. Comprueba tu perfil y los ajustes de nutrición."):tr("Completa edad, altura y peso en Mi perfil y selecciona la fórmula fisiológica para calcular una estimación.");return}
- const x=est.profileSnapshot||{};
- $("nutritionResult").innerHTML='<b>'+tr("Estimación diaria · V7.3")+'</b><br>'+tr("Mantenimiento:")+' <b>'+est.maintenance+' kcal</b><br>'+tr("Objetivo orientativo:")+' <b>'+est.target+' kcal</b><br>'+tr("Proteínas:")+' <b>'+est.protein+' g</b> · '+tr("Grasas:")+' <b>'+est.fat+' g</b> · '+tr("Hidratos:")+' <b>'+est.carbs.toFixed(1)+' g</b><p class="mini">'+tr("Cálculo realizado con:")+' '+escapeHtml(x.age||"—")+' '+tr("años")+' · '+escapeHtml(x.height||"—")+' cm · '+escapeHtml(x.weight||"—")+' kg · '+tr(x.sex==="female"?"Femenina":"Masculina")+' · '+tr("actividad")+' '+escapeHtml(x.activity||"—")+'.</p><p class="mini">'+tr("Estimación orientativa. Revisa la media del peso, el hambre, la energía y el rendimiento durante 2–3 semanas.")+'</p>';
+ const x=est.profileSnapshot&&typeof est.profileSnapshot==="object"?est.profileSnapshot:{};
+ const safeMetric=(value,decimals=0)=>{const n=Number(value);return value!==null&&value!==""&&Number.isFinite(n)?escapeHtml(decimals?n.toFixed(decimals):String(n)):"—"};
+ $("nutritionResult").innerHTML='<b>'+tr("Estimación diaria · V7.3")+'</b><br>'+tr("Mantenimiento:")+' <b>'+safeMetric(est.maintenance)+' kcal</b><br>'+tr("Objetivo orientativo:")+' <b>'+safeMetric(est.target)+' kcal</b><br>'+tr("Proteínas:")+' <b>'+safeMetric(est.protein)+' g</b> · '+tr("Grasas:")+' <b>'+safeMetric(est.fat)+' g</b> · '+tr("Hidratos:")+' <b>'+safeMetric(est.carbs,1)+' g</b><p class="mini">'+tr("Cálculo realizado con:")+' '+escapeHtml(x.age||"—")+' '+tr("años")+' · '+escapeHtml(x.height||"—")+' cm · '+escapeHtml(x.weight||"—")+' kg · '+tr(x.sex==="female"?"Femenina":"Masculina")+' · '+tr("actividad")+' '+escapeHtml(x.activity||"—")+'.</p><p class="mini">'+tr("Estimación orientativa. Revisa la media del peso, el hambre, la energía y el rendimiento durante 2–3 semanas.")+'</p>';
 }
 function renderNutritionSettings(){
  const settings=data.nutritionSettings||(data.nutritionSettings={}),p=data.profile||{},old=data.nutritionEstimate,snap=old&&old.profileSnapshot;
@@ -334,14 +335,20 @@ $("importTrigger").onclick=()=>$("importFile").click();
 $("importFile").onchange=async e=>{
  const file=e.target.files?.[0];if(!file)return;
  try{
-  const parsed=JSON.parse(await file.text()),restored=parsed.data||parsed;
+  if(file.size>10*1024*1024)throw new Error("Copia demasiado grande");
+  const parsed=JSON.parse(await file.text()),restored=parsed&&typeof parsed==="object"?(parsed.data||parsed):null;
+  const isRecord=value=>!!value&&typeof value==="object"&&!Array.isArray(value);
+  if(!isRecord(parsed)||!isRecord(restored)||!isRecord(restored.profile)||!Array.isArray(restored.history))throw new Error("Estructura principal no válida");
   if(parsed.app&&parsed.app!=="GYM EVOLUTION")throw new Error("Aplicación de origen no válida");
-  if(!restored||typeof restored!=="object"||Array.isArray(restored)||!restored.profile||typeof restored.profile!=="object"||Array.isArray(restored.profile)||!Array.isArray(restored.history))throw new Error("Estructura principal no válida");
   const arrayKeys=["meals","sessions","weights","measurements"];
-  if(arrayKeys.some(key=>restored[key]!==undefined&&!Array.isArray(restored[key])))throw new Error("Colección no válida");
+  if(arrayKeys.some(key=>restored[key]!==undefined&&(!Array.isArray(restored[key])||restored[key].some(item=>!isRecord(item)))))throw new Error("Colección no válida");
+  if(restored.history.some(item=>!isRecord(item)))throw new Error("Historial no válido");
   const objectKeys=["challenge","nutritionSettings","nutritionSwaps"];
-  if(objectKeys.some(key=>restored[key]!==undefined&&(!restored[key]||typeof restored[key]!=="object"||Array.isArray(restored[key]))))throw new Error("Configuración no válida");
-  if(restored.activeSession!==undefined&&restored.activeSession!==null&&(!restored.activeSession||typeof restored.activeSession!=="object"||!Number.isFinite(Number(restored.activeSession.startedAt))||!Number.isInteger(Number(restored.activeSession.day))||Number(restored.activeSession.day)<0||Number(restored.activeSession.day)>=plan.length))throw new Error("Sesión activa no válida");
+  if(objectKeys.some(key=>restored[key]!==undefined&&!isRecord(restored[key])))throw new Error("Configuración no válida");
+  if(restored.challenge?.daily!==undefined&&!isRecord(restored.challenge.daily))throw new Error("Reto diario no válido");
+  if(restored.challenge?.weekly!==undefined&&!isRecord(restored.challenge.weekly))throw new Error("Reto semanal no válido");
+  if(restored.nutritionEstimate!==undefined&&restored.nutritionEstimate!==null&&(!isRecord(restored.nutritionEstimate)||(restored.nutritionEstimate.profileSnapshot!==undefined&&!isRecord(restored.nutritionEstimate.profileSnapshot))))throw new Error("Estimación nutricional no válida");
+  if(restored.activeSession!==undefined&&restored.activeSession!==null&&(!isRecord(restored.activeSession)||!Number.isFinite(Number(restored.activeSession.startedAt))||!Number.isInteger(Number(restored.activeSession.day))||Number(restored.activeSession.day)<0||Number(restored.activeSession.day)>=plan.length||![2,3].includes(Number(restored.activeSession.phase))))throw new Error("Sesión activa no válida");
   if(!confirm(tr("¿Restaurar esta copia? Los datos actuales de GYM EVOLUTION serán sustituidos.")))return;
   stopSessionTicker();
   data={...blankData(),...restored};
